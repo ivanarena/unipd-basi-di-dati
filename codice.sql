@@ -3,7 +3,10 @@ DROP TABLE IF EXISTS utenti;
 DROP TABLE IF EXISTS artisti;
 DROP TABLE IF EXISTS brani;
 DROP TABLE IF EXISTS episodi;
-DROP TABLE IF EXISTS brani;
+DROP TABLE IF EXISTS abbonamenti;
+DROP TABLE IF EXISTS playlist;
+DROP TABLE IF EXISTS preferiti;
+
 
 -- creazione tabelle
 CREATE TABLE utenti (
@@ -59,10 +62,25 @@ CREATE TABLE abbonamenti (
     prezzoAnnuale smallint NOT NULL,
 );
 
+CREATE TABLE carte (
+    numeroCarta char(16),
+    circuito varchar(10) NOT NULL,
+    scadenza date NOT NULL,
+    ccv char(3) NOT NULL,
+    intestatario varchar(25) NOT NULL
+);
+
 CREATE TABLE playlist (
     titolo varchar(25),
     autore varchar(25) NOT NULL,
     dataCreazione date NOT NULL
+);
+
+CREATE TABLE preferiti (
+    titolo varchar(25),
+    autore varchar(25) NOT NULL,
+    appartenenza varchar(25) NOT NULL,
+    tipo char(1) NOT NULL -- TODO: funzionale?
 );
 
 
