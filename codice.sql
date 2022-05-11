@@ -22,7 +22,7 @@ CREATE TABLE utenti (
     abbonamento char(1) NOT NULL,
     frequenzaAddebito char(1) NOT NULL,
     scadenzaAbbonamento date NOT NULL,
-    PRIMARY KEY(nickname)
+    PRIMARY KEY (nickname)
 );
 
 CREATE TABLE artisti (
@@ -35,7 +35,7 @@ CREATE TABLE artisti (
     cap char(5) NOT NULL,
     via varchar(50) NOT NULL,
     ncivico varchar(8) NOT NULL,
-    PRIMARY KEY(nome)
+    PRIMARY KEY (nome)
 );
 
 CREATE TABLE brani (
@@ -47,7 +47,8 @@ CREATE TABLE brani (
     annoUscita year NOT NULL,
     genere varchar(12) NOT NULL,
     riproduzioni int(255) NOT NULL,
-    PRIMARY KEY(titolo, artista, album)
+    PRIMARY KEY (titolo, artista, album),
+    FOREIGN KEY (artista) REFERENCES artisti(nome)
 );
 
 CREATE TABLE episodi (
@@ -59,7 +60,8 @@ CREATE TABLE episodi (
     annoUscita year NOT NULL,
     genere varchar(12) NOT NULL,
     riproduzioni int(255) NOT NULL,
-    PRIMARY KEY(titolo, podcaster, podcast)
+    PRIMARY KEY (titolo, podcaster, podcast),
+    FOREIGN KEY (podcaster) REFERENCES artisti(nome)
 );
 
 CREATE TABLE abbonamenti (
@@ -67,7 +69,15 @@ CREATE TABLE abbonamenti (
     nome varchar(8) NOT NULL,
     prezzoMensile float(4,2) NOT NULL,
     prezzoAnnuale float(4,2) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES utenti(abbonamento)
+);
+
+CREATE TABLE metodiDiPagamento (
+    nickname varchar(25),
+    numeroCarta char(16),
+    email varchar(25),
+    PRIMARY KEY (nickname)
 );
 
 CREATE TABLE carte (
@@ -76,7 +86,8 @@ CREATE TABLE carte (
     scadenza date NOT NULL,
     ccv char(3) NOT NULL,
     intestatario varchar(25) NOT NULL,
-    PRIMARY KEY(numeroCarta)
+    PRIMARY KEY (numeroCarta),
+    FOREIGN KEY (numeroCarta) REFERENCES metodiDiPagamento(numeroCarta)
 );
 
 CREATE TABLE playlist (
@@ -86,7 +97,9 @@ CREATE TABLE playlist (
     titolo varchar(25) NOT NULL,
     artista varchar(25) NOT NULL,
     album varchar(25) NOT NULL,
-    PRIMARY KEY(nome)
+    PRIMARY KEY (nome),
+    FOREIGN KEY (titolo, artista, album) REFERENCES brani(titolo, artista, album),
+    FOREIGN KEY (autore) REFERENCES utenti(nickname)
 );
 
 CREATE TABLE preferiti (
@@ -95,21 +108,17 @@ CREATE TABLE preferiti (
     contenutoIn varchar(25),
     proprietario varchar(25) NOT NULL,
     tipo char(1) NOT NULL,
-    PRIMARY KEY(titolo, autore, contenutoIn)
-);
-
-CREATE TABLE metodiDiPagamento (
-    nickname varchar(25),
-    numeroCarta char(16),
-    email varchar(25),
-    PRIMARY KEY(nickname)
+    PRIMARY KEY (titolo, autore, contenutoIn),
+    FOREIGN KEY (titolo) REFERENCES brani(titolo),
+    FOREIGN KEY (titolo) REFERENCES episodi(titolo) -- ?: POSSIBILE?????
 );
 
 CREATE TABLE digitali (
     email varchar(25),
     password varchar(16) NOT NULL,
     tipo varchar(10) NOT NULL,
-    PRIMARY KEY(email)
+    PRIMARY KEY (email),
+    FOREIGN KEY (email) REFERENCES metodiDiPagamento(email)
 );
 
 CREATE TABLE pagamenti (
@@ -118,7 +127,8 @@ CREATE TABLE pagamenti (
     importo float(8,2) NOT NULL,
     beneficiario varchar(25) NOT NULL,
     dataEsecuzione date NOT NULL,
-    PRIMARY KEY(idTransazione)
+    PRIMARY KEY (idTransazione),
+    FOREIGN KEY (iban) REFERENCES artisti(iban)
 );
 
 -- inserimento dati
