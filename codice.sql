@@ -12,13 +12,12 @@ DROP TABLE IF EXISTS preferiti;
 CREATE TABLE utenti (
     nome varchar(25) NOT NULL,
     cognome varchar(25) NOT NULL,
-    email varchar(25), -- TODO: capire roba della chiave unica / primaria
+    email varchar(25) UNIQUE NOT NULL,
     password varchar(16) NOT NULL,
     nickname varchar(25), -- TODO: same as above
     abbonamento char(1) NOT NULL,
     frequenzaAddebito char(1) NOT NULL,
     scadenzaAbbonamento date NOT NULL,
-    metodoPagamento varchar(25) NOT NULL -- TODO: capire come fare visto che sono numeri o mail
 );
 
 CREATE TABLE artisti (
@@ -28,9 +27,9 @@ CREATE TABLE artisti (
     bic varchar(11) NOT NULL,
     iban char(27) NOT NULL,
     stato char(2) NOT NULL,
-    cap char(2) NOT NULL,
+    cap char(5) NOT NULL,
     via varchar(50) NOT NULL,
-    ncivico smallint NOT NULL
+    ncivico smallint NOT NULL -- TODO: Numeri civici con lettere es: 14/B? Metterei un varchar
 );
 
 CREATE TABLE brani (
@@ -71,18 +70,40 @@ CREATE TABLE carte (
 );
 
 CREATE TABLE playlist (
-    titolo varchar(25),
+    nome varchar(25),
     autore varchar(25) NOT NULL,
-    dataCreazione date NOT NULL
+    dataCreazione date NOT NULL,
+    titolo varchar(25) NOT NULL,
+    artista varchar(25) NOT NULL,
+    album varchar(25) NOT NULL,
 );
 
 CREATE TABLE preferiti (
     titolo varchar(25),
     autore varchar(25) NOT NULL,
-    appartenenza varchar(25) NOT NULL,
+    proprietario varchar(25) NOT NULL,
     tipo char(1) NOT NULL -- TODO: funzionale?
 );
 
+CREATE TABLE metodiDiPagamento (
+    nickname varchar(25),
+    numeroCarta char(16),
+    email varchar(25)
+);
+
+CREATE TABLE digitali (
+    email varchar(25),
+    password varchar(16) NOT NULL,
+    tipo varchar(10) NOT NULL
+);
+
+CREATE TABLE pagamenti (
+    idTransazione varchar(25), --TODO: lunghezza variabile?
+    iban char(27) NOT NULL,
+    importo float(8,2) NOT NULL,
+    beneficiario varchar(25) NOT NULL,
+    dataEsecuzione year NOT NULL
+);
 
 -- inserimento dati
 INSERT INTO abbonamenti (id, nome, prezzoMensile, prezzoAnnuale) VALUES ('M', 'Music', );
