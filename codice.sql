@@ -22,6 +22,7 @@ CREATE TABLE utenti (
     abbonamento char(1) NOT NULL,
     frequenzaAddebito char(1) NOT NULL,
     scadenzaAbbonamento date NOT NULL,
+    PRIMARY KEY(nickname)
 );
 
 CREATE TABLE artisti (
@@ -33,29 +34,32 @@ CREATE TABLE artisti (
     stato char(2) NOT NULL,
     cap char(5) NOT NULL,
     via varchar(50) NOT NULL,
-    ncivico varchar(8) NOT NULL
+    ncivico varchar(8) NOT NULL,
+    PRIMARY KEY(nome)
 );
 
 CREATE TABLE brani (
     titolo varchar(25),
-    artista varchar(25) NOT NULL,
-    album varchar(25) NOT NULL,
+    artista varchar(25),
+    album varchar(25),
     traccia smallint NOT NULL,
     durata varchar(8) NOT NULL,
     annoUscita year NOT NULL,
     genere varchar(12) NOT NULL,
-    riproduzioni int(255) NOT NULL
+    riproduzioni int(255) NOT NULL,
+    PRIMARY KEY(titolo, artista, album)
 );
 
 CREATE TABLE episodi (
     titolo varchar(25),
-    podcaster varchar(25) NOT NULL,
-    podcast varchar(25) NOT NULL,
+    podcaster varchar(25),
+    podcast varchar(25),
     nepisodio smallint NOT NULL,
     durata varchar(8) NOT NULL,
     annoUscita year NOT NULL,
     genere varchar(12) NOT NULL,
-    riproduzioni int(255) NOT NULL
+    riproduzioni int(255) NOT NULL,
+    PRIMARY KEY(titolo, podcaster, podcast)
 );
 
 CREATE TABLE abbonamenti (
@@ -63,6 +67,7 @@ CREATE TABLE abbonamenti (
     nome varchar(8) NOT NULL,
     prezzoMensile float(4,2) NOT NULL,
     prezzoAnnuale float(4,2) NOT NULL,
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE carte (
@@ -70,7 +75,8 @@ CREATE TABLE carte (
     circuito varchar(10) NOT NULL,
     scadenza date NOT NULL,
     ccv char(3) NOT NULL,
-    intestatario varchar(25) NOT NULL
+    intestatario varchar(25) NOT NULL,
+    PRIMARY KEY(numeroCarta)
 );
 
 CREATE TABLE playlist (
@@ -80,26 +86,30 @@ CREATE TABLE playlist (
     titolo varchar(25) NOT NULL,
     artista varchar(25) NOT NULL,
     album varchar(25) NOT NULL,
+    PRIMARY KEY(nome)
 );
 
 CREATE TABLE preferiti (
     titolo varchar(25),
-    autore varchar(25) NOT NULL,
-    contenutoIn varchar(25) NOT NULL,
+    autore varchar(25),
+    contenutoIn varchar(25),
     proprietario varchar(25) NOT NULL,
-    tipo char(1) NOT NULL
+    tipo char(1) NOT NULL,
+    PRIMARY KEY(titolo, autore, contenutoIn)
 );
 
 CREATE TABLE metodiDiPagamento (
     nickname varchar(25),
     numeroCarta char(16),
-    email varchar(25)
+    email varchar(25),
+    PRIMARY KEY(nickname)
 );
 
 CREATE TABLE digitali (
     email varchar(25),
     password varchar(16) NOT NULL,
-    tipo varchar(10) NOT NULL
+    tipo varchar(10) NOT NULL,
+    PRIMARY KEY(email)
 );
 
 CREATE TABLE pagamenti (
@@ -107,7 +117,8 @@ CREATE TABLE pagamenti (
     iban char(27) NOT NULL,
     importo float(8,2) NOT NULL,
     beneficiario varchar(25) NOT NULL,
-    dataEsecuzione date NOT NULL
+    dataEsecuzione date NOT NULL,
+    PRIMARY KEY(idTransazione)
 );
 
 -- inserimento dati
