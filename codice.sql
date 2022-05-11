@@ -6,6 +6,10 @@ DROP TABLE IF EXISTS episodi;
 DROP TABLE IF EXISTS abbonamenti;
 DROP TABLE IF EXISTS playlist;
 DROP TABLE IF EXISTS preferiti;
+DROP TABLE IF EXISTS pagamenti;
+DROP TABLE IF EXISTS metodiDiPagamento;
+DROP TABLE IF EXISTS digitali;
+DROP TABLE IF EXISTS carte;
 
 
 -- creazione tabelle
@@ -13,8 +17,8 @@ CREATE TABLE utenti (
     nome varchar(25) NOT NULL,
     cognome varchar(25) NOT NULL,
     email varchar(25) UNIQUE NOT NULL,
-    password varchar(16) NOT NULL,
-    nickname varchar(25), -- TODO: same as above
+    password varchar(16) NOT NULL, 
+    nickname varchar(25),
     abbonamento char(1) NOT NULL,
     frequenzaAddebito char(1) NOT NULL,
     scadenzaAbbonamento date NOT NULL,
@@ -29,7 +33,7 @@ CREATE TABLE artisti (
     stato char(2) NOT NULL,
     cap char(5) NOT NULL,
     via varchar(50) NOT NULL,
-    ncivico smallint NOT NULL -- TODO: Numeri civici con lettere es: 14/B? Metterei un varchar
+    ncivico varchar(8) NOT NULL
 );
 
 CREATE TABLE brani (
@@ -57,8 +61,8 @@ CREATE TABLE episodi (
 CREATE TABLE abbonamenti (
     id char(1),
     nome varchar(8) NOT NULL,
-    prezzoMensile smallint NOT NULL,
-    prezzoAnnuale smallint NOT NULL,
+    prezzoMensile float(4,2) NOT NULL,
+    prezzoAnnuale float(4,2) NOT NULL,
 );
 
 CREATE TABLE carte (
@@ -81,8 +85,9 @@ CREATE TABLE playlist (
 CREATE TABLE preferiti (
     titolo varchar(25),
     autore varchar(25) NOT NULL,
+    contenutoIn varchar(25) NOT NULL,
     proprietario varchar(25) NOT NULL,
-    tipo char(1) NOT NULL -- TODO: funzionale?
+    tipo char(1) NOT NULL
 );
 
 CREATE TABLE metodiDiPagamento (
@@ -98,11 +103,11 @@ CREATE TABLE digitali (
 );
 
 CREATE TABLE pagamenti (
-    idTransazione varchar(25), --TODO: lunghezza variabile?
+    idTransazione char(5),
     iban char(27) NOT NULL,
     importo float(8,2) NOT NULL,
     beneficiario varchar(25) NOT NULL,
-    dataEsecuzione year NOT NULL
+    dataEsecuzione date NOT NULL
 );
 
 -- inserimento dati
