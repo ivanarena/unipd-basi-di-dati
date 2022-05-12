@@ -134,6 +134,7 @@ CREATE TABLE pagamenti (
 
 
 -- TODO: pagamenti, preferiti, playlist, episodi, brani, artisti, digitali, metodidipagamento
+-- TODO: rivedere carte e digitali per coerenza
 -- inserimento dati
 -- abbonamenti
 INSERT INTO abbonamenti (id, nome, prezzoMensile, prezzoAnnuale) VALUES ('M', 'Music', 4.99, 49.99);
