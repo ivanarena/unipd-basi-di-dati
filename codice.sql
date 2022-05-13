@@ -1,3 +1,4 @@
+-- ! ROBINE UTILI IN FONDO AL FILE
 -- drops
 DROP TABLE IF EXISTS pagamenti CASCADE;
 DROP TABLE IF EXISTS preferiti CASCADE;
@@ -37,10 +38,10 @@ CREATE TABLE utenti (
 
 CREATE TABLE artisti (
     nome varchar(25),
-    iban char(27) NOT NULL,
+    iban varchar(33) NOT NULL,
     email varchar(50) NOT NULL,
     password varchar(16) NOT NULL,
-    bic varchar(11) NOT NULL,
+    bic char(11) NOT NULL,
     stato char(2) NOT NULL,
     cap char(5) NOT NULL,
     via varchar(50) NOT NULL,
@@ -124,7 +125,7 @@ CREATE TABLE preferiti (
 
 CREATE TABLE pagamenti (
     idTransazione char(5),
-    iban char(27) NOT NULL,
+    iban varchar(33) NOT NULL,
     importo float(24) NOT NULL,
     beneficiario varchar(25) NOT NULL,
     dataEsecuzione date NOT NULL,
@@ -133,8 +134,8 @@ CREATE TABLE pagamenti (
 );
 
 
--- TODO: pagamenti, preferiti, playlist, episodi, brani, artisti, digitali, metodidipagamento
--- TODO: rivedere carte e digitali per coerenza
+-- TODO: pagamenti, preferiti, playlist, episodi, brani, digitali, metodidipagamento
+-- TODO: rivedere carte e digitali per coerenza e artisti nome/mail/ecc
 -- inserimento dati
 -- abbonamenti
 INSERT INTO abbonamenti (id, nome, prezzoMensile, prezzoAnnuale) VALUES ('M', 'Music', 4.99, 49.99);
@@ -242,6 +243,33 @@ INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequ
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('fastupenas2p', 'Frank', 'Astupenas', 'fastupenas2p@china.com.cn', 'pUP0Y3jw', 'P', 'A', '2023-11-28');
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('atitcumb2q', 'Alexina', 'Titcumb', 'atitcumb2q@so-net.ne.jp', 'Vt4MJuduhv', 'P', 'M', '2022-12-11');
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('aplayle2r', 'Abner', 'Playle', 'aplayle2r@hostgator.com', 'N4kDCcNssSF', 'F', 'M', '2022-06-27');
+
+--artisti
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('chessing0', 'FR94 2664 4981 22NJ 0UAH U7F6 K40', 'adat0@hao123.com', 'WKGVMM6KC0F', 'CN', null, '5th', '2');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('cstedall1', 'FR19 7342 6589 136J QK4R Y1C1 G91', 'bhubbard1@sitemeter.com', 'CGTADSHTgaP', 'RU', '462159', 'Dorton', '7');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('rsawnwy2', 'LI26 6496 13NB ZNNS NEDE F', 'abrennans2@newyorker.com', 'BVDZGAEOd2U', 'US', '88525', 'Anhalt', '73645');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('iealam3', 'IT97 K203 7294 2376 058W SLY3 G0Z', 'emcguinley3@oakley.com', 'RFTUHLhJEgF', 'CN', null, 'Melrose', '63241');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('aswinnard4', 'FR92 8086 2920 15J3 XRUL 3DNK M55', 'rtrump4@hibu.com', 'HWPKPAoVpMf', 'CN', null, 'Reindahl', '49');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dedmed5', 'FR18 3465 5825 75EA RDVU ZP9E 328', 'tabbotts5@e-recht24.de', 'HWMNXW91LLZ', 'NP', null, 'Lotheville', '0173');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('jelvy6', 'FR86 6075 4622 49KT WHNL 92FI R92', 'lbuyers6@foxnews.com', 'PUWQCZGqCeW', 'PH', '3509', 'Beilfuss', '8003');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('lmilliken7', 'MT50 GXSR 4403 1TD3 ISDY LHSM 8TCS YVJ', 'lmuckle7@umich.edu', 'XIGCIS4FD9c', 'ID', null, 'Waubesa', '0');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dwhelband8', 'GL23 9587 6257 7718 24', 'vjobern8@merriam-webster.com', 'RLLJXH8ym2e', 'NG', null, 'Lindbergh', '0153');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('aberrisford9', 'FR23 2971 9925 562L X2AX P9NS V26', 'iadenet9@jigsy.com', 'NRXOSQh983H', 'GR', null, 'Elgar', '829');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('olauriea', 'BA90 1688 5299 0619 2820', 'sverdena@hibu.com', 'YSXWNNE1ILS', 'ID', null, 'Schiller', '4');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('ualthamb', 'BR11 0443 8118 8698 9688 7725 850X O', 'wlyndonb@nih.gov', 'OWRZBTY27KF', 'PE', null, 'Maple', '686');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('starrierc', 'GB12 RFFW 0959 9764 1172 44', 'vjozwikc@infoseek.co.jp', 'ECIAFVheeBW', 'BA', null, 'Northland', '303');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('ajarrittd', 'TR81 5156 5DKQ A22J JV68 ORNV WQ', 'fbreukelmand@hexun.com', 'VOFNMJe8GAs', 'JP', '378-0401', 'Oakridge', '58216');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('mberthomee', 'CZ85 0731 7957 5578 1391 8742', 'hnathane@ihg.com', 'RTEJGA1p6mW', 'PH', '7202', 'Barby', '50');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('esjostromf', 'AD29 8172 3091 1ECY FXOY KSXM', 'dlambshinef@cisco.com', 'OTTVPPmxMEu', 'IR', null, 'Maryland', '27340');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('lpryng', 'PT76 5474 2785 7236 6086 0319 4', 'mgalliardg@google.com.hk', 'ZCZSLDX0VGZ', 'CN', null, 'Pierstorff', '1');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('jmcloneyh', 'IT64 I105 6884 037C C4I3 SR6M 3CW', 'mgwinnetth@cmu.edu', 'JSDVNO8M7cD', 'BW', null, 'Valley Edge', '3');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('afalconeri', 'GE16 PX62 1690 5237 5139 41', 'efisbeyi@usatoday.com', 'LXPANO968r7', 'US', '94291', 'Ramsey', '28');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('bboverj', 'NO12 3505 5890 228', 'jmainsonj@php.net', 'LNBWKPfMQUu', 'ID', null, 'Parkside', '055');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dgliddenk', 'FO62 4282 3683 6341 89', 'bchadbournk@elpais.com', 'NVFPDR9XXSu', 'FR', '57954 CEDEX', 'Meadow Ridge', '73');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('spurryl', 'RO91 CANK ZRST CWDL ZL1K WCCH', 'mbirminghaml@360.cn', 'KYXJWBYXQ4A', 'PL', '24-123', 'Golf', '14');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('zkiddellm', 'PL83 8085 7161 2310 0026 4363 8572', 'dskulletm@theglobeandmail.com', 'EQORQLGqQQc', 'JP', '421-3305', 'Loeprich', '9');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('chrinchishinn', 'MR05 3145 8775 2384 3799 5960 359', 'eembersonn@stanford.edu', 'OOXLHMhoU4y', 'ID', null, 'Nelson', '3');
+INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dabbeto', 'CH81 0691 8RV7 BFZM EVA8 E', 'ltitmano@cnbc.com', 'IXIZZGTPmoC', 'PE', null, 'Paget', '733');
 
 -- carte
 INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5519446037502083', 'mastercard', '2025-04-23', 911, 'Ricky Addison');
@@ -448,3 +476,43 @@ INSERT INTO digitali (email, password, tipo) VALUES ('killston2q@edublogs.org', 
 INSERT INTO digitali (email, password, tipo) VALUES ('rhaslegrave2r@privacy.gov.au', 'xpc2VsqdyW', 'G');
 
 -- boh
+
+
+
+
+--* ROBINE UTILI
+-- IBAN di tutti gli artisti
+/*
+FR94 2664 4981 22NJ 0UAH U7F6 K40,
+FR19 7342 6589 136J QK4R Y1C1 G91,
+LI26 6496 13NB ZNNS NEDE F,
+IT97 K203 7294 2376 058W SLY3 G0Z,
+FR92 8086 2920 15J3 XRUL 3DNK M55,
+FR18 3465 5825 75EA RDVU ZP9E 328,
+FR86 6075 4622 49KT WHNL 92FI R92,
+MT50 GXSR 4403 1TD3 ISDY LHSM 8TCS YVJ,
+GL23 9587 6257 7718 24,
+FR23 2971 9925 562L X2AX P9NS V26,
+BA90 1688 5299 0619 2820,
+BR11 0443 8118 8698 9688 7725 850X O,
+GB12 RFFW 0959 9764 1172 44,
+TR81 5156 5DKQ A22J JV68 ORNV WQ,
+CZ85 0731 7957 5578 1391 8742,
+AD29 8172 3091 1ECY FXOY KSXM,
+PT76 5474 2785 7236 6086 0319 4,
+IT64 I105 6884 037C C4I3 SR6M 3CW,
+GE16 PX62 1690 5237 5139 41,
+NO12 3505 5890 228,
+FO62 4282 3683 6341 89,
+RO91 CANK ZRST CWDL ZL1K WCCH,
+PL83 8085 7161 2310 0026 4363 8572,
+MR05 3145 8775 2384 3799 5960 359,
+CH81 0691 8RV7 BFZM EVA8 E
+*/
+
+
+
+-- links
+-- https://mockaroo.com
+-- https://tableconvert.com/sql-to-csv
+-- https://txtformat.com/
