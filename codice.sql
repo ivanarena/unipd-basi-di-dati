@@ -135,9 +135,10 @@ CREATE TABLE pagamenti (
 );
 
 
--- TODO: pagamenti, preferiti, playlist, episodi, brani, digitali, metodidipagamento
--- TODO: rivedere carte e digitali per coerenza e artisti nome/mail/ecc
+-- TODO: pagamenti, preferiti, playlist, episodi, brani, artisti
+-- TODO: rimuovere alcune carte/digitali (anche da metodiDiPagamento)
 -- inserimento dati
+
 -- abbonamenti
 INSERT INTO abbonamenti (id, nome, prezzoMensile, prezzoAnnuale) VALUES ('M', 'Music', 4.99, 49.99);
 INSERT INTO abbonamenti (id, nome, prezzoMensile, prezzoAnnuale) VALUES ('P', 'Podcast', 2.99, 29.99);
@@ -350,7 +351,6 @@ INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('
 INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301387204805', 'americanexpress', '2025-05-24', 669, 'Abner Playle');
 
 -- digitali
-INSERT INTO digitali (email, password, tipo) VALUES ('email', 'tZ46K8', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('battfield0@dailymotion.com', 'kyOMEck', 'G');
 INSERT INTO digitali (email, password, tipo) VALUES ('lglawsop1@paginegialle.it', 'wFVrmJEP', 'G');
 INSERT INTO digitali (email, password, tipo) VALUES ('bbaldam2@about.me', 'xBFZfLkU28', 'A');
@@ -450,9 +450,109 @@ INSERT INTO digitali (email, password, tipo) VALUES ('jtenny2n@gnu.org', 'wD0gjf
 INSERT INTO digitali (email, password, tipo) VALUES ('smutter2o@so-net.ne.jp', '67QODFbIfvpO', 'G');
 INSERT INTO digitali (email, password, tipo) VALUES ('fastupenas2p@china.com.cn', 'rP6EDjR', 'A');
 INSERT INTO digitali (email, password, tipo) VALUES ('atitcumb2q@so-net.ne.jp', 'peBNEKzw', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('aplayle2r@hostgator.com', 'r2fasNEKzw', 'P');
 
--- boh
-
+-- metodiDiPagamento
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('battfield0', '6759642689777301564', 'battfield0@dailymotion.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lglawsop1', '346475665414972', 'lglawsop1@paginegialle.it');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bbaldam2', '5038592000771312', 'bbaldam2@about.me');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mbratch3', '4091698261471', 'mbratch3@bluehost.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mantognoni4', '4017952707235243', 'mantognoni4@de.vu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('sisworth5', '50389069269174638', 'sisworth5@cmu.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('nsawney6', '4041591159421', 'nsawney6@storify.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bboanas7', '374622274876035', 'bboanas7@istockphoto.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('aleffek8', '0604344144465236', 'aleffek8@sogou.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dmcinnery9', '4616307499573', 'dmcinnery9@wordpress.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lgumerya', '5038222259806441', 'lgumerya@japanpost.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('gjohnseeb', '5048371077548590', 'gjohnseeb@uol.com.br');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rgopsellc', '4175009230426332', 'rgopsellc@yahoo.co.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('btonryd', '4026875047072613', 'btonryd@ovh.net');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('hbouldse', '4017952669315', 'hbouldse@delicious.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dlashbrookf', '374288165617365', 'dlashbrookf@nature.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mruckhardg', '67629664149070867', 'mruckhardg@globo.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('qgreenleyh', '06045501397442055', 'qgreenleyh@cdc.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('fpostilli', '4026392629263834', 'fpostilli@t-online.de');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('shaycoxj', '379128699877199', 'shaycoxj@fda.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('tswinyardk', '4175005090470741', 'tswinyardk@trellian.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('epotelll', '4041590424184151', 'epotelll@seattletimes.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mvanderweedenburgm', '5048373937328809', 'mvanderweedenburgm@moonfruit.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('ggrimmen', '4405926849636419', 'ggrimmen@webeden.co.uk');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bskeatho', '4026765974219685', 'bskeatho@elegantthemes.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mgarlandp', '372301403195250', 'mgarlandp@trellian.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lstanbridgeq', '4508539408080675', 'lstanbridgeq@xing.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('otregustr', '4508904770665554', 'otregustr@canalblog.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('djaines', '4352948187401852', 'djaines@yale.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('ldruhant', '4405053943092926', 'ldruhant@umich.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('cmcgivenu', '6762432588492472825', 'cmcgivenu@cafepress.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('pandinov', '4405390719744987', 'pandinov@npr.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('fseymarkw', '5112455892424607', 'fseymarkw@nifty.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('asleighx', '4017954063915582', 'asleighx@tmall.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('tmclachlany', '5100139851467492', 'tmclachlany@mayoclinic.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lhousinz', '50207165182462785', 'lhousinz@discuz.net');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('nchipps10', '337941107502212', 'nchipps10@behance.net');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lsuttaby11', '4913165213518623', 'lsuttaby11@github.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('wcasado12', '372073916534222', 'wcasado12@twitter.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('pralph13', '5010121503137326', 'pralph13@nationalgeographic.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('wannear14', '5485740792548723', 'wannear14@prweb.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('esloane15', '4844773590834820', 'esloane15@opera.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('cparcell16', '372301559328747', 'cparcell16@home.pl');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rburburough17', '4844237948303573', 'rburburough17@paypal.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bmorot18', '5104459725390878', 'bmorot18@berkeley.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('gmorando19', '343683713952363', 'gmorando19@si.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('pshepland1a', '5007661032555329', 'pshepland1a@thetimes.co.uk');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('eredmille1b', '371430824750673', 'eredmille1b@symantec.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mbrazener1c', '5100141327562617', 'mbrazener1c@nps.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('brennicks1d', '379641305026910', 'brennicks1d@cocolog-nifty.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jdalgliesh1e', '4917315888596737', 'jdalgliesh1e@wiley.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('cmahady1f', '4017953988050525', 'cmahady1f@sciencedirect.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('emcvitie1g', '6762291214747622813', 'emcvitie1g@list-manage.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mwheatman1h', '4041591874464838', 'mwheatman1h@harvard.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('tmallen1i', '5532690314080080', 'tmallen1i@va.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('ptatterton1j', '4405683013184664', 'ptatterton1j@yandex.ru');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('pslyme1k', '4175001273147719', 'pslyme1k@cbsnews.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jinchboard1l', '4508147564439394', 'jinchboard1l@hubpages.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lstoaks1m', '4837200778232', 'lstoaks1m@123-reg.co.uk');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('ddundendale1n', '4026555721546476', 'ddundendale1n@w3.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('cvouls1o', '4041590118261', 'cvouls1o@4shared.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lfreckleton1p', '67617138732098993', 'lfreckleton1p@ycombinator.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lhalpine1q', '4844915967622128', 'lhalpine1q@prnewswire.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bcrudginton1r', '4917138230514806', 'bcrudginton1r@infoseek.co.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rlayson1s', '4844508916295185', 'rlayson1s@twitter.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lkausche1t', '374622320951642', 'lkausche1t@ted.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jdumberell1u', '4041593201889836', 'jdumberell1u@google.es');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('apain1v', '374288062438014', 'apain1v@google.com.hk');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('epawfoot1w', '4041595425703', 'epawfoot1w@fastcompany.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('epearcey1x', '63049455595458511', 'epearcey1x@1und1.de');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('eedgley1y', '4041378491482801', 'eedgley1y@springer.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jgeistbeck1z', '4175008287018661', 'jgeistbeck1z@columbia.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dmcmullen20', '4026127367872515', 'dmcmullen20@360.cn');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('eleggon21', '374622417030177', 'eleggon21@economist.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jyarnley22', '6761648794046732', 'jyarnley22@xinhuanet.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jperche23', '4175002447616167', 'jperche23@networksolutions.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jkemitt24', '5048376220068669', 'jkemitt24@ehow.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('sklein25', '5108755717191208', 'sklein25@msn.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rfreke26', '5893952058462260000', 'rfreke26@mlb.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('bskypp27', '6759717517827035', 'bskypp27@opensource.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lpullman28', '0604010361231480354', 'lpullman28@typepad.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('tmccurry29', '4917181658344652', 'tmccurry29@irs.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('blindner2a', '5020364697566347452', 'blindner2a@taobao.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dpocknoll2b', '374622277123559', 'dpocknoll2b@fc2.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rjauncey2c', '4017950007294', 'rjauncey2c@cpanel.net');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('mbroadbent2d', '4175005610431017', 'mbroadbent2d@nydailynews.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('gglasspoole2e', '5145683001731452', 'gglasspoole2e@uiuc.edu');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('hprowse2f', '4917517547908951', 'hprowse2f@fc2.com');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dalcido2g', '4026537772963966', 'dalcido2g@japanpost.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('lflanagan2h', '06041002787912074', 'lflanagan2h@slideshare.net');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('fminmagh2i', '06042482624532708', 'fminmagh2i@github.io');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('rdoget2j', '5497746627918649', 'rdoget2j@flavors.me');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('smurie2k', '374288916199788', 'smurie2k@soup.io');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('cbingall2l', '337941244866116', 'cbingall2l@ca.gov');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('dchesters2m', '50387373872227979', 'dchesters2m@archive.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('jtenny2n', '5018561737565192', 'jtenny2n@gnu.org');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('smutter2o', '6762904986674479', 'smutter2o@so-net.ne.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('fastupenas2p', '5893279803690937622', 'fastupenas2p@china.com.cn');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('atitcumb2q', '4017951357418356', 'atitcumb2q@so-net.ne.jp');
+INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('aplayle2r', '372301387204805', 'aplayle2r@hostgator.com');
 
 
 
@@ -589,6 +689,216 @@ Frank Astupenas,
 Alexina Titcumb,
 Abner Playle
 */
+
+
+-- USERNAMES DI TUTTI GLI UTENTI
+/*
+battfield0,
+lglawsop1,
+bbaldam2,
+mbratch3,
+mantognoni4,
+sisworth5,
+nsawney6,
+bboanas7,
+aleffek8,
+dmcinnery9,
+lgumerya,
+gjohnseeb,
+rgopsellc,
+btonryd,
+hbouldse,
+dlashbrookf,
+mruckhardg,
+qgreenleyh,
+fpostilli,
+shaycoxj,
+tswinyardk,
+epotelll,
+mvanderweedenburgm,
+ggrimmen,
+bskeatho,
+mgarlandp,
+lstanbridgeq,
+otregustr,
+djaines,
+ldruhant,
+cmcgivenu,
+pandinov,
+fseymarkw,
+asleighx,
+tmclachlany,
+lhousinz,
+nchipps10,
+lsuttaby11,
+wcasado12,
+pralph13,
+wannear14,
+esloane15,
+cparcell16,
+rburburough17,
+bmorot18,
+gmorando19,
+pshepland1a,
+eredmille1b,
+mbrazener1c,
+brennicks1d,
+jdalgliesh1e,
+cmahady1f,
+emcvitie1g,
+mwheatman1h,
+tmallen1i,
+ptatterton1j,
+pslyme1k,
+jinchboard1l,
+lstoaks1m,
+ddundendale1n,
+cvouls1o,
+lfreckleton1p,
+lhalpine1q,
+bcrudginton1r,
+rlayson1s,
+lkausche1t,
+jdumberell1u,
+apain1v,
+epawfoot1w,
+epearcey1x,
+eedgley1y,
+jgeistbeck1z,
+dmcmullen20,
+eleggon21,
+jyarnley22,
+jperche23,
+jkemitt24,
+sklein25,
+rfreke26,
+bskypp27,
+lpullman28,
+tmccurry29,
+blindner2a,
+dpocknoll2b,
+rjauncey2c,
+mbroadbent2d,
+gglasspoole2e,
+hprowse2f,
+dalcido2g,
+lflanagan2h,
+fminmagh2i,
+rdoget2j,
+smurie2k,
+cbingall2l,
+dchesters2m,
+jtenny2n,
+smutter2o,
+fastupenas2p,
+atitcumb2q,
+aplayle2r
+*/
+
+-- CARTE DI TUTTI GLI UTENTI
+/*
+6759642689777301564,
+346475665414972,
+5038592000771312,
+4091698261471,
+4017952707235243,
+50389069269174638,
+4041591159421,
+374622274876035,
+0604344144465236,
+4616307499573,
+5038222259806441,
+5048371077548590,
+4175009230426332,
+4026875047072613,
+4017952669315,
+374288165617365,
+67629664149070867,
+06045501397442055,
+4026392629263834,
+379128699877199,
+4175005090470741,
+4041590424184151,
+5048373937328809,
+4405926849636419,
+4026765974219685,
+372301403195250,
+4508539408080675,
+4508904770665554,
+4352948187401852,
+4405053943092926,
+6762432588492472825,
+4405390719744987,
+5112455892424607,
+4017954063915582,
+5100139851467492,
+50207165182462785,
+337941107502212,
+4913165213518623,
+372073916534222,
+5010121503137326,
+5485740792548723,
+4844773590834820,
+372301559328747,
+4844237948303573,
+5104459725390878,
+343683713952363,
+5007661032555329,
+371430824750673,
+5100141327562617,
+379641305026910,
+4917315888596737,
+4017953988050525,
+6762291214747622813,
+4041591874464838,
+5532690314080080,
+4405683013184664,
+4175001273147719,
+4508147564439394,
+4837200778232,
+4026555721546476,
+4041590118261,
+67617138732098993,
+4844915967622128,
+4917138230514806,
+4844508916295185,
+374622320951642,
+4041593201889836,
+374288062438014,
+4041595425703,
+63049455595458511,
+4041378491482801,
+4175008287018661,
+4026127367872515,
+374622417030177,
+6761648794046732,
+4175002447616167,
+5048376220068669,
+5108755717191208,
+5893952058462260000,
+6759717517827035,
+0604010361231480354,
+4917181658344652,
+5020364697566347452,
+374622277123559,
+4017950007294,
+4175005610431017,
+5145683001731452,
+4917517547908951,
+4026537772963966,
+06041002787912074,
+06042482624532708,
+5497746627918649,
+374288916199788,
+337941244866116,
+50387373872227979,
+5018561737565192,
+6762904986674479,
+5893279803690937622,
+4017951357418356,
+372301387204805
+*/
+
 
 -- EMAIL DI TUTTI GLI UTENTI
 /*
