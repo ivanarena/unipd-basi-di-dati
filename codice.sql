@@ -43,9 +43,10 @@ CREATE TABLE artisti (
     password varchar(16) NOT NULL,
     bic char(11) NOT NULL,
     stato char(2) NOT NULL,
-    cap char(5) NOT NULL,
+    città varchar(20) NOT NULL,
+    cap varchar(8) NOT NULL,
     via varchar(50) NOT NULL,
-    ncivico varchar(8) NOT NULL,
+    ncivico varchar(5) NOT NULL,
     PRIMARY KEY (iban),
     UNIQUE (nome)
 );
@@ -120,7 +121,7 @@ CREATE TABLE preferiti (
     tipo char(1) NOT NULL,
     PRIMARY KEY (titolo, autore),
     FOREIGN KEY (titolo) REFERENCES brani(titolo),
-    FOREIGN KEY (titolo) REFERENCES episodi(titolo) -- ?: POSSIBILE?????
+    FOREIGN KEY (titolo) REFERENCES episodi(titolo)
 );
 
 CREATE TABLE pagamenti (
@@ -245,235 +246,210 @@ INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequ
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('aplayle2r', 'Abner', 'Playle', 'aplayle2r@hostgator.com', 'N4kDCcNssSF', 'F', 'M', '2022-06-27');
 
 --artisti
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('chessing0', 'FR94 2664 4981 22NJ 0UAH U7F6 K40', 'adat0@hao123.com', 'WKGVMM6KC0F', 'CN', null, '5th', '2');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('cstedall1', 'FR19 7342 6589 136J QK4R Y1C1 G91', 'bhubbard1@sitemeter.com', 'CGTADSHTgaP', 'RU', '462159', 'Dorton', '7');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('rsawnwy2', 'LI26 6496 13NB ZNNS NEDE F', 'abrennans2@newyorker.com', 'BVDZGAEOd2U', 'US', '88525', 'Anhalt', '73645');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('iealam3', 'IT97 K203 7294 2376 058W SLY3 G0Z', 'emcguinley3@oakley.com', 'RFTUHLhJEgF', 'CN', null, 'Melrose', '63241');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('aswinnard4', 'FR92 8086 2920 15J3 XRUL 3DNK M55', 'rtrump4@hibu.com', 'HWPKPAoVpMf', 'CN', null, 'Reindahl', '49');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dedmed5', 'FR18 3465 5825 75EA RDVU ZP9E 328', 'tabbotts5@e-recht24.de', 'HWMNXW91LLZ', 'NP', null, 'Lotheville', '0173');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('jelvy6', 'FR86 6075 4622 49KT WHNL 92FI R92', 'lbuyers6@foxnews.com', 'PUWQCZGqCeW', 'PH', '3509', 'Beilfuss', '8003');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('lmilliken7', 'MT50 GXSR 4403 1TD3 ISDY LHSM 8TCS YVJ', 'lmuckle7@umich.edu', 'XIGCIS4FD9c', 'ID', null, 'Waubesa', '0');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dwhelband8', 'GL23 9587 6257 7718 24', 'vjobern8@merriam-webster.com', 'RLLJXH8ym2e', 'NG', null, 'Lindbergh', '0153');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('aberrisford9', 'FR23 2971 9925 562L X2AX P9NS V26', 'iadenet9@jigsy.com', 'NRXOSQh983H', 'GR', null, 'Elgar', '829');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('olauriea', 'BA90 1688 5299 0619 2820', 'sverdena@hibu.com', 'YSXWNNE1ILS', 'ID', null, 'Schiller', '4');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('ualthamb', 'BR11 0443 8118 8698 9688 7725 850X O', 'wlyndonb@nih.gov', 'OWRZBTY27KF', 'PE', null, 'Maple', '686');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('starrierc', 'GB12 RFFW 0959 9764 1172 44', 'vjozwikc@infoseek.co.jp', 'ECIAFVheeBW', 'BA', null, 'Northland', '303');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('ajarrittd', 'TR81 5156 5DKQ A22J JV68 ORNV WQ', 'fbreukelmand@hexun.com', 'VOFNMJe8GAs', 'JP', '378-0401', 'Oakridge', '58216');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('mberthomee', 'CZ85 0731 7957 5578 1391 8742', 'hnathane@ihg.com', 'RTEJGA1p6mW', 'PH', '7202', 'Barby', '50');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('esjostromf', 'AD29 8172 3091 1ECY FXOY KSXM', 'dlambshinef@cisco.com', 'OTTVPPmxMEu', 'IR', null, 'Maryland', '27340');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('lpryng', 'PT76 5474 2785 7236 6086 0319 4', 'mgalliardg@google.com.hk', 'ZCZSLDX0VGZ', 'CN', null, 'Pierstorff', '1');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('jmcloneyh', 'IT64 I105 6884 037C C4I3 SR6M 3CW', 'mgwinnetth@cmu.edu', 'JSDVNO8M7cD', 'BW', null, 'Valley Edge', '3');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('afalconeri', 'GE16 PX62 1690 5237 5139 41', 'efisbeyi@usatoday.com', 'LXPANO968r7', 'US', '94291', 'Ramsey', '28');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('bboverj', 'NO12 3505 5890 228', 'jmainsonj@php.net', 'LNBWKPfMQUu', 'ID', null, 'Parkside', '055');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dgliddenk', 'FO62 4282 3683 6341 89', 'bchadbournk@elpais.com', 'NVFPDR9XXSu', 'FR', '57954 CEDEX', 'Meadow Ridge', '73');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('spurryl', 'RO91 CANK ZRST CWDL ZL1K WCCH', 'mbirminghaml@360.cn', 'KYXJWBYXQ4A', 'PL', '24-123', 'Golf', '14');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('zkiddellm', 'PL83 8085 7161 2310 0026 4363 8572', 'dskulletm@theglobeandmail.com', 'EQORQLGqQQc', 'JP', '421-3305', 'Loeprich', '9');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('chrinchishinn', 'MR05 3145 8775 2384 3799 5960 359', 'eembersonn@stanford.edu', 'OOXLHMhoU4y', 'ID', null, 'Nelson', '3');
-INSERT INTO artisti (nome, iban, email, bic, stato, cap, via, ncivico) VALUES ('dabbeto', 'CH81 0691 8RV7 BFZM EVA8 E', 'ltitmano@cnbc.com', 'IXIZZGTPmoC', 'PE', null, 'Paget', '733');
 
 -- carte
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5519446037502083', 'mastercard', '2025-04-23', 911, 'Ricky Addison');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017952047553', 'visa', '2025-08-23', 763, 'Leigha Sirl');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175003675795384', 'visa-electron', '2029-11-29', 901, 'Merrile Keepe');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041370977116565', 'visa', '2029-08-30', 842, 'Wileen Gosselin');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('676143307987429838', 'maestro', '2028-03-29', 790, 'Hercule Stooders');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5002356202571769', 'mastercard', '2027-12-06', 132, 'Fernande Regan');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048374242568568', 'mastercard', '2027-08-19', 879, 'Lolly Jubert');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508315603481442', 'visa-electron', '2029-05-26', 656, 'Evvie Blunt');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4060023901531', 'visa', '2029-11-17', 378, 'Oralle Wooffitt');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508854968495050', 'visa-electron', '2029-11-06', 644, 'Kary Freak');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041375770908084', 'visa', '2027-07-03', 536, 'Mickie Muzzollo');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4844702031382404', 'visa-electron', '2028-04-29', 642, 'Tana Charters');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100133264628287', 'mastercard', '2029-05-27', 166, 'Karen Pallant');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5893657478193838', 'maestro', '2028-04-18', 507, 'Urbano Drewet');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('676357414468348650', 'maestro', '2029-01-29', 450, 'Jacques Akers');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917790175369875', 'visa-electron', '2025-01-01', 108, 'Heall Henriksson');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5518102588304541', 'mastercard', '2025-10-08', 504, 'Reinold Saville');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913807138571472', 'visa-electron', '2027-07-30', 335, 'Chrissy Rook');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50208019679564216', 'maestro', '2029-03-05', 233, 'Nadiya Molian');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017956643399', 'visa', '2027-08-04', 225, 'Melitta Leverton');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508976150929057', 'visa-electron', '2028-12-08', 130, 'Cobb Marcome');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5370289904884939', 'mastercard', '2027-03-02', 836, 'Riannon Siviter');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5020342142784975', 'maestro', '2029-09-30', 944, 'Elonore Fley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('675999150865276492', 'maestro', '2028-01-20', 580, 'Shir Sage');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100177637050968', 'mastercard', '2025-07-27', 941, 'Pippy Vyel');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100174146369104', 'mastercard', '2026-07-16', 861, 'Robinet Planke');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50189318292461641', 'maestro', '2028-07-01', 196, 'Nettle Hayto');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5299498739348428', 'mastercard', '2028-07-01', 550, 'Padraic Bwy');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288758265036', 'americanexpress', '2028-03-21', 217, 'Jorie Minocchi');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041598935217741', 'visa', '2025-06-26', 623, 'Petunia Caseley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5893166908067562', 'maestro', '2027-10-26', 239, 'Sheff Pallister');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048372148177294', 'mastercard', '2026-06-18', 220, 'Klemens Draysay');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288494865768', 'americanexpress', '2029-03-21', 683, 'Alyss Brosoli');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041597622133', 'visa', '2027-03-31', 655, 'Wendi Pilbeam');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048371405182831', 'mastercard', '2028-02-17', 804, 'Dorthy Camble');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('67636047822243871', 'maestro', '2026-09-19', 511, 'Frieda Lindstedt');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4405833484666000', 'visa-electron', '2029-12-10', 116, 'Sherwin Woodfin');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100135653301129', 'mastercard', '2029-10-04', 930, 'Jandy Northley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913507683869723', 'visa-electron', '2029-03-17', 195, 'Gonzales Gerb');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('379571073279427', 'americanexpress', '2028-09-05', 492, 'Katharina Orpyne');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100179330098559', 'mastercard', '2028-09-27', 802, 'Arvie Twallin');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026480906114760', 'visa-electron', '2029-03-13', 453, 'Genia Kordovani');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5020461062205884', 'maestro', '2027-06-25', 528, 'Sibelle Beldam');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913301716040787', 'visa-electron', '2028-08-08', 132, 'Lucie Sharpless');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041377087436734', 'visa', '2029-05-28', 563, 'Perle Flatley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('370563770354800', 'americanexpress', '2025-04-13', 434, 'Kamila Boggs');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026113467330034', 'visa-electron', '2028-09-29', 797, 'Lynnett Morshead');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175001831134118', 'visa-electron', '2025-01-04', 998, 'Lutero Dracey');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4016575655024', 'visa', '2025-12-14', 286, 'Tiffanie Kidsley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913460926077011', 'visa-electron', '2027-01-07', 310, 'Kikelia Pabel');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017957385404', 'visa', '2027-07-04', 445, 'Petrina Lutzmann');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288682275135', 'americanexpress', '2028-11-07', 353, 'Jerry Hillborne');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917284573509134', 'visa-electron', '2029-07-31', 548, 'Neal Buckney');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('503802985826809985', 'maestro', '2026-12-08', 104, 'Gerick Daniells');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175001074727016', 'visa-electron', '2026-07-22', 191, 'Ursula Ruprechter');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100138591078460', 'mastercard', '2029-09-27', 814, 'Seth Baddoe');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('06048505056650772', 'maestro', '2025-02-15', 742, 'Frannie Grzelczak');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622708417950', 'americanexpress', '2026-08-12', 969, 'Bancroft Lenard');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6763565344375866', 'maestro', '2028-07-27', 887, 'Reg Cammidge');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5020112484788854', 'maestro', '2025-03-11', 514, 'Zorah Klisch');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917072237248193', 'visa-electron', '2027-01-26', 918, 'Janenna Geertz');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026513203147644', 'visa-electron', '2027-05-09', 794, 'Fern Bernhardi');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026804148432039', 'visa-electron', '2026-12-04', 322, 'Marchall Basek');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622603088799', 'americanexpress', '2027-12-30', 395, 'Myra Fishbie');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('348687843486411', 'americanexpress', '2026-09-26', 746, 'Noah Manford');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301247674320', 'americanexpress', '2029-01-03', 680, 'Kathie MacInnes');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5038097887217463602', 'maestro', '2026-11-21', 290, 'Whitney Letson');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('337941832895808', 'americanexpress', '2029-01-24', 495, 'Cati Duddell');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041372065733178', 'visa', '2025-02-08', 375, 'Marquita Strangeway');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('343135032133621', 'americanexpress', '2027-11-20', 531, 'Jazmin Stranks');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('343840586962321', 'americanexpress', '2025-07-27', 948, 'Boycie Schlagh');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('675967021364465597', 'maestro', '2025-08-18', 414, 'Itch Pratt');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('501800248093936528', 'maestro', '2028-07-28', 615, 'Violetta Hought');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('589352333981268114', 'maestro', '2027-04-17', 226, 'Herbie Aylmore');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175004781855245', 'visa-electron', '2028-06-10', 268, 'Lorne Coomber');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041595010570', 'visa', '2025-12-28', 827, 'Shamus Beran');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('348355810819416', 'americanexpress', '2027-10-14', 826, 'Ange Webben');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5893620545915724', 'maestro', '2025-07-04', 921, 'Noe Alexandrescu');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175002320921411', 'visa-electron', '2026-04-16', 773, 'Marya Shadrack');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('0604849361601388', 'maestro', '2029-03-01', 113, 'Eadie Matusov');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288585343451', 'americanexpress', '2027-09-30', 601, 'Thornie Mcwhinney');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5018002019496327', 'maestro', '2028-08-30', 871, 'Babara Marcus');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5538581771235941', 'mastercard', '2028-09-21', 651, 'Nil Tabourier');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4635752739499', 'visa', '2025-08-02', 503, 'Ring Reddyhoff');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041370407926', 'visa', '2025-05-31', 303, 'Jewelle Glading');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4421682001080', 'visa', '2026-02-27', 993, 'Marlena Le Maitre');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017959404625', 'visa', '2028-05-10', 542, 'Maddy Pretsel');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301593927256', 'americanexpress', '2026-04-17', 264, 'Ricardo Orpwood');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913104511816751', 'visa-electron', '2027-04-15', 656, 'Papagena Karlqvist');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5427061559785130', 'mastercard', '2025-05-30', 179, 'Chickie Birnie');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50385923537504212', 'maestro', '2026-09-16', 277, 'Scarlet Huckerby');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041597372739', 'visa', '2029-07-20', 795, 'Rhetta Leftbridge');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('337941467635511', 'americanexpress', '2029-06-30', 317, 'Oriana Skacel');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5007660626058252', 'mastercard', '2025-11-29', 955, 'Kip Roncelli');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4684066103456360', 'visa', '2029-01-16', 354, 'Adam Hamshar');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('676375638584341763', 'maestro', '2027-08-20', 794, 'Deloria Pinder');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026062879642900', 'visa-electron', '2026-09-02', 143, 'Ursala Dyott');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('341540844147804', 'americanexpress', '2025-09-30', 849, 'Abbe Fahrenbach');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5595049373532487', 'mastercard', '2029-06-13', 684, 'Chaunce Ceeley');
-INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017955269578983', 'visa', '2025-05-18', 306, 'Marcelia Hugnet');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6759642689777301564', 'maestro', '2027-02-28', 282, 'Ber Attfield');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('346475665414972', 'americanexpress', '2027-02-01', 537, 'Latrina Glawsop');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5038592000771312', 'maestro', '2026-08-21', 122, 'Burgess Baldam');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4091698261471', 'visa', '2027-02-21', 811, 'Mela Bratch');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017952707235243', 'visa', '2027-04-01', 446, 'Maurizia Antognoni');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50389069269174638', 'maestro', '2026-03-16', 213, 'Sayre Isworth');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041591159421', 'visa', '2027-01-13', 794, 'Nesta Sawney');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622274876035', 'americanexpress', '2025-05-13', 114, 'Binky Boanas');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('0604344144465236', 'maestro', '2024-06-29', 958, 'Adriena Leffek');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4616307499573', 'visa', '2026-05-16', 437, 'Dyana Mcinnery');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5038222259806441', 'maestro', '2026-03-11', 207, 'Libby Gumery');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048371077548590', 'mastercard', '2026-09-27', 742, 'Gusella Johnsee');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175009230426332', 'visa-electron', '2026-08-08', 464, 'Rice Gopsell');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026875047072613', 'visa-electron', '2027-03-18', 199, 'Bobby Tonry');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017952669315', 'visa', '2025-06-04', 130, 'Hilary Boulds');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288165617365', 'americanexpress', '2025-01-28', 277, 'Dewey Lashbrook');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('67629664149070867', 'maestro', '2026-11-15', 790, 'Meg Ruckhard');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('06045501397442055', 'maestro', '2024-08-02', 398, 'Quill Greenley');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026392629263834', 'visa-electron', '2025-08-03', 904, 'Fraze Postill');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('379128699877199', 'americanexpress', '2025-12-01', 654, 'Samantha Haycox');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175005090470741', 'visa-electron', '2026-03-24', 687, 'Titus Swinyard');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041590424184151', 'visa', '2025-02-22', 513, 'Engelbert Potell');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048373937328809', 'mastercard', '2025-07-24', 950, 'Merv Van Der Weedenburg');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4405926849636419', 'visa-electron', '2024-10-13', 408, 'Giorgio Grimme');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026765974219685', 'visa-electron', '2025-12-25', 388, 'Bathsheba Skeath');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301403195250', 'americanexpress', '2024-11-25', 778, 'Merv Garland');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508539408080675', 'visa-electron', '2026-05-02', 357, 'Laurie Stanbridge');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508904770665554', 'visa-electron', '2025-08-09', 582, 'Odie Tregust');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4352948187401852', 'visa', '2026-04-02', 339, 'Drona Jaine');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4405053943092926', 'visa-electron', '2024-08-05', 981, 'Leela Druhan');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6762432588492472825', 'maestro', '2027-03-07', 739, 'Carlynne Mcgiven');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4405390719744987', 'visa-electron', '2024-09-27', 481, 'Pegeen Andino');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5112455892424607', 'mastercard', '2026-04-23', 457, 'Frans Seymark');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017954063915582', 'visa', '2024-11-18', 891, 'Austine Sleigh');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100139851467492', 'mastercard', '2026-12-30', 134, 'Tomasine Mclachlan');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50207165182462785', 'maestro', '2024-11-18', 347, 'Lotti Housin');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('337941107502212', 'americanexpress', '2026-09-06', 242, 'Noami Chipps');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4913165213518623', 'visa-electron', '2025-08-13', 689, 'Lemar Suttaby');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372073916534222', 'americanexpress', '2027-03-26', 765, 'Winn Casado');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5010121503137326', 'mastercard', '2027-03-08', 260, 'Pall Ralph');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5485740792548723', 'mastercard', '2025-01-29', 133, 'Wendie Annear');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4844773590834820', 'visa-electron', '2026-11-07', 336, 'Elle Sloane');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301559328747', 'americanexpress', '2025-09-30', 478, 'Christine Parcell');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4844237948303573', 'visa-electron', '2024-11-18', 992, 'Richardo Burburough');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5104459725390878', 'mastercard', '2027-01-31', 194, 'Bryna Morot');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('343683713952363', 'americanexpress', '2026-09-25', 696, 'Gaven Morando');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5007661032555329', 'mastercard', '2025-12-26', 821, 'Perry Shepland');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('371430824750673', 'americanexpress', '2025-08-20', 864, 'Emmett Redmille');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5100141327562617', 'mastercard', '2026-11-23', 820, 'Millie Brazener');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('379641305026910', 'americanexpress', '2025-01-17', 400, 'Brandon Rennicks');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917315888596737', 'visa-electron', '2025-03-17', 916, 'Jenine Dalgliesh');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017953988050525', 'visa', '2027-02-15', 965, 'Cindra Mahady');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6762291214747622813', 'maestro', '2027-02-15', 852, 'Evan Mcvitie');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041591874464838', 'visa', '2025-07-16', 981, 'Michal Wheatman');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5532690314080080', 'mastercard', '2027-03-07', 949, 'Tabbie Mallen');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4405683013184664', 'visa-electron', '2024-05-10', 462, 'Perle Tatterton');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175001273147719', 'visa-electron', '2027-01-18', 461, 'Paulo Slyme');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4508147564439394', 'visa-electron', '2024-05-21', 113, 'Jehanna Inchboard');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4837200778232', 'visa', '2026-12-24', 937, 'Lotty Stoaks');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026555721546476', 'visa-electron', '2025-10-14', 991, 'Dare Dundendale');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041590118261', 'visa', '2025-02-10', 634, 'Charin Vouls');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('67617138732098993', 'maestro', '2024-06-02', 381, 'Libbey Freckleton');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4844915967622128', 'visa-electron', '2026-12-10', 147, 'Lotte Halpine');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917138230514806', 'visa-electron', '2024-12-30', 474, 'Bernie Crudginton');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4844508916295185', 'visa-electron', '2025-09-23', 541, 'Ricki Layson');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622320951642', 'americanexpress', '2024-06-13', 785, 'Leesa Kausche');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041593201889836', 'visa', '2026-04-25', 249, 'Jacklyn Dumberell');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288062438014', 'americanexpress', '2026-04-05', 290, 'Aldus Pain');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041595425703', 'visa', '2024-06-01', 893, 'Elysia Pawfoot');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('63049455595458511', 'maestro', '2025-08-18', 216, 'Ema Pearcey');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4041378491482801', 'visa', '2026-02-15', 575, 'Eliot Edgley');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175008287018661', 'visa-electron', '2024-10-13', 492, 'Jacinda Geistbeck');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026127367872515', 'visa-electron', '2027-04-28', 685, 'Drugi Mcmullen');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622417030177', 'americanexpress', '2025-11-12', 934, 'Ellyn Leggon');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6761648794046732', 'maestro', '2026-05-23', 406, 'Jaime Yarnley');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175002447616167', 'visa-electron', '2026-11-18', 717, 'Jobey Perche');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5048376220068669', 'mastercard', '2026-08-01', 404, 'Jocelin Kemitt');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5108755717191208', 'mastercard', '2027-05-01', 430, 'Shelly Klein');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5893952058462260000', 'maestro', '2026-07-20', 845, 'Roddie Freke');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6759717517827035', 'maestro', '2027-03-06', 377, 'Bernita Skypp');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('0604010361231480354', 'maestro', '2027-03-13', 832, 'Lenna Pullman');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917181658344652', 'visa-electron', '2025-02-12', 359, 'Therine Mccurry');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5020364697566347452', 'maestro', '2025-09-19', 239, 'Briggs Lindner');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374622277123559', 'americanexpress', '2025-02-23', 274, 'Donn Pocknoll');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017950007294', 'visa', '2025-11-24', 597, 'Ruthi Jauncey');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4175005610431017', 'visa-electron', '2026-07-15', 179, 'Merell Broadbent');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5145683001731452', 'mastercard', '2026-11-10', 517, 'Gustie Glasspoole');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4917517547908951', 'visa-electron', '2026-01-11', 201, 'Hayden Prowse');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4026537772963966', 'visa-electron', '2024-06-01', 161, 'Deva Alcido');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('06041002787912074', 'maestro', '2026-08-24', 960, 'Letisha Flanagan');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('06042482624532708', 'maestro', '2027-03-02', 366, 'Fannie Minmagh');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5497746627918649', 'mastercard', '2025-06-23', 247, 'Rayna Doget');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('374288916199788', 'americanexpress', '2026-03-12', 871, 'Sammy Murie');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('337941244866116', 'americanexpress', '2025-03-20', 319, 'Claudianus Bingall');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('50387373872227979', 'maestro', '2025-09-29', 805, 'Damian Chesters');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5018561737565192', 'maestro', '2026-11-05', 601, 'Jessamyn Tenny');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6762904986674479', 'maestro', '2024-05-24', 715, 'Scarlet Mutter');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('5893279803690937622', 'maestro', '2025-01-24', 985, 'Frank Astupenas');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('4017951357418356', 'visa', '2027-02-03', 232, 'Alexina Titcumb');
+INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('372301387204805', 'americanexpress', '2025-05-24', 669, 'Abner Playle');
 
 -- digitali
-INSERT INTO digitali (email, password, tipo) VALUES ('mcockshutt0@wsj.com', 'QnTOC4e', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('gcaltera1@toplist.cz', 'x4xasvmzo', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('neveral2@time.com', 'lazK9XI', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('gdearden3@woothemes.com', '0hxjnu8dP', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('mproughten4@pen.io', 'P4phj7v3', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('sbladder5@dailymail.co.uk', 'uFcocHS0t', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('radenet6@tiny.cc', 'DPHTIOD', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('ichasney7@diigo.com', 'DW3PKufE', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('gjenik8@flickr.com', 'cF4JZMs4O', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('ahayward9@multiply.com', 'T1BRDROaq5wB', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('jseala@vkontakte.ru', 'Pu9Fbq', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('bringeb@macromedia.com', 'm2GvKU', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('cmcquillinc@ftc.gov', 'eAPTMM', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('krivardd@cocolog-nifty.com', 'zFUQDuhlAFr', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('rskelchere@cocolog-nifty.com', 'vTMB4B', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('cwebbyf@columbia.edu', 'k44gh9ubF1s', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('gkaremang@hexun.com', '1osWeYu6d8OZ', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('mairdsh@eepurl.com', 'JqYucZGU', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('dvanderbeeki@topsy.com', 'SbdpMsULU', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('aciciuraj@booking.com', 'pZu0emKWCvc', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('cswyersexeyk@flavors.me', '4Yr57j', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('bhuguevillel@wired.com', 'UK2Rw5a', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('odigwoodm@g.co', 'dAuAebr1j7', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('glonghornn@dyndns.org', 'mY8wz4lgI', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('earmouro@sitemeter.com', 'jg9z4eR9ArpF', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('tjadczakp@microsoft.com', '8KNJUZ', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('mpresdeeq@marketwatch.com', 'K2bEbhyFvH5d', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('sswalower@walmart.com', '5oHCUhVN', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('kdewitts@parallels.com', 'F2OM4CnJRTdH', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('ecoulthurstt@sciencedaily.com', 'qRNwNlBAsY', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('ebeckenhamu@usnews.com', 'OPDeH4G7', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('smacenteev@usatoday.com', 'kSE9NGQJYMT', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('scarverw@spiegel.de', 'ME2u8bkQ', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('pbrabinx@time.com', '8CRxFY', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('walfordy@seattletimes.com', 'hwrvck9q', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('alegatez@admin.ch', 'xSIcHiKsn5W', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('epadbury10@dailymotion.com', 'Uf1ea25V8', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('vdurrance11@google.cn', 'BAQaKH8IXeK', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('igrimme12@xinhuanet.com', 'wdXFW7', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('kgally13@studiopress.com', 'LOmINligDreJ', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('rcolquyte14@yellowpages.com', 'iUx79rQMXY1k', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('cplanke15@accuweather.com', 'tedSNn94cTG', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('rhourston16@theglobeandmail.com', 'x0EFawCeLahb', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('bbeelby17@rambler.ru', 'q4LVlB66L', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('hwoodthorpe18@globo.com', 'm2gkiWAR10', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('jvincent19@e-recht24.de', 'p4t9rAg', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('fbixley1a@princeton.edu', '6s7tWV25vpP', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('nlyddiatt1b@bloomberg.com', 'vmah8jKe', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('bmollison1c@buzzfeed.com', '3Fk3I9gTj', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('dmuselli1d@gizmodo.com', 'jVsvFTn', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('wdarragh1e@technorati.com', 'HYAQ9NWzFQl5', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('tshills1f@nationalgeographic.com', 'XcgOTnzioyLn', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('eclashe1g@lulu.com', 'E82ofISzT2P', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('aneedham1h@opensource.org', '1wqJOepah', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('ebathow1i@alibaba.com', 'fQKioTFohswr', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('awillimont1j@domainmarket.com', 'WBmBfLJARmN', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('boroan1k@apache.org', 'lkRiNRgY', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('bcartmel1l@seesaa.net', 'ZpRB6Sq4', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('eburnes1m@amazonaws.com', 'eoGlzfJ2', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('hdrivers1n@cloudflare.com', 'oytHpC', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('hlangthorn1o@ft.com', '2xBrxe', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('ljanikowski1p@networkadvertising.org', 'Ez9d7exsccx', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('thebdon1q@sphinn.com', '7PaDcfCu', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('ccase1r@bing.com', 'twiCN8I', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('hbramble1s@smh.com.au', 'WG5gvPyC', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('kpillington1t@mapy.cz', 'EV9CfGT', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('ptippell1u@intel.com', 'nxeIMb', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('scoldham1v@springer.com', 'sVgeVYlgy', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('letteridge1w@amazonaws.com', 'Gyz6xwD', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('bfarmar1x@canalblog.com', '6IKaILc', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('wstrathe1y@facebook.com', 'p7JAqOBq', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('rellett1z@cloudflare.com', 'Rz9AhBRDjs', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('jdullard20@sciencedirect.com', '4dqsj2GnB', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('mmcalarney21@a8.net', 'UlSIFy', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('eweavill22@google.fr', 'TXfmVK0Eqa', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('lklimko23@hatena.ne.jp', 'aE9lVuN6', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('jsherar24@fotki.com', 'av4FRyzB', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('pmacpadene25@senate.gov', 'N0Gv6dprRQkH', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('anoddings26@php.net', 'EUgWiK', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('inozzolii27@newsvine.com', 'EZ36p7rSZ', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('imeconi28@home.pl', 'yrzd5P1n9ju', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('creveland29@go.com', '6oJ4wL', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('jpaddison2a@disqus.com', 'mA2smsKd', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('dwoolward2b@bravesites.com', 'CBA9XzsrWBFw', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('qkyle2c@slideshare.net', 'EL4fK65sZC', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('esonner2d@unc.edu', 'sLKscE', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('bremington2e@nationalgeographic.com', 'oVWsSgLqfX5k', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('efahy2f@qq.com', 'VdEUegaAzzc', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('ccamin2g@huffingtonpost.com', 'UL6Npr', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('fbrundall2h@paginegialle.it', 'qq9GEuxrYPg', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('oponder2i@pen.io', '0NcdMf', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('hollerhad2j@hao123.com', 'AFoducKSXC', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('brobillart2k@google.com.br', 'sxcKnA', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('dspoward2l@ning.com', 'BkxcOly', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('labramowitz2m@dedecms.com', 'd22VKCdmU', 'A');
-INSERT INTO digitali (email, password, tipo) VALUES ('otoffel2n@clickbank.net', 'wtEjLWL', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('wissit2o@dmoz.org', '3vN6DMxSfjwi', 'G');
-INSERT INTO digitali (email, password, tipo) VALUES ('tslixby2p@oakley.com', '1BAzhhFCp', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('killston2q@edublogs.org', '9QenH6', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('rhaslegrave2r@privacy.gov.au', 'xpc2VsqdyW', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('email', 'tZ46K8', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('battfield0@dailymotion.com', 'kyOMEck', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lglawsop1@paginegialle.it', 'wFVrmJEP', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('bbaldam2@about.me', 'xBFZfLkU28', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('mbratch3@bluehost.com', 'CZKBXoTZWmyE', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('mantognoni4@de.vu', 'WNXN5XOYv4', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('sisworth5@cmu.edu', 'CHOqr1', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('nsawney6@storify.com', 'FeeECL', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('bboanas7@istockphoto.com', 'ocAQ1adF6u', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('aleffek8@sogou.com', 'UvfnQmNx', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('dmcinnery9@wordpress.org', 'kjGnJx5vh9', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('lgumerya@japanpost.jp', 'wNJvFy0', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('gjohnseeb@uol.com.br', 'DNrLfXypMF0', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('rgopsellc@yahoo.co.jp', '0gsxPZ2BkhN', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('btonryd@ovh.net', '8npInUD', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('hbouldse@delicious.com', 'FF0JxGFF', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('dlashbrookf@nature.com', '8lG3P4UANT', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('mruckhardg@globo.com', '66EsBc', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('qgreenleyh@cdc.gov', 'ZyfQI4Jj7', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('fpostilli@t-online.de', 'Fpy8Z6V', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('shaycoxj@fda.gov', 'M7ME2OOm', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('tswinyardk@trellian.com', 'hftMmGphar', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('epotelll@seattletimes.com', 'V9iYei7c9uIv', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('mvanderweedenburgm@moonfruit.com', 'zkdVUHgEO', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('ggrimmen@webeden.co.uk', 'JUjnfc1r', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('bskeatho@elegantthemes.com', 'LHkry6B3', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('mgarlandp@trellian.com', 'esfGK1Pu', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('lstanbridgeq@xing.com', 'cXiTaY0C', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('otregustr@canalblog.com', '9cMFoS', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('djaines@yale.edu', 'wUAESU', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('ldruhant@umich.edu', 'WLYnG42GjIE', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('cmcgivenu@cafepress.com', 'KQ8k8Y', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('pandinov@npr.org', 'FV02Myt5', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('fseymarkw@nifty.com', 'i2FC0eQID', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('asleighx@tmall.com', 'mmtiLwAch', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('tmclachlany@mayoclinic.com', '2myB5Uu', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('lhousinz@discuz.net', 'uBq3og68vfxR', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('nchipps10@behance.net', 'NLarlgLAYSYv', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lsuttaby11@github.com', '0GKviC', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('wcasado12@twitter.com', 'riPdpY9Kd', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('pralph13@nationalgeographic.com', 'nViJJu', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('wannear14@prweb.com', 'KsxI0qFtgN', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('esloane15@opera.com', 'LeJ4sTbK7X9o', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('cparcell16@home.pl', 'ZjG9a9C5x', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('rburburough17@paypal.com', 'r9vty8a', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('bmorot18@berkeley.edu', 'jofFAuAzzU', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('gmorando19@si.edu', 'S7Lxls4t3SmG', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('pshepland1a@thetimes.co.uk', '9YU6fT06tuqh', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('eredmille1b@symantec.com', 'tcwGUeKmUmdM', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('mbrazener1c@nps.gov', 'CumX37xxLx4', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('brennicks1d@cocolog-nifty.com', '08pUhL76W', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('jdalgliesh1e@wiley.com', 'ZwcquojN0zM5', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('cmahady1f@sciencedirect.com', '55utDP8ibVPQ', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('emcvitie1g@list-manage.com', 'lgwVoj', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('mwheatman1h@harvard.edu', 'Gzpcgk', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('tmallen1i@va.gov', 'rCgmGE', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('ptatterton1j@yandex.ru', 'W6w1nRGc1', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('pslyme1k@cbsnews.com', 'eNLWgIuUe4cm', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('jinchboard1l@hubpages.com', 'g2TrO1o8Gjo', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lstoaks1m@123-reg.co.uk', 'FqPhUWH', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('ddundendale1n@w3.org', '7sc32jNVTSUx', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('cvouls1o@4shared.com', 'uXMgykhf1f', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('lfreckleton1p@ycombinator.com', 'a1pJ9vu9pxYu', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lhalpine1q@prnewswire.com', 'ANQkm3u', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('bcrudginton1r@infoseek.co.jp', 'PlMYikdS2', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('rlayson1s@twitter.com', '5wYfPjvy', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lkausche1t@ted.com', 'ggHJyI', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('jdumberell1u@google.es', 'Zy9f4mNU', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('apain1v@google.com.hk', 'SUEFL2', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('epawfoot1w@fastcompany.com', 'dkd0P7chOP', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('epearcey1x@1und1.de', 'Km3O1sd2WjNW', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('eedgley1y@springer.com', '3bM6NPpf', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('jgeistbeck1z@columbia.edu', 'cY2uZjRW', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('dmcmullen20@360.cn', 'ackxfZvUc', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('eleggon21@economist.com', 'QdHyGd1ps', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('jyarnley22@xinhuanet.com', 'eYvLZ0', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('jperche23@networksolutions.com', 'O9tBOOmy7', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('jkemitt24@ehow.com', 'z5aI6jiv', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('sklein25@msn.com', 'NvfOigkRd', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('rfreke26@mlb.com', '4kw0qloI', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('bskypp27@opensource.org', 'yVQdaS0q', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('lpullman28@typepad.com', 'yyv1Hu', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('tmccurry29@irs.gov', '09HqUzza', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('blindner2a@taobao.com', '0m1BvCdHjF', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('dpocknoll2b@fc2.com', 'waVIV6', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('rjauncey2c@cpanel.net', 'IwIYU9SAoMG6', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('mbroadbent2d@nydailynews.com', 'IRZ3RItaLJb', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('gglasspoole2e@uiuc.edu', 'L1e2NQ1f9', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('hprowse2f@fc2.com', 'C4JF7Rd', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('dalcido2g@japanpost.jp', 'jgw1zwxjafP', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('lflanagan2h@slideshare.net', '8mopgt5ZGu', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('fminmagh2i@github.io', 'drFMZgaouGG', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('rdoget2j@flavors.me', '2fWSs5QQlVrf', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('smurie2k@soup.io', '96ZOoQgUCw', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('cbingall2l@ca.gov', 'Zc43DTi', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('dchesters2m@archive.org', 'HJ03m7JAK', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('jtenny2n@gnu.org', 'wD0gjfo', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('smutter2o@so-net.ne.jp', '67QODFbIfvpO', 'G');
+INSERT INTO digitali (email, password, tipo) VALUES ('fastupenas2p@china.com.cn', 'rP6EDjR', 'A');
+INSERT INTO digitali (email, password, tipo) VALUES ('atitcumb2q@so-net.ne.jp', 'peBNEKzw', 'P');
 
 -- boh
 
@@ -483,34 +459,240 @@ INSERT INTO digitali (email, password, tipo) VALUES ('rhaslegrave2r@privacy.gov.
 --* ROBINE UTILI
 -- IBAN di tutti gli artisti
 /*
-FR94 2664 4981 22NJ 0UAH U7F6 K40,
-FR19 7342 6589 136J QK4R Y1C1 G91,
-LI26 6496 13NB ZNNS NEDE F,
-IT97 K203 7294 2376 058W SLY3 G0Z,
-FR92 8086 2920 15J3 XRUL 3DNK M55,
-FR18 3465 5825 75EA RDVU ZP9E 328,
-FR86 6075 4622 49KT WHNL 92FI R92,
-MT50 GXSR 4403 1TD3 ISDY LHSM 8TCS YVJ,
-GL23 9587 6257 7718 24,
-FR23 2971 9925 562L X2AX P9NS V26,
-BA90 1688 5299 0619 2820,
-BR11 0443 8118 8698 9688 7725 850X O,
-GB12 RFFW 0959 9764 1172 44,
-TR81 5156 5DKQ A22J JV68 ORNV WQ,
-CZ85 0731 7957 5578 1391 8742,
-AD29 8172 3091 1ECY FXOY KSXM,
-PT76 5474 2785 7236 6086 0319 4,
-IT64 I105 6884 037C C4I3 SR6M 3CW,
-GE16 PX62 1690 5237 5139 41,
-NO12 3505 5890 228,
-FO62 4282 3683 6341 89,
-RO91 CANK ZRST CWDL ZL1K WCCH,
-PL83 8085 7161 2310 0026 4363 8572,
-MR05 3145 8775 2384 3799 5960 359,
-CH81 0691 8RV7 BFZM EVA8 E
+FR63 7167 7478 48MA 8DWH XZ7G 807,
+SA52 25FB E7QU PBRE ST1N QJTO,
+HR68 9944 1950 3043 0703 3,
+RS03 7201 8004 3045 5248 23,
+DK77 5379 4850 9758 03,
+IS80 3391 4060 2478 2952 2940 60,
+LB15 7107 V9ED IZUE ODJ6 WVWR WI6B,
+FR74 9626 6814 426W AVTG OSQ1 N28,
+FR85 1739 6990 20M8 B40W F3S5 I38,
+FR70 7720 2579 44OQ 0M4M ZFGZ N76,
+SA13 06LF 6MGT LDXO TF03 YPAI,
+IT45 I433 6238 148O GK21 HBJK FCO,
+ME11 8326 6137 7728 8656 40,
+SM77 X624 8847 138I XOVU MQJX 0Y0,
+BG07 MSOP 0287 68IY XW71 7B,
+BG06 XMGU 6476 74C4 AUBY Q0,
+GI44 HLYH JLEP SIVL PMD0 N6T,
+FR37 1587 7806 71YF YPLR FOUC 324,
+LU36 892V P2MA KKNQ IPGU,
+RS11 6947 4908 0336 2189 15,
+GI13 UPHJ 7Z4R H3RF CX8A K6Y,
+AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC,
+PL95 3506 6134 4492 5495 8021 5877,
+MR37 2738 7388 1820 2464 1435 299,
+AZ59 FNYT LZQS EJVW DBBS SAVR S2XS
 */
 
+-- NOMI DI TUTTI GLI UTENTI
+/*
+Ber Attfield,
+Latrina Glawsop,
+Burgess Baldam,
+Mela Bratch,
+Maurizia Antognoni,
+Sayre Isworth,
+Nesta Sawney,
+Binky Boanas,
+Adriena Leffek,
+Dyana Mcinnery,
+Libby Gumery,
+Gusella Johnsee,
+Rice Gopsell,
+Bobby Tonry,
+Hilary Boulds,
+Dewey Lashbrook,
+Meg Ruckhard,
+Quill Greenley,
+Fraze Postill,
+Samantha Haycox,
+Titus Swinyard,
+Engelbert Potell,
+Merv Van Der Weedenburg,
+Giorgio Grimme,
+Bathsheba Skeath,
+Merv Garland,
+Laurie Stanbridge,
+Odie Tregust,
+Drona Jaine,
+Leela Druhan,
+Carlynne Mcgiven,
+Pegeen Andino,
+Frans Seymark,
+Austine Sleigh,
+Tomasine Mclachlan,
+Lotti Housin,
+Noami Chipps,
+Lemar Suttaby,
+Winn Casado,
+Pall Ralph,
+Wendie Annear,
+Elle Sloane,
+Christine Parcell,
+Richardo Burburough,
+Bryna Morot,
+Gaven Morando,
+Perry Shepland,
+Emmett Redmille,
+Millie Brazener,
+Brandon Rennicks,
+Jenine Dalgliesh,
+Cindra Mahady,
+Evan Mcvitie,
+Michal Wheatman,
+Tabbie Mallen,
+Perle Tatterton,
+Paulo Slyme,
+Jehanna Inchboard,
+Lotty Stoaks,
+Dare Dundendale,
+Charin Vouls,
+Libbey Freckleton,
+Lotte Halpine,
+Bernie Crudginton,
+Ricki Layson,
+Leesa Kausche,
+Jacklyn Dumberell,
+Aldus Pain,
+Elysia Pawfoot,
+Ema Pearcey,
+Eliot Edgley,
+Jacinda Geistbeck,
+Drugi Mcmullen,
+Ellyn Leggon,
+Jaime Yarnley,
+Jobey Perche,
+Jocelin Kemitt,
+Shelly Klein,
+Roddie Freke,
+Bernita Skypp,
+Lenna Pullman,
+Therine Mccurry,
+Briggs Lindner,
+Donn Pocknoll,
+Ruthi Jauncey,
+Merell Broadbent,
+Gustie Glasspoole,
+Hayden Prowse,
+Deva Alcido,
+Letisha Flanagan,
+Fannie Minmagh,
+Rayna Doget,
+Sammy Murie,
+Claudianus Bingall,
+Damian Chesters,
+Jessamyn Tenny,
+Scarlet Mutter,
+Frank Astupenas,
+Alexina Titcumb,
+Abner Playle
+*/
 
+-- EMAIL DI TUTTI GLI UTENTI
+/*
+battfield0@dailymotion.com,
+lglawsop1@paginegialle.it,
+bbaldam2@about.me,
+mbratch3@bluehost.com,
+mantognoni4@de.vu,
+sisworth5@cmu.edu,
+nsawney6@storify.com,
+bboanas7@istockphoto.com,
+aleffek8@sogou.com,
+dmcinnery9@wordpress.org,
+lgumerya@japanpost.jp,
+gjohnseeb@uol.com.br,
+rgopsellc@yahoo.co.jp,
+btonryd@ovh.net,
+hbouldse@delicious.com,
+dlashbrookf@nature.com,
+mruckhardg@globo.com,
+qgreenleyh@cdc.gov,
+fpostilli@t-online.de,
+shaycoxj@fda.gov,
+tswinyardk@trellian.com,
+epotelll@seattletimes.com,
+mvanderweedenburgm@moonfruit.com,
+ggrimmen@webeden.co.uk,
+bskeatho@elegantthemes.com,
+mgarlandp@trellian.com,
+lstanbridgeq@xing.com,
+otregustr@canalblog.com,
+djaines@yale.edu,
+ldruhant@umich.edu,
+cmcgivenu@cafepress.com,
+pandinov@npr.org,
+fseymarkw@nifty.com,
+asleighx@tmall.com,
+tmclachlany@mayoclinic.com,
+lhousinz@discuz.net,
+nchipps10@behance.net,
+lsuttaby11@github.com,
+wcasado12@twitter.com,
+pralph13@nationalgeographic.com,
+wannear14@prweb.com,
+esloane15@opera.com,
+cparcell16@home.pl,
+rburburough17@paypal.com,
+bmorot18@berkeley.edu,
+gmorando19@si.edu,
+pshepland1a@thetimes.co.uk,
+eredmille1b@symantec.com,
+mbrazener1c@nps.gov,
+brennicks1d@cocolog-nifty.com,
+jdalgliesh1e@wiley.com,
+cmahady1f@sciencedirect.com,
+emcvitie1g@list-manage.com,
+mwheatman1h@harvard.edu,
+tmallen1i@va.gov,
+ptatterton1j@yandex.ru,
+pslyme1k@cbsnews.com,
+jinchboard1l@hubpages.com,
+lstoaks1m@123-reg.co.uk,
+ddundendale1n@w3.org,
+cvouls1o@4shared.com,
+lfreckleton1p@ycombinator.com,
+lhalpine1q@prnewswire.com,
+bcrudginton1r@infoseek.co.jp,
+rlayson1s@twitter.com,
+lkausche1t@ted.com,
+jdumberell1u@google.es,
+apain1v@google.com.hk,
+epawfoot1w@fastcompany.com,
+epearcey1x@1und1.de,
+eedgley1y@springer.com,
+jgeistbeck1z@columbia.edu,
+dmcmullen20@360.cn,
+eleggon21@economist.com,
+jyarnley22@xinhuanet.com,
+jperche23@networksolutions.com,
+jkemitt24@ehow.com,
+sklein25@msn.com,
+rfreke26@mlb.com,
+bskypp27@opensource.org,
+lpullman28@typepad.com,
+tmccurry29@irs.gov,
+blindner2a@taobao.com,
+dpocknoll2b@fc2.com,
+rjauncey2c@cpanel.net,
+mbroadbent2d@nydailynews.com,
+gglasspoole2e@uiuc.edu,
+hprowse2f@fc2.com,
+dalcido2g@japanpost.jp,
+lflanagan2h@slideshare.net,
+fminmagh2i@github.io,
+rdoget2j@flavors.me,
+smurie2k@soup.io,
+cbingall2l@ca.gov,
+dchesters2m@archive.org,
+jtenny2n@gnu.org,
+smutter2o@so-net.ne.jp,
+fastupenas2p@china.com.cn,
+atitcumb2q@so-net.ne.jp,
+aplayle2r@hostgator.com
+*/
 
 -- links
 -- https://mockaroo.com
