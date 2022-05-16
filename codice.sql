@@ -135,7 +135,7 @@ CREATE TABLE pagamenti (
 );
 
 
--- TODO: pagamenti, preferiti, playlist, episodi, brani, artisti
+-- TODO: artisti, pagamenti, preferiti, playlist, episodi, brani, 
 -- TODO: rimuovere alcune carte/digitali (anche da metodiDiPagamento)
 -- inserimento dati
 
@@ -247,6 +247,7 @@ INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequ
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('aplayle2r', 'Abner', 'Playle', 'aplayle2r@hostgator.com', 'N4kDCcNssSF', 'F', 'M', '2022-06-27');
 
 --artisti
+
 
 -- carte
 INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6759642689777301564', 'maestro', '2027-02-28', 282, 'Ber Attfield');
