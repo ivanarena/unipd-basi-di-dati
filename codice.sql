@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS artisti CASCADE;
 DROP TABLE IF EXISTS utenti CASCADE;
 DROP TABLE IF EXISTS abbonamenti CASCADE;
 
--- TODO: Sistemare gli ON UPDATE e ON DELETE
+-- TODO: Sistemare gli ON UPDATE e ON DELETE e CHECK
 -- creazione tabelle
 CREATE TABLE abbonamenti (
     id char(1),
@@ -33,6 +33,8 @@ CREATE TABLE utenti (
     PRIMARY KEY (username),
     UNIQUE (email),
     FOREIGN KEY (abbonamento) REFERENCES abbonamenti(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE artisti (
@@ -72,8 +74,13 @@ CREATE TABLE metodiDiPagamento (
     numeroCarta char(19),
     email varchar(50),
     PRIMARY KEY (username),
-    FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta),
+    FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
     FOREIGN KEY (email) REFERENCES digitali(email)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
+    CHECK (numeroCarta IS NOT NULL OR email IS NOT NULL)
 );
 
 CREATE TABLE brani (
@@ -822,16 +829,16 @@ INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzion
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (94389, 'FR74 9626 6814 426W AVTG OSQ1 N28', '66328.63', 'Intesa Sanpaolo SpA', '2021-03-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (55154, 'FR74 9626 6814 426W AVTG OSQ1 N28', '88046.22', 'Intesa Sanpaolo SpA', '2021-04-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (50114, 'FR74 9626 6814 426W AVTG OSQ1 N28', '60546.85', 'Intesa Sanpaolo SpA', '2021-05-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15759, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$134560.39', 'Unicredit SpA', '2021-01-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54264, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$187990.53', 'Unicredit SpA', '2021-02-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (18559, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$76935.79', 'Unicredit SpA', '2021-03-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (34490, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$96249.21', 'Unicredit SpA', '2021-04-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (56596, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$94034.61', 'Unicredit SpA', '2021-05-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77549, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$197157.03', 'Credito Emiliano SpA', '2021-01-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69411, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$176682.26', 'Credito Emiliano SpA', '2021-02-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (58246, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$102871.97', 'Credito Emiliano SpA', '2021-03-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (89587, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$148262.15', 'Credito Emiliano SpA', '2021-04-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69798, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$128313.85', 'Credito Emiliano SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15759, 'FR85 1739 6990 20M8 B40W F3S5 I38', '134560.39', 'Unicredit SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54264, 'FR85 1739 6990 20M8 B40W F3S5 I38', '187990.53', 'Unicredit SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (18559, 'FR85 1739 6990 20M8 B40W F3S5 I38', '76935.79', 'Unicredit SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (34490, 'FR85 1739 6990 20M8 B40W F3S5 I38', '96249.21', 'Unicredit SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (56596, 'FR85 1739 6990 20M8 B40W F3S5 I38', '94034.61', 'Unicredit SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77549, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '197157.03', 'Credito Emiliano SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69411, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '176682.26', 'Credito Emiliano SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (58246, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '102871.97', 'Credito Emiliano SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (89587, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '148262.15', 'Credito Emiliano SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69798, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '128313.85', 'Credito Emiliano SpA', '2021-05-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (45599, 'SA13 06LF 6MGT LDXO TF03 YPAI', '84548.57', 'Deutsche Bank SpA', '2021-01-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (62139, 'SA13 06LF 6MGT LDXO TF03 YPAI', '53395.63', 'Deutsche Bank SpA', '2021-02-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (83661, 'SA13 06LF 6MGT LDXO TF03 YPAI', '162149.12', 'Deutsche Bank SpA', '2021-03-01');
@@ -892,18 +899,18 @@ INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzion
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (14258, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '35361.56', 'Banco di Napoli SpA', '2021-03-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (65381, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '83935.28', 'Banco di Napoli SpA', '2021-04-01');
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (81513, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '61602.84', 'Banco di Napoli SpA', '2021-05-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64773, 'PL95 3506 6134 4492 5495 8021 5877', '$104655.66', 'Banco di Sardegna SpA', '2021-01-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91676, 'PL95 3506 6134 4492 5495 8021 5877', '$17794.39', 'Banco di Sardegna SpA', '2021-02-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (80510, 'PL95 3506 6134 4492 5495 8021 5877', '$103595.42', 'Banco di Sardegna SpA', '2021-03-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (84908, 'PL95 3506 6134 4492 5495 8021 5877', '$85593.66', 'Banco di Sardegna SpA', '2021-04-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26018, 'PL95 3506 6134 4492 5495 8021 5877', '$20645.96', 'Banco di Sardegna SpA', '2021-05-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (37789, 'MR37 2738 7388 1820 2464 1435 299', '$95601.02', 'Banco di Sardegna SpA', '2021-01-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (47051, 'MR37 2738 7388 1820 2464 1435 299', '$77252.44', 'Banco di Sardegna SpA', '2021-02-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54780, 'MR37 2738 7388 1820 2464 1435 299', '$84190.17', 'Banco di Sardegna SpA', '2021-03-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15392, 'MR37 2738 7388 1820 2464 1435 299', '$27174.33', 'Banco di Sardegna SpA', '2021-04-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91734, 'MR37 2738 7388 1820 2464 1435 299', '$100128.61', 'Banco di Sardegna SpA', '2021-05-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74509, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$154976.20', 'Banco di Napoli SpA', '2021-01-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64688, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$84635.76', 'Banco di Napoli SpA', '2021-02-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (30629, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$86987.50', 'Banco di Napoli SpA', '2021-03-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (46026, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$101234.10', 'Banco di Napoli SpA', '2021-04-01');
-INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (76018, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$89283.68', 'Banco di Napoli SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64773, 'PL95 3506 6134 4492 5495 8021 5877', '104655.66', 'Banco di Sardegna SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91676, 'PL95 3506 6134 4492 5495 8021 5877', '17794.39', 'Banco di Sardegna SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (80510, 'PL95 3506 6134 4492 5495 8021 5877', '103595.42', 'Banco di Sardegna SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (84908, 'PL95 3506 6134 4492 5495 8021 5877', '85593.66', 'Banco di Sardegna SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26018, 'PL95 3506 6134 4492 5495 8021 5877', '20645.96', 'Banco di Sardegna SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (37789, 'MR37 2738 7388 1820 2464 1435 299', '95601.02', 'Banco di Sardegna SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (47051, 'MR37 2738 7388 1820 2464 1435 299', '77252.44', 'Banco di Sardegna SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54780, 'MR37 2738 7388 1820 2464 1435 299', '84190.17', 'Banco di Sardegna SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15392, 'MR37 2738 7388 1820 2464 1435 299', '27174.33', 'Banco di Sardegna SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91734, 'MR37 2738 7388 1820 2464 1435 299', '100128.61', 'Banco di Sardegna SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74509, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '154976.20', 'Banco di Napoli SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64688, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '84635.76', 'Banco di Napoli SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (30629, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '86987.50', 'Banco di Napoli SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (46026, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '101234.10', 'Banco di Napoli SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (76018, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '89283.68', 'Banco di Napoli SpA', '2021-05-01');
