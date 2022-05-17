@@ -41,6 +41,7 @@ CREATE TABLE artisti (
     iban varchar(33) NOT NULL,
     email varchar(50) NOT NULL,
     password varchar(16) NOT NULL,
+    tipo char(9) NOT NULL,
     bic char(11) NOT NULL,
     stato char(2) NOT NULL,
     città varchar(20) NOT NULL,
@@ -49,7 +50,7 @@ CREATE TABLE artisti (
     ncivico varchar(5) NOT NULL,
     PRIMARY KEY (iban),
     UNIQUE (nome)
-);
+); 
 
 CREATE TABLE carte (
     numeroCarta char(19),
@@ -135,7 +136,7 @@ CREATE TABLE pagamenti (
 );
 
 
--- TODO: artisti, pagamenti, preferiti, playlist, episodi, brani, 
+-- TODO: preferiti, playlist, episodi, brani, 
 -- TODO: rimuovere alcune carte/digitali (anche da metodiDiPagamento)
 -- inserimento dati
 
@@ -247,7 +248,31 @@ INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequ
 INSERT INTO utenti (username, nome, cognome, email, password, abbonamento, frequenzaAddebito, scadenzaAbbonamento) VALUES ('aplayle2r', 'Abner', 'Playle', 'aplayle2r@hostgator.com', 'N4kDCcNssSF', 'F', 'M', '2022-06-27');
 
 --artisti
-
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Radiohead', 'FR63 7167 7478 48MA 8DWH XZ7G 807', 'radiohead@google.com.au', 'Ch2en6', 'Musicista', '771367516-7', 'CO', 'Colorado Springs', '80925', 'Farwell Park', '309');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Oasis', 'SA52 25FB E7QU PBRE ST1N QJTO', 'oasis@google.es', 'S97iyf', 'Musicista', '779039682-X', 'NY', 'Buffalo', '14276', 'Spaight Crossing', '18181');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Green Day', 'HR68 9944 1950 3043 0703 3', 'greenday@salon.com', 'lglnRN1', 'Musicista', '703269183-8', 'PA', 'Erie', '16505', 'Golf Course Alley', '02');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Billie Eilish', 'RS03 7201 8004 3045 5248 23', 'billieeilish@virginia.edu', 'CF2elvCKuo6', 'Musicista', '497355926-1', 'KY', 'Louisville', '40293', 'Huxley Alley', '709');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Michael Jackson', 'DK77 5379 4850 9758 03', 'michaeljackson@online.de', 'VLd1s9sh', 'Musicista', '696402584-7', 'WI', 'Milwaukee', '53220', 'Gateway Center', '23');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('M83', 'IS80 3391 4060 2478 2952 2940 60', 'm83@webnode.com', 'su9dMNRa0qJ', 'Musicista', '680243323-0', 'CA', 'Oakland', '94605', 'Sherman Circle', '895');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('N.W.A.', 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', 'nwa@zdnet.com', 'wH2Sc3yIncF0', 'Musicista', '406226729-2', 'OK', 'Oklahoma City', '73109', 'Carpenter Alley', '931');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('tha Supreme', 'FR74 9626 6814 426W AVTG OSQ1 N28', 'thasupreme@source.net', 'S7fHZ7', 'Musicista', '221583928-7', 'MN', 'Saint Cloud', '56398', 'Gale Pass', '954');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Travis Scott', 'FR85 1739 6990 20M8 B40W F3S5 I38', 'travisscott@hexun.com', 'yBzcIxMa0B3Q', 'Musicista', '167443761-7', 'MI', 'Detroit', '48224', 'School Hill', '1');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Sting', 'FR70 7720 2579 44OQ 0M4M ZFGZ N76,', 'sting@google.ca', 'iVa633m', 'Musicista', '710344456-0', 'DC', 'Washington', '20260', 'Everett Parkway', '81348');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Paky', 'SA13 06LF 6MGT LDXO TF03 YPAI', 'paky@google.com', 'YM3TIroxk', 'Musicista', '964237899-X', 'NY', 'Buffalo', '14225', 'Crowley Junction', '58974');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('U2', 'IT45 I433 6238 148O GK21 HBJK FCO', 'u2@gizmodo.com', '3pyaRfE4', 'Musicista', '394432041-7', 'TX', 'El Paso', '79945', 'Eagle Crest Lane', '783');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('The Police', 'ME11 8326 6137 7728 8656 400', 'thepolice@bloomberg.com', 'um7JSN', 'Musicista', '339743027-5', 'NC', 'Raleigh', '27610', 'Hayes Lane', '332');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Pink Floyd', 'SM77 X624 8847 138I XOVU MQJX 0Y0', 'pinkfloyd@globo.com', 'I2mG98moFKRi', 'Musicista', '481675554-3', 'MS', 'Meridian', '39305', 'Briar Crest Lane', '3306');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Dire Straits', 'BG07 MSOP 0287 68IY XW71 7B', 'direstraits@mashable.com', '3HJ74y0', 'Musicista', '471626091-7', 'CA', 'Garden Grove', '92844', 'Arkansas Circle', '561');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('One Direction', 'BG06 XMGU 6476 74C4 AUBY Q0', 'onedirection@ovh.net', '6vGrgxay1f', 'Musicista', '594860296-6', 'GA', 'Atlanta', '31119', 'Schiller Pass', '3');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Eminem', 'GI44 HLYH JLEP SIVL PMD0 N6T', 'eminem@reference.com', 'VNkgNJnKaOno', 'Musicista', '276594334-6', 'TX', 'Austin', '78749', 'Arkansas Parkway', '314');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('The Doors', 'FR37 1587 7806 71YF YPLR FOUC 324', 'thedoors@music.com', 'KKyB6Hr', 'Musicista', '218789284-0', 'IL', 'Peoria', '61605', 'Hazelcrest Parkway', '5');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Hans Zimmer', 'LU36 892V P2MA KKNQ IPGU', 'hanszimmer@freemon.com', 'QY9AGlq', 'Musicista', '606393650-5', 'CA', 'San Jose', '95133', 'Declaration Pass', '2');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Ennio Morricone', 'RS11 6947 4908 0336 2189 15', 'ennio@gmail.it', 'caIjwOgL0', 'Musicista', '235657180-9', 'LA', 'New Orleans', '70142', 'Clemons Junction', '2700');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Marco Montemagno', 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', 'montemagno@exper.it', 'gIioqujqK', 'Podcaster', '984843537-9', 'MI', 'Detroit', '48206', 'Melby Pass', '3422');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Alessandro Barbero', 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', 'barbero@volnet.it', 'M6YjjAchQ2z', 'Podcaster', '549876954-7', 'DC', 'Washington', '20051', 'Express Trail', '916');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Oroscopo', 'PL95 3506 6134 4492 5495 8021 5877', 'oroscopo@gmail.it', 'COEMandeutF', 'Podcaster', '403633470-0', 'CA', 'Oakland', '94605', 'Golf Plaza', '3918');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Muschio Selvaggio', 'MR37 2738 7388 1820 2464 1435 299', 'muschio@doorn.it', 'Z7CWDfWT5Q', 'Podcaster', '472972148-9', 'NY', 'Albany', '12237', 'Westridge Alley', '6037');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Joe Rogan', 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', 'joerogan@gmail.com', 'iStoHI3', 'Podcaster', '491884308-5', 'TX', 'Lubbock', '79491', 'Rigney Crossing', '11');
 
 -- carte
 INSERT INTO carte (numeroCarta, circuito, scadenza, ccv, intestatario) VALUES ('6759642689777301564', 'maestro', '2027-02-28', 282, 'Ber Attfield');
@@ -555,7 +580,349 @@ INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('fastupenas
 INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('atitcumb2q', '4017951357418356', 'atitcumb2q@so-net.ne.jp');
 INSERT INTO metodiDiPagamento (nickname, numeroCarta, email) VALUES ('aplayle2r', '372301387204805', 'aplayle2r@hostgator.com');
 
+--brani
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'In Rainbows', 1, '3:15', '2021-07-31', 'Rock', 898589);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'In Rainbows', 2, '1:45', '2019-01-29', 'Rock', 387167);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'In Rainbows', 3, '3:35', '2019-03-13', 'Rock', 835253);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'In Rainbows', 4, '2:37', '2021-09-30', 'Rock', 600172);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'In Rainbows', 5, '2:35', '2017-08-18', 'Rock', 198867);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 1, '2:25', '2020-05-28', 'Rock', 336606);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 2, '4:35', '2020-12-25', 'Rock', 870732);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 3, '2:55', '2018-04-02', 'Rock', 283090);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 4, '3:35', '2018-08-05', 'Rock', 862193);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 5, '2:24', '2019-02-09', 'Rock', 652371);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 6, '2:38', '2021-11-15', 'Rock', 687186);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Radiohead', 'Hail To the Thief', 7, '2:32', '2020-09-02', 'Rock', 442084);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Be Here Now', 1, '2:37', '2019-04-23', 'Jazz', 991513);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Be Here Now', 2, '3:33', '2022-02-28', 'Jazz', 782745);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Be Here Now', 3, '2:45', '2018-02-18', 'Jazz', 901986);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Be Here Now', 4, '3:21', '2018-01-25', 'Jazz', 876328);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Be Here Now', 5, '2:35', '2017-06-05', 'Jazz', 307843);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Definitely Maybe', 1, '2:31', '2017-02-22', 'Rock', 244145);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Definitely Maybe', 2, '4:34', '2018-08-17', 'Rock', 949800);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Definitely Maybe', 3, '2:35', '2019-12-01', 'Rock', 592936);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Definitely Maybe', 4, '3:15', '2016-12-25', 'Rock', 930087);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Oasis', 'Definitely Maybe', 5, '5:11', '2017-10-04', 'Rock', 136397);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 1, '3:35', '2017-04-14', 'Punk', 380845);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 2, '2:40', '2017-08-15', 'Punk', 154721);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 3, '2:15', '2018-09-09', 'Punk', 518123);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 4, '1:35', '2020-10-03', 'Punk', 729011);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 5, '2:54', '2019-01-09', 'Punk', 120463);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Insomniac', 6, '2:25', '2020-12-03', 'Punk', 198005);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Revolution Radio', 1, '2:22', '2017-06-20', 'Indie Rock', 612817);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Revolution Radio', 2, '2:11', '2019-06-18', 'Indie Rock', 179711);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Green Day', 'Revolution Radio', 3, '2:33', '2019-09-15', 'Indie Rock', 523078);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'Happier Than Ever', 1, '3:25', '2018-02-23', 'Pop', 540259);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'Happier Than Ever', 2, '2:45', '2021-04-23', 'Pop', 162732);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'Happier Than Ever', 3, '4:11', '2022-01-11', 'Pop', 353733);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'Happier Than Ever', 4, '1:35', '2021-12-20', 'Pop', 292032);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'Happier Than Ever', 5, '2:44', '2020-09-19', 'Pop', 230577);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 1, '2:35', '2018-02-17', 'Pop', 904022);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 2, '3:38', '2019-11-15', 'Pop', 867152);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 3, '2:31', '2017-11-17', 'Pop', 133605);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 4, '3:35', '2017-07-05', 'Pop', 523448);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 5, '2:26', '2021-03-10', 'Pop', 901283);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 6, '5:21', '2018-03-31', 'Pop', 234223);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 7, '2:15', '2021-09-27', 'Pop', 80619);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Billie Eilish', 'dont smile at me', 8, '2:35', '2018-08-12', 'Pop', 774420);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 1, '2:11', '2021-10-05', 'Pop', 683381);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 2, '1:24', '2019-12-23', 'Pop', 86187);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 3, '4:39', '2017-05-25', 'Pop', 932762);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 4, '2:15', '2021-01-15', 'Pop', 274771);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 5, '3:35', '2021-08-24', 'Pop', 516585);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 6, '2:24', '2021-09-16', 'Pop', 908147);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 7, '3:35', '2017-07-08', 'Pop', 582151);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Michael Jackson', 'Scream', 8, '2:26', '2019-03-11', 'Pop', 637085);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 1, '2:22', '2017-06-23', 'Ambient', 359251);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 2, '3:45', '2021-11-13', 'Ambient', 344719);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 3, '2:14', '2018-04-16', 'Ambient', 445381);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 4, '3:35', '2021-11-24', 'Ambient', 989133);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 5, '2:15', '2017-10-19', 'Ambient', 462521);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 6, '3:33', '2021-09-20', 'Ambient', 465745);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'M83', 'Hurry up, We re Dreaming', 7, '2:12', '2020-08-03', 'Ambient', 55428);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Straight Outta Compton', 1, '3:35', '2018-08-29', 'Rap', 312112);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Straight Outta Compton', 2, '2:45', '2017-06-08', 'Rap', 171181);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Straight Outta Compton', 3, '3:37', '2017-12-09', 'Rap', 353986);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Straight Outta Compton', 4, '2:48', '2020-10-28', 'Rap', 700241);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Straight Outta Compton', 5, '3:15', '2018-09-06', 'Rap', 798614);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Efil4zaggin', 1, '2:32', '2022-01-05', 'Rap', 377660);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Efil4zaggin', 2, '3:34', '2021-11-14', 'Rap', 540226);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Efil4zaggin', 3, '2:15', '2021-05-12', 'Rap', 193710);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'N.W.A.', 'Efil4zaggin', 4, '4:36', '2020-09-02', 'Rap', 954844);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 1, '2:15', '2018-08-24', 'Rap', 94427);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 2, '3:35', '2017-07-05', 'Rap', 895399);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 3, '2:22', '2019-09-19', 'Rap', 287197);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 4, '3:38', '2017-12-12', 'Rap', 935268);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 5, '2:45', '2019-08-24', 'Rap', 632821);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 6, '4:36', '2019-11-16', 'Rap', 502366);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 7, '2:55', '2020-05-03', 'Rap', 363141);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 8, '3:33', '2018-10-06', 'Rap', 221113);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 9, '2:35', '2021-01-23', 'Rap', 824460);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'tha Supreme', '23 6451', 10, '2:37', '2019-01-25', 'Rap', 949124);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'JACKBOYS', 1, '2:24', '2022-02-27', 'Trap', 635587);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'JACKBOYS', 2, '2:55', '2017-10-06', 'Trap', 54030);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'JACKBOYS', 3, '2:17', '2017-03-02', 'Trap', 617906);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'ASTROWORLD', 1, '2:35', '2019-11-15', 'Trap', 988243);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'ASTROWORLD', 2, '3:31', '2021-02-23', 'Trap', 591772);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'ASTROWORLD', 3, '2:25', '2020-12-21', 'Trap', 141680);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'ASTROWORLD', 4, '4:36', '2017-05-28', 'Trap', 282862);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'Rodeo', 1, '2:35', '2018-09-24', 'Trap', 778088);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'Rodeo', 2, '3:15', '2020-10-14', 'Trap', 159583);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Travis Scott', 'Rodeo', 3, '2:11', '2021-09-15', 'Trap', 247007);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'The Bridge', 1, '2:35', '2022-02-22', 'Blues', 280808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'The Bridge', 2, '3:22', '2021-05-19', 'Blues', 603722);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'The Bridge', 3, '2:44', '2018-01-13', 'Blues', 777603);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'The Bridge', 4, '2:35', '2021-09-22', 'Blues', 188835);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'My Songs', 1, '3:35', '2017-04-22', 'Blues', 776113);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'My Songs', 2, '2:35', '2021-08-03', 'Blues', 815668);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'My Songs', 3, '2:35', '2021-11-27', 'Blues', 196512);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'My Songs', 4, '3:35', '2017-12-22', 'Blues', 148864);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Sting', 'My Songs', 5, '2:35', '2019-02-13', 'Blues', 372306);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 1, '2:35', '2019-06-18', 'Trap', 653156);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 2, '2:35', '2020-09-11', 'Trap', 643901);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 3, '3:35', '2018-03-25', 'Trap', 874698);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 4, '2:35', '2021-10-07', 'Trap', 901215);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 5, '2:35', '2018-07-07', 'Trap', 206139);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 6, '4:35', '2019-12-10', 'Trap', 986988);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 7, '2:35', '2021-06-30', 'Trap', 952903);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 8, '2:35', '2017-04-08', 'Trap', 277299);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 9, '3:35', '2018-08-10', 'Trap', 514086);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Paky', 'Salvatore', 10, '2:35', '2018-05-04', 'Trap', 298748);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 1, '2:35', '2022-05-04', 'Pop Rock', 518575);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 2, '2:35', '2018-04-14', 'Pop Rock', 115349);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 3, '3:35', '2021-09-08', 'Pop Rock', 896240);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 4, '2:35', '2019-04-16', 'Pop Rock', 719764);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 5, '4:35', '2020-01-17', 'Pop Rock', 390969);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 6, '2:35', '2021-11-16', 'Pop Rock', 356162);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'U2', 'Songs of Experience', 7, '2:35', '2019-05-27', 'Pop Rock', 537929);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Flexible Strategies', 1, '2:35', '2020-12-17', 'Rock', 549139);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Flexible Strategies', 2, '3:35', '2019-04-30', 'Rock', 508437);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Flexible Strategies', 3, '2:35', '2022-01-18', 'Rock', 852706);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Flexible Strategies', 4, '5:35', '2020-05-29', 'Rock', 912514);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Flexible Strategies', 5, '2:35', '2020-06-29', 'Rock', 104766);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Synchronicity', 1, '2:35', '2016-12-23', 'Punk Rock', 769782);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Synchronicity', 2, '4:35', '2019-09-17', 'Punk Rock', 633201);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Synchronicity', 3, '2:35', '2018-03-10', 'Punk Rock', 212808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Zenyatta Mondatta', 1, '2:35', '2021-12-07', 'Indie Rock', 961866);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Zenyatta Mondatta', 2, '3:35', '2021-12-24', 'Indie Rock', 499257);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Zenyatta Mondatta', 3, '4:35', '2021-08-28', 'Indie Rock', 631841);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Police', 'Zenyatta Mondatta', 4, '2:35', '2020-05-31', 'Indie Rock', 333695);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Later Years', 1, '1:35', '2021-05-02', 'Rock', 190310);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Later Years', 2, '2:35', '2017-10-30', 'Rock', 304261);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Later Years', 3, '4:35', '2020-09-05', 'Rock', 775654);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Later Years', 4, '3:35', '2017-05-18', 'Rock', 369456);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Endless River', 1, '2:35', '2020-09-26', 'Rock', 986933);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Endless River', 2, '2:35', '2021-09-25', 'Rock', 177123);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Endless River', 3, '2:35', '2019-01-28', 'Rock', 431794);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Endless River', 4, '2:35', '2020-06-20', 'Rock', 216210);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'Pulse', 1, '2:35', '2017-08-13', 'Indie Rock', 646881);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'Pulse', 2, '2:35', '2018-11-13', 'Indie Rock', 354621);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Wall', 1, '2:35', '2020-11-03', 'Indie Rock', 796468);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Wall', 2, '2:35', '2017-12-28', 'Indie Rock', 936127);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Pink Floyd', 'The Wall', 3, '2:35', '2017-12-25', 'Indie Rock', 537984);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'On The Night', 1, '2:35', '2019-12-28', 'Rock', 949411);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'On The Night', 2, '3:35', '2018-03-22', 'Rock', 266487);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'On The Night', 3, '2:35', '2017-01-02', 'Rock', 982179);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'On The Night', 4, '3:35', '2019-10-06', 'Rock', 819215);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 1, '2:35', '2017-04-02', 'Rock', 985808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 2, '3:35', '2020-09-10', 'Rock', 194933);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 3, '2:35', '2020-03-23', 'Rock', 961311);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 4, '2:35', '2016-12-22', 'Rock', 574257);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 5, '2:35', '2020-02-23', 'Rock', 699194);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Dire Straits', 'Making Movies', 6, '2:35', '2021-06-28', 'Rock', 173571);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 1, '2:35', '2018-06-26', 'Hip-Hop', 939202);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 2, '3:35', '2017-12-20', 'Hip-Hop', 31968);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 3, '2:35', '2020-03-30', 'Hip-Hop', 651583);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 4, '2:35', '2020-07-15', 'Hip-Hop', 678174);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 5, '3:35', '2016-12-30', 'Hip-Hop', 635604);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'FOUR', 6, '2:35', '2017-06-25', 'Hip-Hop', 73154);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 1, '2:35', '2021-11-14', 'Hip-Hop', 398370);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 2, '3:35', '2019-12-12', 'Hip-Hop', 60925);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 3, '2:35', '2020-03-22', 'Hip-Hop', 975824);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 4, '2:35', '2018-12-19', 'Hip-Hop', 719543);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 5, '3:35', '2020-04-30', 'Hip-Hop', 367639);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'One Direction', 'Midnight Memories', 6, '2:35', '2019-11-10', 'Hip-Hop', 587007);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Kamikaze', 1, '2:35', '2017-09-15', 'Rap', 556786);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Kamikaze', 2, '3:35', '2019-03-17', 'Rap', 851935);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Kamikaze', 3, '2:35', '2018-05-30', 'Rap', 530050);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Kamikaze', 4, '3:35', '2018-08-19', 'Rap', 488848);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Kamikaze', 5, '2:35', '2021-09-06', 'Rap', 217252);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Revival', 1, '3:35', '2019-12-17', 'Rap', 754344);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Revival', 2, '2:35', '2018-01-18', 'Rap', 929715);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Revival', 4, '3:35', '2017-08-15', 'Rap', 314333);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Recovery', 1, '2:35', '2019-08-28', 'Rap', 820205);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Recovery', 3, '3:35', '2018-06-13', 'Rap', 575939);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Eminem', 'Recovery', 4, '2:35', '2017-12-27', 'Rap', 282138);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 1, '2:35', '2017-10-31', 'Rock', 850769);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 2, '3:35', '2021-05-10', 'Rock', 72325);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 3, '2:35', '2019-11-25', 'Rock', 881731);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 4, '2:35', '2020-10-03', 'Rock', 265786);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 5, '4:35', '2019-07-12', 'Rock', 859315);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 6, '2:35', '2017-07-12', 'Rock', 538459);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 7, '2:35', '2017-07-12', 'Rock', 215167);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 8, '4:35', '2020-08-01', 'Rock', 580663);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'The Doors', 'L.A. Woman', 9, '3:35', '2021-01-23', 'Rock', 48406);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'Dune', 1, '12:35', '2017-04-29', 'Soundtrack', 543957);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'Dune', 2, '8:35', '2019-04-23', 'Soundtrack', 63180);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'Dune', 3, '14:35', '2017-08-06', 'Soundtrack', 640876);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'Dune', 4, '9:35', '2019-06-02', 'Soundtrack', 789891);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'No Time To Die', 1, '9:35', '2018-03-24', 'Soundtrack', 286709);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'No Time To Die', 2, '10:35', '2020-03-11', 'Soundtrack', 102682);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'No Time To Die', 3, '11:35', '2018-12-20', 'Soundtrack', 702790);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'No Time To Die', 4, '13:35', '2019-05-17', 'Soundtrack', 356510);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Hans Zimmer', 'No Time To Die', 5, '7:35', '2022-02-16', 'Soundtrack', 358625);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 1, '12:35', '2017-09-22', 'Soundtrack', 876801);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 2, '22:35', '2021-10-24', 'Soundtrack', 489971);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 3, '13:35', '2017-02-27', 'Soundtrack', 449615);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 4, '11:35', '2017-06-08', 'Soundtrack', 797918);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 5, '14:35', '2018-03-22', 'Soundtrack', 223641);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 6, '8:35', '2017-11-28', 'Soundtrack', 130356);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 7, '9:35', '2017-10-07', 'Soundtrack', 87639);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 8, '5:35', '2021-01-05', 'Soundtrack', 259777);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('', 'Ennio Morricone', 'The Maestro', 9, '7:35', '2019-11-17', 'Soundtrack', 829843);
 
+
+
+
+-- pagamenti
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26131, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '195280.72', 'Unicredit SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (42296, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '52432.69', 'Unicredit SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91068, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '21362.04', 'Unicredit SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (70922, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '89582.87', 'Unicredit SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (34443, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '108055.45', 'Unicredit SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (14227, 'SA52 25FB E7QU PBRE ST1N QJTO', '126547.91', 'Intesa Sanpaolo SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (36398, 'SA52 25FB E7QU PBRE ST1N QJTO', '161726.99', 'Intesa Sanpaolo SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (21940, 'SA52 25FB E7QU PBRE ST1N QJTO', '31454.82', 'Intesa Sanpaolo SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (19336, 'SA52 25FB E7QU PBRE ST1N QJTO', '107473.64', 'Intesa Sanpaolo SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (57670, 'SA52 25FB E7QU PBRE ST1N QJTO', '70743.00', 'Intesa Sanpaolo SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77387, 'HR68 9944 1950 3043 0703 3', '169170.75', 'Unicredit SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (48949, 'HR68 9944 1950 3043 0703 3', '150113.84', 'Unicredit SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (95625, 'HR68 9944 1950 3043 0703 3', '152822.40', 'Unicredit SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26095, 'HR68 9944 1950 3043 0703 3', '119775.22', 'Unicredit SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (48665, 'HR68 9944 1950 3043 0703 3', '127431.22', 'Unicredit SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (28990, 'RS03 7201 8004 3045 5248 23', '32129.20', 'Unipol Banca SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (68204, 'RS03 7201 8004 3045 5248 23', '120182.31', 'Unipol Banca SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (51315, 'RS03 7201 8004 3045 5248 23', '171196.97', 'Unipol Banca SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (99146, 'RS03 7201 8004 3045 5248 23', '100201.84', 'Unipol Banca SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (87794, 'RS03 7201 8004 3045 5248 23', '168880.36', 'v', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (14057, 'DK77 5379 4850 9758 03', '29753.10', 'Credito Emiliano SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (45873, 'DK77 5379 4850 9758 03', '24205.64', 'Credito Emiliano SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (78536, 'DK77 5379 4850 9758 03', '199474.06', 'Credito Emiliano SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77502, 'DK77 5379 4850 9758 03', '150387.90', 'Credito Emiliano SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (82692, 'DK77 5379 4850 9758 03', '48170.49', 'Credito Emiliano SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (81452, 'IS80 3391 4060 2478 2952 2940 60', '189494.57', 'Unipol Banca SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (32740, 'IS80 3391 4060 2478 2952 2940 60', '25918.06', 'Unipol Banca SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (23916, 'IS80 3391 4060 2478 2952 2940 60', '76773.53', 'Unipol Banca SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (13880, 'IS80 3391 4060 2478 2952 2940 60', '1199.67', 'Unipol Banca SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (35113, 'IS80 3391 4060 2478 2952 2940 60', '110885.44', 'Unipol Banca SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (43006, 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', '33614.96', 'Unipol Banca SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (65571, 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', '121584.35', 'Unipol Banca SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (23172, 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', '188799.45', 'Unipol Banca SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (62592, 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', '5592.40', 'Unipol Banca SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54519, 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', '146551.57', 'Unipol Banca SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (24146, 'FR74 9626 6814 426W AVTG OSQ1 N28', '97565.96', 'Intesa Sanpaolo SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77131, 'FR74 9626 6814 426W AVTG OSQ1 N28', '148363.19', 'Intesa Sanpaolo SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (94389, 'FR74 9626 6814 426W AVTG OSQ1 N28', '66328.63', 'Intesa Sanpaolo SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (55154, 'FR74 9626 6814 426W AVTG OSQ1 N28', '88046.22', 'Intesa Sanpaolo SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (50114, 'FR74 9626 6814 426W AVTG OSQ1 N28', '60546.85', 'Intesa Sanpaolo SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15759, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$134560.39', 'Unicredit SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54264, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$187990.53', 'Unicredit SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (18559, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$76935.79', 'Unicredit SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (34490, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$96249.21', 'Unicredit SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (56596, 'FR85 1739 6990 20M8 B40W F3S5 I38', '$94034.61', 'Unicredit SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77549, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$197157.03', 'Credito Emiliano SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69411, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$176682.26', 'Credito Emiliano SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (58246, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$102871.97', 'Credito Emiliano SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (89587, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$148262.15', 'Credito Emiliano SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69798, 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', '$128313.85', 'Credito Emiliano SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (45599, 'SA13 06LF 6MGT LDXO TF03 YPAI', '84548.57', 'Deutsche Bank SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (62139, 'SA13 06LF 6MGT LDXO TF03 YPAI', '53395.63', 'Deutsche Bank SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (83661, 'SA13 06LF 6MGT LDXO TF03 YPAI', '162149.12', 'Deutsche Bank SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (48768, 'SA13 06LF 6MGT LDXO TF03 YPAI', '113305.98', 'Deutsche Bank SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (22660, 'SA13 06LF 6MGT LDXO TF03 YPAI', '82154.81', 'Deutsche Bank SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (34840, 'IT45 I433 6238 148O GK21 HBJK FCO', '165718.61', 'Banca Sella SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (45312, 'IT45 I433 6238 148O GK21 HBJK FCO', '123909.94', 'Banca Sella SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (93888, 'IT45 I433 6238 148O GK21 HBJK FCO', '182306.12', 'Banca Sella SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (36965, 'IT45 I433 6238 148O GK21 HBJK FCO', '55557.47', 'Banca Sella SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64954, 'IT45 I433 6238 148O GK21 HBJK FCO', '67576.80', 'Banca Sella SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (41845, 'ME11 8326 6137 7728 8656 40', '96523.31', 'Banca Sella SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (49801, 'ME11 8326 6137 7728 8656 40', '122544.20', 'Banca Sella SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (76771, 'ME11 8326 6137 7728 8656 40', '66119.15', 'Banca Sella SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (46982, 'ME11 8326 6137 7728 8656 40', '191044.89', 'Banca Sella SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15712, 'ME11 8326 6137 7728 8656 40', '82519.18', 'Banca Sella SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (60469, 'SM77 X624 8847 138I XOVU MQJX 0Y0', '182615.63', 'Intesa Sanpaolo SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (69922, 'SM77 X624 8847 138I XOVU MQJX 0Y0', '140200.43', 'Intesa Sanpaolo SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (99263, 'SM77 X624 8847 138I XOVU MQJX 0Y0', '101776.16', 'Intesa Sanpaolo SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (88991, 'SM77 X624 8847 138I XOVU MQJX 0Y0', '180978.16', 'Intesa Sanpaolo SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (56582, 'SM77 X624 8847 138I XOVU MQJX 0Y0', '106321.18', 'Intesa Sanpaolo SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (96094, 'BG07 MSOP 0287 68IY XW71 7B', '136296.07', 'Intesa Sanpaolo SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (33492, 'BG07 MSOP 0287 68IY XW71 7B', '37995.39', 'Intesa Sanpaolo SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (53539, 'BG07 MSOP 0287 68IY XW71 7B', '184852.59', 'Intesa Sanpaolo SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (43008, 'BG07 MSOP 0287 68IY XW71 7B', '107400.20', 'Intesa Sanpaolo SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (80316, 'BG07 MSOP 0287 68IY XW71 7B', '43403.23', 'Intesa Sanpaolo SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (55584, 'BG06 XMGU 6476 74C4 AUBY Q0', '148844.31', 'Banco di Sardegna SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (90870, 'BG06 XMGU 6476 74C4 AUBY Q0', '139220.09', 'Banco di Sardegna SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (44044, 'BG06 XMGU 6476 74C4 AUBY Q0', '152332.77', 'Banco di Sardegna SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (72383, 'BG06 XMGU 6476 74C4 AUBY Q0', '97874.54', 'Banco di Sardegna SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (21924, 'BG06 XMGU 6476 74C4 AUBY Q0', '121584.25', 'Banco di Sardegna SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (67185, 'GI44 HLYH JLEP SIVL PMD0 N6T', '182109.27', 'Deutsche Bank SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74895, 'GI44 HLYH JLEP SIVL PMD0 N6T', '84781.72', 'Deutsche Bank SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (83639, 'GI44 HLYH JLEP SIVL PMD0 N6T', '45814.61', 'Deutsche Bank SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (70945, 'GI44 HLYH JLEP SIVL PMD0 N6T', '38661.36', 'Deutsche Bank SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (67417, 'GI44 HLYH JLEP SIVL PMD0 N6T', '66210.78', 'Deutsche Bank SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (71514, 'FR37 1587 7806 71YF YPLR FOUC 324', '31218.74', 'Unipol Banca SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26159, 'FR37 1587 7806 71YF YPLR FOUC 324', '44694.80', 'Unipol Banca SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (48169, 'FR37 1587 7806 71YF YPLR FOUC 324', '58428.06', 'Unipol Banca SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (62131, 'FR37 1587 7806 71YF YPLR FOUC 324', '27602.91', 'Unipol Banca SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (71817, 'FR37 1587 7806 71YF YPLR FOUC 324', '195978.30', 'Unipol Banca SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74307, 'LU36 892V P2MA KKNQ IPGU', '69708.72', 'Banca Sella SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (68531, 'LU36 892V P2MA KKNQ IPGU', '199525.31', 'Banca Sella SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (29760, 'LU36 892V P2MA KKNQ IPGU', '9504.46', 'Banca Sella SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54773, 'LU36 892V P2MA KKNQ IPGU', '15988.48', 'Banca Sella SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (83944, 'LU36 892V P2MA KKNQ IPGU', '31146.14', 'Banca Sella SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74654, 'RS11 6947 4908 0336 2189 15', '170368.60', 'Banca Adriatico SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (82921, 'RS11 6947 4908 0336 2189 15', '143036.30', 'Banca Adriatico SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (55616, 'RS11 6947 4908 0336 2189 15', '143295.94', 'Banca Adriatico SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (77645, 'RS11 6947 4908 0336 2189 15', '153975.14', 'Banca Adriatico SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (27251, 'RS11 6947 4908 0336 2189 15', '60196.85', 'Banca Adriatico SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (19332, 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', '81458.12', 'Banca Popolare Bari SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15427, 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', '55180.93', 'Banca Popolare Bari SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (23713, 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', '182777.17', 'Banca Popolare Bari SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (56739, 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', '5681.58', 'Banca Popolare Bari SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (94426, 'GI13 UPHJ 7Z4R H3RF CX8A K6Y', '27745.60', 'Banca Popolare Bari SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (51611, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '20930.96', 'Banco di Napoli SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (47769, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '150482.14', 'Banco di Napoli SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (14258, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '35361.56', 'Banco di Napoli SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (65381, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '83935.28', 'Banco di Napoli SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (81513, 'AZ97 HOQL WLQF WTN3 WKMH WCLI QLNC', '61602.84', 'Banco di Napoli SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64773, 'PL95 3506 6134 4492 5495 8021 5877', '$104655.66', 'Banco di Sardegna SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91676, 'PL95 3506 6134 4492 5495 8021 5877', '$17794.39', 'Banco di Sardegna SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (80510, 'PL95 3506 6134 4492 5495 8021 5877', '$103595.42', 'Banco di Sardegna SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (84908, 'PL95 3506 6134 4492 5495 8021 5877', '$85593.66', 'Banco di Sardegna SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26018, 'PL95 3506 6134 4492 5495 8021 5877', '$20645.96', 'Banco di Sardegna SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (37789, 'MR37 2738 7388 1820 2464 1435 299', '$95601.02', 'Banco di Sardegna SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (47051, 'MR37 2738 7388 1820 2464 1435 299', '$77252.44', 'Banco di Sardegna SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (54780, 'MR37 2738 7388 1820 2464 1435 299', '$84190.17', 'Banco di Sardegna SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (15392, 'MR37 2738 7388 1820 2464 1435 299', '$27174.33', 'Banco di Sardegna SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (91734, 'MR37 2738 7388 1820 2464 1435 299', '$100128.61', 'Banco di Sardegna SpA', '2021-05-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (74509, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$154976.20', 'Banco di Napoli SpA', '2021-01-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (64688, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$84635.76', 'Banco di Napoli SpA', '2021-02-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (30629, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$86987.50', 'Banco di Napoli SpA', '2021-03-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (46026, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$101234.10', 'Banco di Napoli SpA', '2021-04-01');
+INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (76018, 'AZ59 FNYT LZQS EJVW DBBS SAVR S2XS', '$89283.68', 'Banco di Napoli SpA', '2021-05-01');
+
+/*
+Unicredit SpA
+Intesa Sanpaolo SpA
+Banco di Napoli SpA
+Banco di Sardegna SpA
+Deutsche Bank SpA
+Banca Popolare Bari SpA
+Banca Adriatico SpA
+Banca Sella SpA
+Unipol Banca SpA
+Credito Emiliano SpA
+*/
 
 --* ROBINE UTILI
 -- IBAN di tutti gli artisti
@@ -691,6 +1058,49 @@ Alexina Titcumb,
 Abner Playle
 */
 
+--NOMI DI TUTTI GLI ARTISTI
+/*
+Radiohead
+Oasis
+Green Day
+Billie Eilish
+Michael Jackson
+M83
+N.W.A.
+tha Supreme
+Travis Scott
+Sting
+Paky
+U2
+The Police
+Pink Floyd
+Dire Straits
+One Direction
+Eminem
+The Doors
+Hans Zimmer
+Ennio Morricone
+Marco Montemagno
+Alessandro Barbero
+Oroscopo
+Muschio Selvaggio
+Joe Rogan
+*/
+
+--GENERI MUSICALI (non sono sicuro di averli messi tutti)
+/*
+Soundtrack
+Rap
+Trap
+Pop Rock
+Jazz
+Indie Rock
+Punk
+Punk Rock
+Blues
+Hip-Hop
+Ambient
+*/
 
 -- USERNAMES DI TUTTI GLI UTENTI
 /*
