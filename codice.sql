@@ -11,25 +11,24 @@ DROP TABLE IF EXISTS artisti CASCADE;
 DROP TABLE IF EXISTS utenti CASCADE;
 DROP TABLE IF EXISTS abbonamenti CASCADE;
 
--- TODO: Sistemare gli ON UPDATE e ON DELETE e CHECK
 -- creazione tabelle
 CREATE TABLE abbonamenti (
-    id char(1),
-    nome varchar(8) NOT NULL,
-    prezzoMensile float(24) NOT NULL,
-    prezzoAnnuale float(24) NOT NULL,
+    id CHAR(1),
+    nome VARCHAR(8) NOT NULL,
+    prezzoMensile FLOAT(24) NOT NULL,
+    prezzoAnnuale FLOAT(24) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE utenti (
-    username varchar(25),
-    nome varchar(25) NOT NULL,
-    cognome varchar(25) NOT NULL,
-    email varchar(50) NOT NULL,
-    password varchar(16) NOT NULL, 
-    abbonamento char(1) NOT NULL,
-    frequenzaAddebito char(1) NOT NULL,
-    scadenzaAbbonamento date NOT NULL,
+    username VARCHAR(25),
+    nome VARCHAR(25) NOT NULL,
+    cognome VARCHAR(25) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(16) NOT NULL, 
+    abbonamento CHAR(1) NOT NULL,
+    frequenzaAddebito CHAR(1) NOT NULL,
+    scadenzaAbbonamento DATE NOT NULL,
     PRIMARY KEY (username),
     UNIQUE (email),
     FOREIGN KEY (abbonamento) REFERENCES abbonamenti(id)
@@ -38,107 +37,123 @@ CREATE TABLE utenti (
 );
 
 CREATE TABLE artisti (
-    nome varchar(25),
-    iban varchar(33) NOT NULL,
-    email varchar(50) NOT NULL,
-    password varchar(16) NOT NULL,
-    tipo char(9) NOT NULL,
-    bic char(11) NOT NULL,
-    stato char(2) NOT NULL,
-    città varchar(20) NOT NULL,
-    cap varchar(8) NOT NULL,
-    via varchar(50) NOT NULL,
-    ncivico varchar(5) NOT NULL,
+    nome VARCHAR(25),
+    iban VARCHAR(33) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(16) NOT NULL,
+    tipo CHAR(1) NOT NULL,
+    bic CHAR(11) NOT NULL,
+    stato CHAR(2) NOT NULL,
+    città VARCHAR(20) NOT NULL,
+    cap VARCHAR(8) NOT NULL,
+    via VARCHAR(50) NOT NULL,
+    ncivico VARCHAR(5) NOT NULL,
     PRIMARY KEY (iban),
     UNIQUE (nome)
 ); 
 
 CREATE TABLE carte (
-    numeroCarta char(19),
-    circuito varchar(20) NOT NULL,
-    scadenza date NOT NULL,
-    ccv char(3) NOT NULL,
-    intestatario varchar(25) NOT NULL,
+    numeroCarta CHAR(19),
+    circuito VARCHAR(20) NOT NULL,
+    scadenza DATE NOT NULL,
+    ccv CHAR(3) NOT NULL,
+    intestatario VARCHAR(25) NOT NULL,
     PRIMARY KEY (numeroCarta)
 );
 
 CREATE TABLE digitali (
-    email varchar(50),
-    password varchar(12) NOT NULL,
-    tipo varchar(10) NOT NULL,
+    email VARCHAR(50),
+    password VARCHAR(12) NOT NULL,
+    tipo VARCHAR(10) NOT NULL,
     PRIMARY KEY (email)
 );
 
 CREATE TABLE metodiDiPagamento (
-    username varchar(25),
-    numeroCarta char(19),
-    email varchar(50),
+    username VARCHAR(25),
+    numeroCarta CHAR(19),
+    email VARCHAR(50),
     PRIMARY KEY (username),
-    FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
+    FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta) 
+        ON DELETE SET NULL -- TODO: è davvero giusto? testare
+        ON UPDATE CASCADE,
     FOREIGN KEY (email) REFERENCES digitali(email)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
+        ON DELETE SET NULL -- TODO: è davvero giusto? testare
+        ON UPDATE CASCADE,
     CHECK (numeroCarta IS NOT NULL OR email IS NOT NULL)
 );
 
 CREATE TABLE brani (
-    titolo varchar(25),
-    artista varchar(25) NOT NULL,
-    album varchar(25) NOT NULL,
-    traccia smallint NOT NULL,
-    durata varchar(8) NOT NULL,
-    annoUscita smallint NOT NULL,
-    genere varchar(12) NOT NULL,
+    titolo VARCHAR(25),
+    artista VARCHAR(25) NOT NULL,
+    album VARCHAR(25) NOT NULL,
+    traccia SMALLINT NOT NULL CHECK (traccia > 0),
+    durata VARCHAR(8) NOT NULL,
+    annoUscita SMALLINT NOT NULL,
+    genere VARCHAR(12) NOT NULL,
     riproduzioni int NOT NULL,
     PRIMARY KEY (titolo),
     FOREIGN KEY (artista) REFERENCES artisti(nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE episodi (
-    titolo varchar(25),
-    podcaster varchar(25) NOT NULL,
-    podcast varchar(25) NOT NULL,
-    nepisodio smallint NOT NULL,
-    durata varchar(8) NOT NULL,
-    annoUscita smallint NOT NULL,
-    genere varchar(12) NOT NULL,
-    riproduzioni int NOT NULL,
+    titolo VARCHAR(25),
+    podcaster VARCHAR(25) NOT NULL,
+    podcast VARCHAR(25) NOT NULL,
+    nepisodio SMALLINT NOT NULL,
+    durata VARCHAR(8) NOT NULL,
+    annoUscita SMALLINT NOT NULL,
+    genere VARCHAR(12) NOT NULL,
+    riproduzioni int NOT NULL CHECK (riproduzioni >= 0),
     PRIMARY KEY (titolo),
     FOREIGN KEY (podcaster) REFERENCES artisti(nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE playlist (
-    nome varchar(25),
-    autore varchar(25) NOT NULL,
-    dataCreazione date NOT NULL,
-    titolo varchar(25) NOT NULL,
-    artista varchar(25) NOT NULL,
+    nome VARCHAR(25),
+    autore VARCHAR(25) NOT NULL,
+    dataCreazione DATE NOT NULL,
+    titolo VARCHAR(25) NOT NULL,
+    artista VARCHAR(25) NOT NULL,
     PRIMARY KEY (nome),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo),
-    FOREIGN KEY (artista) REFERENCES artisti(nome),
+    FOREIGN KEY (titolo) REFERENCES brani(titolo)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (artista) REFERENCES artisti(nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (autore) REFERENCES utenti(username)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE preferiti (
-    titolo varchar(25),
-    autore varchar(25),
-    proprietario varchar(25) NOT NULL,
-    tipo char(1) NOT NULL,
+    titolo VARCHAR(25),
+    autore VARCHAR(25),
+    proprietario VARCHAR(25) NOT NULL,
+    tipo CHAR(1) NOT NULL,
     PRIMARY KEY (titolo, autore),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo),
+    FOREIGN KEY (titolo) REFERENCES brani(titolo)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (titolo) REFERENCES episodi(titolo)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE pagamenti (
-    idTransazione char(5),
-    iban varchar(33) NOT NULL,
-    importo float(24) NOT NULL,
-    beneficiario varchar(25) NOT NULL,
-    dataEsecuzione date NOT NULL,
+    idTransazione CHAR(5),
+    iban VARCHAR(33) NOT NULL,
+    importo FLOAT(24) NOT NULL,
+    beneficiario VARCHAR(25) NOT NULL,
+    dataEsecuzione DATE NOT NULL,
     PRIMARY KEY (idTransazione),
     FOREIGN KEY (iban) REFERENCES artisti(iban)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 
