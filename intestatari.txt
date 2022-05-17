@@ -1,0 +1,10 @@
+Unicredit SpA,
+Intesa Sanpaolo SpA,
+Banco di Napoli SpA,
+Banco di Sardegna SpA,
+Deutsche Bank SpA,
+Banca Popolare Bari SpA,
+Banca Adriatico SpA,
+Banca Sella SpA,
+Unipol Banca SpA,
+Credito Emiliano SpA
