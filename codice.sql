@@ -802,6 +802,57 @@ INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, 
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Una donna sola', 'Ennio Morricone', 'The Maestro', 8, '5:35', '2021-01-05', 'Soundtrack', 259777);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Splash', 'Ennio Morricone', 'The Maestro', 9, '7:35', '2019-11-17', 'Soundtrack', 829843);
 
+-- episodi
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('La guerra dei cent''anni', 'Alessandro Barbero', 'Barbero Racconta: Il Medioevo', 12, '58:89', 2017, 'Storia', 59656);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'Barbero Racconta: Il Medioevo', 2, '59:48', 2017, 'Storia', 34124);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('L''incastellamento', 'Alessandro Barbero', 'Barbero Racconta: Il Medioevo', 3, '58:64', 2017, 'Storia', 54123);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Carlo Magno', 'Alessandro Barbero', 'Barbero Racconta: Il Medioevo', 16, '57:91', 2017, 'Storia', 90012);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Il preconsolato', 'Alessandro Barbero', 'Barbero Racconta: L''Antica Roma', 7, '55:43', 2019, 'Storia', 920012);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('L''era di Augusto', 'Alessandro Barbero', 'Barbero Racconta: L''Antica Roma', 25, '54:61', 2019, 'Storia', 553120);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Cesare', 'Alessandro Barbero', 'Barbero Racconta: L''Antica Roma', 11, '59:94', 2019, 'Storia', 5502011);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Romani e Cristiani', 'Alessandro Barbero', 'Barbero Racconta: L''Antica Roma', 12, '58:81', 2019, 'Storia', 371241);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Donald Trump', 'Joe Rogan', 'The Joe Rogan Experience', 223, '56:77', 2021, 'Politica', 35694054);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'The Joe Rogan Experience', 253, '54:51', 2021, 'Politica', 87649053);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Arnold Schwarzenegger', 'Joe Rogan', 'The Joe Rogan Experience', 3, '59:47', 2021, 'Politica', 87123136);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Elon Musk', 'Joe Rogan', 'The Joe Rogan Experience', 44, '53:16', 2020, 'Scienza', 44123112);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Lex Fridman', 'Joe Rogan', 'The Joe Rogan Experience', 550, '53:37', 2022, 'Scienza', 53129424);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Mike Tyson', 'Joe Rogan', 'The Joe Rogan Experience', 62, '53:84', 2020, 'Intrattenimento', 13258249);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Ricky Gervais', 'Joe Rogan', 'The Joe Rogan Experience', 565, '56:58', 2022, 'Intrattenimento', 12747834);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Christian Bale', 'Joe Rogan', 'The Joe Rogan Experience', 257, '53:64', 2021, 'Intrattenimento', 66332003);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('JRE with Shaquille O''Neal', 'Joe Rogan', 'The Joe Rogan Experience', 102, '58:33', 2020, 'Intrattenimento', 25300320);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Come fondare un''azienda', 'Marco Montemagno', 'BeYourOwnBoss', 1, '25:38', 2016, 'Economia', 32012);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Gestire i guadagni', 'Marco Montemagno', 'BeYourOwnBoss', 2, '23:49', 2016, 'Economia', 38120);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Gestire le perdite', 'Marco Montemagno', 'BeYourOwnBoss', 3, '26:26', 2016, 'Economia', 45102);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Assumere dipendenti', 'Marco Montemagno', 'BeYourOwnBoss', 4, '24:04', 2017, 'Economia', 13140);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Partita IVA e 730', 'Marco Montemagno', 'BeYourOwnBoss', 5, '25:84', 2017, 'Economia', 20102);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('La routine di un CEO', 'Marco Montemagno', 'BeYourOwnBoss', 6, '22:01', 2017, 'Lifestyle', 35120);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Intervista a Frank Matano', 'Marco Montemagno', 'Montemagno Interviste', 1, '43:56', 2021, 'Intrattenimento', 330122);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Intervista a Paolo Ruffini', 'Marco Montemagno', 'Montemagno Interviste', 2, '44:85', 2021, 'Intrattenimento', 391234);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Intervista a Matthew McConaughey', 'Marco Montemagno', 'Montemagno Interviste', 3, '42:50', 2021, 'Intrattenimento', 475504);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Intervista a Paulo Dybala', 'Marco Montemagno', 'Montemagno Interviste', 4, '43:92', 2021, 'Intrattenimento', 854999);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Intervista a Vittorio Feltri', 'Marco Montemagno', 'Montemagno Interviste', 5, '45:99', 2021, 'Intrattenimento', 673466);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Capo Plaza', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 11, '48:93', 2021, 'Intrattenimento', 4120545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Alessandro Barbero', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 15, '43:62', 2021, 'Intrattenimento', 1120545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Christian De Sica', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 17, '46:25', 2021, 'Intrattenimento', 8420545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Donatella Versace', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 19, '40:58', 2021, 'Intrattenimento', 5520545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Twitch Italia', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 3, '44:25', 2021, 'Intrattenimento', 9920545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Gabriele Muccino', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 30, '45:46', 2021, 'Intrattenimento', 6920545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Vittorio Feltri', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 4, '48:50', 2021, 'Intrattenimento', 7520545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Vittorio Sgarbi', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 42, '40:28', 2021, 'Intrattenimento', 4220545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio Speciale Natale', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 44, '49:06', 2021, 'Intrattenimento', 8120545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Lazza', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 7, '48:60', 2021, 'Intrattenimento', 1220545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Muschio x Baby Gang', 'Muschio Selvaggio', 'Muschio Selvaggio Podcast', 9, '48:16', 2021, 'Intrattenimento', 2820545);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 1', 'Oroscopo', 'Oroscopodcast', 1, '15:50', 2022, 'Lifestyle', 50023);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 2', 'Oroscopo', 'Oroscopodcast', 2, '15:57', 2022, 'Lifestyle', 37050);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 3', 'Oroscopo', 'Oroscopodcast', 3, '15:55', 2022, 'Lifestyle', 16053);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 4', 'Oroscopo', 'Oroscopodcast', 4, '15:73', 2022, 'Lifestyle', 95053);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 5', 'Oroscopo', 'Oroscopodcast', 5, '15:63', 2022, 'Lifestyle', 33050);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 6', 'Oroscopo', 'Oroscopodcast', 6, '15:02', 2022, 'Lifestyle', 28504);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 7', 'Oroscopo', 'Oroscopodcast', 7, '15:41', 2022, 'Lifestyle', 87143);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 8', 'Oroscopo', 'Oroscopodcast', 8, '15:48', 2022, 'Lifestyle', 18123);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 9', 'Oroscopo', 'Oroscopodcast', 9, '15:14', 2022, 'Lifestyle', 86153);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 10', 'Oroscopo', 'Oroscopodcast', 10, '15:42', 2022, 'Lifestyle', 56543);
+INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 11', 'Oroscopo', 'Oroscopodcast', 11, '15:57', 2022, 'Lifestyle', 73122);
 
 
 -- pagamenti
