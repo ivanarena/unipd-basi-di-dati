@@ -98,13 +98,13 @@ CREATE TABLE brani (
 );
 
 CREATE TABLE episodi (
-    titolo VARCHAR(25),
+    titolo VARCHAR(50),--cambiato in 50, alcuni titoli erano troppo lunghi, cambiato anche su overleaf
     podcaster VARCHAR(25) NOT NULL,
     podcast VARCHAR(25) NOT NULL,
     nepisodio SMALLINT NOT NULL,
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
-    genere VARCHAR(12) NOT NULL,
+    genere VARCHAR(15) NOT NULL,--stessa cosa di sopra
     riproduzioni int NOT NULL CHECK (riproduzioni >= 0),
     PRIMARY KEY (titolo),
     FOREIGN KEY (podcaster) REFERENCES artisti(nome)
@@ -136,7 +136,7 @@ CREATE TABLE preferiti (
     proprietario VARCHAR(25) NOT NULL,
     tipo CHAR(1) NOT NULL,
     PRIMARY KEY (titolo, autore),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo)
+    FOREIGN KEY (titolo) REFERENCES brani(titolo)  --Anche qui da problemi, riconosce solo la chiave esterna con brani e non anche con episodi, bisogna capire bene come aggiustare
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (titolo) REFERENCES episodi(titolo)
@@ -280,10 +280,10 @@ INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap,
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('N.W.A.', 'LB15 7107 V9ED IZUE ODJ6 WVWR WI6B', 'nwa@zdnet.com', 'wH2Sc3yIncF0', 'M', '406226729-2', 'OK', 'Oklahoma City', '73109', 'Carpenter Alley', '931');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('tha Supreme', 'FR74 9626 6814 426W AVTG OSQ1 N28', 'thasupreme@source.net', 'S7fHZ7', 'M', '221583928-7', 'MN', 'Saint Cloud', '56398', 'Gale Pass', '954');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Travis Scott', 'FR85 1739 6990 20M8 B40W F3S5 I38', 'travisscott@hexun.com', 'yBzcIxMa0B3Q', 'M', '167443761-7', 'MI', 'Detroit', '48224', 'School Hill', '1');
-INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Sting', 'FR70 7720 2579 44OQ 0M4M ZFGZ N76,', 'sting@google.ca', 'iVa633m', 'M', '710344456-0', 'DC', 'Washington', '20260', 'Everett Parkway', '81348');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Sting', 'FR70 7720 2579 44OQ 0M4M ZFGZ N76', 'sting@google.ca', 'iVa633m', 'M', '710344456-0', 'DC', 'Washington', '20260', 'Everett Parkway', '81348');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Paky', 'SA13 06LF 6MGT LDXO TF03 YPAI', 'paky@google.com', 'YM3TIroxk', 'M', '964237899-X', 'NY', 'Buffalo', '14225', 'Crowley Junction', '58974');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('U2', 'IT45 I433 6238 148O GK21 HBJK FCO', 'u2@gizmodo.com', '3pyaRfE4', 'M', '394432041-7', 'TX', 'El Paso', '79945', 'Eagle Crest Lane', '783');
-INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('The Police', 'ME11 8326 6137 7728 8656 400', 'thepolice@bloomberg.com', 'um7JSN', 'M', '339743027-5', 'NC', 'Raleigh', '27610', 'Hayes Lane', '332');
+INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('The Police', 'ME11 8326 6137 7728 8656 40', 'thepolice@bloomberg.com', 'um7JSN', 'M', '339743027-5', 'NC', 'Raleigh', '27610', 'Hayes Lane', '332');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Pink Floyd', 'SM77 X624 8847 138I XOVU MQJX 0Y0', 'pinkfloyd@globo.com', 'I2mG98moFKRi', 'M', '481675554-3', 'MS', 'Meridian', '39305', 'Briar Crest Lane', '3306');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('Dire Straits', 'BG07 MSOP 0287 68IY XW71 7B', 'direstraits@mashable.com', '3HJ74y0', 'M', '471626091-7', 'CA', 'Garden Grove', '92844', 'Arkansas Circle', '561');
 INSERT INTO artisti (nome, iban, email, password, tipo, bic, stato, città, cap, via, ncivico) VALUES ('One Direction', 'BG06 XMGU 6476 74C4 AUBY Q0', 'onedirection@ovh.net', '6vGrgxay1f', 'M', '594860296-6', 'GA', 'Atlanta', '31119', 'Schiller Pass', '3');
@@ -786,9 +786,9 @@ INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, 
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Ship of Fools', 'The Doors', 'L.A. Woman', 8, '4:35', 2011, 'Rock', 580663);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Blue Sunday', 'The Doors', 'L.A. Woman', 9, '3:35', 2011, 'Rock', 48406);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Confield Chase', 'Hans Zimmer', 'Dune', 1, '12:35', 2022, 'Soundtrack', 543957);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Time', 'Hans Zimmer', 'Dune', 2, '8:35', 2022 'Soundtrack', 63180);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Time', 'Hans Zimmer', 'Dune', 2, '8:35', 2022, 'Soundtrack', 63180);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Day One', 'Hans Zimmer', 'Dune', 3, '14:35', 2022, 'Soundtrack', 640876);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'Dune', 4, '9:35', 2022 'Soundtrack', 789891);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'Dune', 4, '9:35', 2022, 'Soundtrack', 789891);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Mountains', 'Hans Zimmer', 'No Time To Die', 1, '9:35', 2011, 'Soundtrack', 286709);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Of The Earth', 'Hans Zimmer', 'No Time To Die', 2, '10:35', 2011, 'Soundtrack', 102682);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Il Gladiatore', 'Hans Zimmer', 'No Time To Die', 3, '11:35', 2011, 'Soundtrack', 702790);
