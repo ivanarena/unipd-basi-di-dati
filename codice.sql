@@ -118,7 +118,7 @@ CREATE TABLE playlist (
     dataCreazione DATE NOT NULL,
     titolo VARCHAR(25) NOT NULL,
     artista VARCHAR(25) NOT NULL,
-    PRIMARY KEY (nome),
+    PRIMARY KEY (nome, autore, titolo),
     FOREIGN KEY (titolo) REFERENCES brani(titolo)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
@@ -946,7 +946,7 @@ INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chi
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Roxanne', 'The Police');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Feelings', 'M83');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Redlight', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Sultan Of Swing', 'Dire Straits');
+INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Private Investigations', 'Dire Straits');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'No Pride', 'Green Day');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Ship of Fools', 'The Doors');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Money', 'Pink Floyd');
