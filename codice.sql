@@ -21,9 +21,9 @@ CREATE TABLE abbonamenti (
 );
 
 CREATE TABLE utenti (
-    username VARCHAR(25),
-    nome VARCHAR(25) NOT NULL,
-    cognome VARCHAR(25) NOT NULL,
+    username VARCHAR(50),
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(16) NOT NULL, 
     abbonamento CHAR(1) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE utenti (
 );
 
 CREATE TABLE artisti (
-    nome VARCHAR(25),
+    nome VARCHAR(50),
     iban VARCHAR(34) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(16) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE carte (
     circuito VARCHAR(20) NOT NULL,
     scadenza DATE NOT NULL,
     ccv CHAR(3) NOT NULL,
-    intestatario VARCHAR(25) NOT NULL,
+    intestatario VARCHAR(50) NOT NULL,
     PRIMARY KEY (numeroCarta)
 );
 
@@ -69,7 +69,7 @@ CREATE TABLE digitali (
 );
 
 CREATE TABLE metodiDiPagamento (
-    username VARCHAR(25),
+    username VARCHAR(50),
     numeroCarta CHAR(19),
     email VARCHAR(50),
     PRIMARY KEY (username),
@@ -83,9 +83,9 @@ CREATE TABLE metodiDiPagamento (
 );
 
 CREATE TABLE brani (
-    titolo VARCHAR(25),
-    artista VARCHAR(25) NOT NULL,
-    album VARCHAR(25) NOT NULL,
+    titolo VARCHAR(50),
+    artista VARCHAR(50) NOT NULL,
+    album VARCHAR(50) NOT NULL,
     traccia SMALLINT NOT NULL CHECK (traccia > 0),
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
@@ -98,13 +98,13 @@ CREATE TABLE brani (
 );
 
 CREATE TABLE episodi (
-    titolo VARCHAR(50),--cambiato in 50, alcuni titoli erano troppo lunghi, cambiato anche su overleaf
-    podcaster VARCHAR(25) NOT NULL,
-    podcast VARCHAR(25) NOT NULL,
+    titolo VARCHAR(50),
+    podcaster VARCHAR(50) NOT NULL,
+    podcast VARCHAR(50) NOT NULL,
     nepisodio SMALLINT NOT NULL,
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
-    genere VARCHAR(15) NOT NULL,--stessa cosa di sopra
+    genere VARCHAR(15) NOT NULL,
     riproduzioni int NOT NULL CHECK (riproduzioni >= 0),
     PRIMARY KEY (titolo),
     FOREIGN KEY (podcaster) REFERENCES artisti(nome)
@@ -113,11 +113,11 @@ CREATE TABLE episodi (
 );
 
 CREATE TABLE playlist (
-    nome VARCHAR(25),
-    autore VARCHAR(25) NOT NULL,
+    nome VARCHAR(50),
+    autore VARCHAR(50),
     dataCreazione DATE NOT NULL,
-    titolo VARCHAR(25) NOT NULL,
-    artista VARCHAR(25) NOT NULL,
+    titolo VARCHAR(50),
+    artista VARCHAR(50) NOT NULL,
     PRIMARY KEY (nome, autore, titolo),
     FOREIGN KEY (titolo) REFERENCES brani(titolo)
         ON DELETE CASCADE
@@ -130,15 +130,21 @@ CREATE TABLE playlist (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE preferiti (
-    titolo VARCHAR(25),
-    autore VARCHAR(25),
-    proprietario VARCHAR(25) NOT NULL,
-    tipo CHAR(1) NOT NULL,
-    PRIMARY KEY (titolo, autore),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo)  --Anche qui da problemi, riconosce solo la chiave esterna con brani e non anche con episodi, bisogna capire bene come aggiustare
+CREATE TABLE braniPreferiti (
+    titolo VARCHAR(50),
+    artista VARCHAR(50),
+    proprietario VARCHAR(50) NOT NULL,
+    PRIMARY KEY (titolo, artista, proprietario),
+    FOREIGN KEY (titolo) REFERENCES brani(titolo)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE episodiPreferiti (
+    titolo VARCHAR(50),
+    podcaster VARCHAR(50),
+    proprietario VARCHAR(50) NOT NULL,
+    PRIMARY KEY (titolo, podcaster, proprietario),
     FOREIGN KEY (titolo) REFERENCES episodi(titolo)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -148,7 +154,7 @@ CREATE TABLE pagamenti (
     idTransazione CHAR(5),
     iban VARCHAR(34) NOT NULL,
     importo FLOAT(24) NOT NULL,
-    beneficiario VARCHAR(25) NOT NULL,
+    beneficiario VARCHAR(50) NOT NULL,
     dataEsecuzione DATE NOT NULL,
     PRIMARY KEY (idTransazione),
     FOREIGN KEY (iban) REFERENCES artisti(iban)
@@ -157,7 +163,6 @@ CREATE TABLE pagamenti (
 );
 
 
--- TODO: preferiti, playlist, episodi, brani, 
 -- TODO: rimuovere alcune carte/digitali (anche da metodiDiPagamento)
 -- inserimento dati
 
@@ -743,7 +748,7 @@ INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, 
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Dogs Of War', 'Pink Floyd', 'The Wall', 1, '2:35', 1999, 'Indie Rock', 796468);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Lost For Words', 'Pink Floyd', 'The Wall', 2, '2:35', 1999, 'Indie Rock', 936127);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Us And Them ', 'Pink Floyd', 'The Wall', 3, '2:35', 1999, 'Indie Rock', 537984);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sultan Of Swing', 'Dire Straits', 'On The Night', 1, '2:35', 2022, 'Rock', 949411);
+INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sultans Of Swing', 'Dire Straits', 'On The Night', 1, '2:35', 2022, 'Rock', 949411);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Walk Of Life', 'Dire Straits', 'On The Night', 2, '3:35', 2022, 'Rock', 266487);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Romeo And Juliet', 'Dire Straits', 'On The Night', 3, '2:35', 2022, 'Rock', 982179);
 INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Money For Nothing', 'Dire Straits', 'On The Night', 4, '3:35', 2022, 'Rock', 819215);
@@ -862,16 +867,16 @@ INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sop
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Light My Fire', 'The Doors');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'One', 'U2');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'American Idiot', 'Green Day');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Sultan Of Swing', 'Dire Straits');
+INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Sultans Of Swing', 'Dire Straits');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Optimistic', 'Radiohead');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Roll with It', 'Oasis');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'One', 'U2');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Straight Outta Compton', 'N.W.A.');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Sultan Of Swing', 'Dire Straits');
+INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Sultans Of Swing', 'Dire Straits');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Fields Of Gold', 'Sting');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Idioteque', 'Radiohead');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Perfect', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Sultan Of Swing', 'Dire Straits');
+INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Sultans Of Swing', 'Dire Straits');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Premonition', 'Eminem');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Hey Angel', 'One Direction');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Beautiful Day', 'U2');
@@ -958,58 +963,59 @@ INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bas
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Breathe', 'Pink Floyd');
 INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'NDA', 'Billie Eilish');
 
---preferiti
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Muschio x Capo Plaza', 'Muschio Selvaggio', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Sultan Of Swing', 'Dire Straits', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Prelude', 'N.W.A.', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'hprowse2f', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Roxanne', 'The Police', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Without Me', 'Eminem', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Night Changes', 'One Direction', 'fminmagh2i', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Loving You', 'Sting', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Zoo Station', 'U2', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Loving You', 'Sting', 'fminmagh2i', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Night Changes', 'One Direction', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Roxanne', 'The Police', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Outro', 'M83', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Steal My Girl', 'One Direction', 'fminmagh2i', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Muschio x Christian De Sica', 'Muschio Selvaggio', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Night Changes', 'One Direction', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Blauer', 'Paky', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Columbia', 'Oasis', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Confield Chase', 'Hans Zimmer', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Creep', 'Radiohead', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Carlo Magno', 'Alessandro Barbero', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Settimana 1', 'Oroscopo', 'rdoget2j', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Time', 'Hans Zimmer', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Confield Chase', 'Hans Zimmer', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Sicko Mode', 'Travis Scott', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Prelude', 'N.W.A.', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Creep', 'Radiohead', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Basket Case', 'Green Day', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Sultan Of Swing', 'Dire Straits', 'fminmagh2i', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Creep', 'Radiohead', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Settimana 3', 'Oroscopo', 'lflanagan2h', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Basket Case', 'Green Day', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Basket Case', 'Green Day', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('scuol4', 'tha Supreme', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Billie Jean', 'Michael Jackson', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Billie Jean', 'Michael Jackson', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Happier Than Ever', 'Billie Eilish', 'rdoget2j', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Vivi o muori', 'Paky', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Steal My Girl', 'One Direction', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Prelude', 'N.W.A.', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Without Me', 'Eminem', 'fminmagh2i', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Riders on the Storm', 'The Doors', 'lflanagan2h', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Sicko Mode', 'Travis Scott', 'dalcido2g', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'dalcido2g', 'P');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Loving You', 'Sting', 'hprowse2f', 'M');
-INSERT INTO preferiti (titolo, autore, proprietario, tipo) VALUES ('Ultra Violent', 'U2', 'dalcido2g', 'M');
+-- braniPreferiti
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'rdoget2j');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Blauer', 'Paky', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Columbia', 'Oasis', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'rdoget2j');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Happier Than Ever', 'Billie Eilish', 'rdoget2j');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'fminmagh2i');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'fminmagh2i');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'rdoget2j');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Outro', 'M83', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'rdoget2j');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Riders on the Storm', 'The Doors', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'lflanagan2h');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'fminmagh2i');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'fminmagh2i');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Time', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Ultra Violent', 'U2', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Vivi o muori', 'Paky', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'fminmagh2i');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'hprowse2f');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Zoo Station', 'U2', 'dalcido2g');
+INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('scuol4', 'tha Supreme', 'rdoget2j');
 
+-- episodiPreferiti
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Carlo Magno', 'Alessandro Barbero', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'dalcido2g');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'hprowse2f');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Muschio x Capo Plaza', 'Muschio Selvaggio', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Muschio x Christian De Sica', 'Muschio Selvaggio', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Settimana 1', 'Oroscopo', 'rdoget2j');
+INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Settimana 3', 'Oroscopo', 'lflanagan2h');
 
 -- pagamenti
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26131, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '195280.72', 'Unicredit SpA', '2021-01-01');
