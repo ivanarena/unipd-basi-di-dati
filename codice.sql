@@ -1,6 +1,7 @@
 -- drops
 DROP TABLE IF EXISTS pagamenti CASCADE;
-DROP TABLE IF EXISTS preferiti CASCADE;
+DROP TABLE IF EXISTS episodiPreferiti CASCADE;
+DROP TABLE IF EXISTS braniPreferiti CASCADE;
 DROP TABLE IF EXISTS playlist CASCADE;
 DROP TABLE IF EXISTS episodi CASCADE;
 DROP TABLE IF EXISTS brani CASCADE;
@@ -137,6 +138,12 @@ CREATE TABLE braniPreferiti (
     PRIMARY KEY (titolo, artista, proprietario),
     FOREIGN KEY (titolo) REFERENCES brani(titolo)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (artista) REFERENCES artisti(nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (proprietario) REFERENCES utenti(username)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
@@ -146,6 +153,12 @@ CREATE TABLE episodiPreferiti (
     proprietario VARCHAR(50) NOT NULL,
     PRIMARY KEY (titolo, podcaster, proprietario),
     FOREIGN KEY (titolo) REFERENCES episodi(titolo)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (podcaster) REFERENCES artisti(nome)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (proprietario) REFERENCES utenti(username)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
