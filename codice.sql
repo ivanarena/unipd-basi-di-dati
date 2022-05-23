@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS artisti CASCADE;
 DROP TABLE IF EXISTS utenti CASCADE;
 DROP TABLE IF EXISTS abbonamenti CASCADE;
 
+-- TODO: SISTEMARE COERENZA TIPO DI ABBONAMENTO di ogni utente che ha preferiti musica o episodi
 -- creazione tabelle
 CREATE TABLE abbonamenti (
     id CHAR(1),
