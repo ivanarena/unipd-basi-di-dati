@@ -55,7 +55,7 @@ CREATE TABLE artisti (
 ); 
 
 CREATE TABLE carte (
-    numeroCarta CHAR(19),
+    numeroCarta VARCHAR(19),
     circuito VARCHAR(20) NOT NULL,
     scadenza DATE NOT NULL,
     ccv CHAR(3) NOT NULL,
@@ -72,14 +72,14 @@ CREATE TABLE digitali (
 
 CREATE TABLE metodiDiPagamento (
     username VARCHAR(50),
-    numeroCarta CHAR(19),
+    numeroCarta VARCHAR(19),
     email VARCHAR(50),
     PRIMARY KEY (username),
     FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta) 
-        ON DELETE SET NULL -- TODO: è davvero giusto? testare
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     FOREIGN KEY (email) REFERENCES digitali(email)
-        ON DELETE SET NULL -- TODO: è davvero giusto? testare
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     CHECK (numeroCarta IS NOT NULL OR email IS NOT NULL)
 );
