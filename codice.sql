@@ -18,8 +18,8 @@ DROP TABLE IF EXISTS abbonamenti CASCADE;
 CREATE TABLE abbonamenti (
     id CHAR(1),
     nome VARCHAR(8) NOT NULL,
-    prezzoMensile FLOAT(24) NOT NULL,
-    prezzoAnnuale FLOAT(24) NOT NULL,
+    prezzoMensile DECIMAL(10,2) NOT NULL,
+    prezzoAnnuale DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -168,7 +168,7 @@ CREATE TABLE episodiPreferiti (
 CREATE TABLE pagamenti (
     idTransazione CHAR(5),
     iban VARCHAR(34) NOT NULL,
-    importo FLOAT(24) NOT NULL,
+    importo DECIMAL(10,2) NOT NULL,
     beneficiario VARCHAR(50) NOT NULL,
     dataEsecuzione DATE NOT NULL,
     PRIMARY KEY (idTransazione),
