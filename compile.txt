@@ -1,1 +1,1 @@
-g++ -o codice.out codice.c -L dependencies/lib -lpq
+g++ -o codice codice.c -L dependencies/lib -lpq
