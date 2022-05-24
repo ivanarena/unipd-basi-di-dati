@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "dependencies/include/libpq-fe.h"
 #include <stdlib.h>
+#include "dependencies/include/libpq-fe.h"
 
-#define PG_HOST "127.0.0.1" // oppure " localhost " o " postgresql "
+#define PG_HOST "127.0.0.1" // oppure "localhost" o "postgresql"
 #define PG_USER "postgres"  // il vostro nome utente
-#define PG_DB "progetto"    // il nome del database
-#define PG_PASS "pass" // la vostra password
+#define PG_DB "soundexp"    // il nome del database
+#define PG_PASS "Abc280102" // la vostra password
 #define PG_PORT 5432
 
 void checkResults(PGresult *res, const PGconn *conn)
@@ -30,7 +30,7 @@ void printResults(PGconn *conn, const char *query)
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        printf("%35s", PQfname(res, i));        
+        printf("%35s", PQfname(res, i));
     }
     puts("\n===============================================================================================================================================================");
 
@@ -64,15 +64,14 @@ int main()
         exit(1);
     }
 
-    // TODO: QUERIES
-    const char *stringhe[6] = {
-        "1. Mostrare l'importo dell'ultimo bonfico effettuato agli artisti, oltretutto mostrarlo in ordine decrescente",
-        "2. Mostrare l'artista (musicista e podcaster) con più di 5M ascolti totali",
-        "3. Mostrare l'username, Nome e Cognome degli utenti che pagano l'abbonamento con Google Pay",
-        "4. Mostrare il profitto totale per ogni tipo di abbonamento esistente",
-        "5. Mostrare Nome, Cognome e email degli utenti che hanno creato una playlist",
-        "6. Mostrare il musicista con almeno 10 brani prodotti e il podcaster almeno 10 episodi registrati più pagati di sempre"
-    };
+    // QUERIES
+    const char *descr[6] = {
+        "1. Mostrare il nome di ogni artista e l'importo dell'ultimo bonifico effettuato a loro favore, con la rispettiva data di esecuzione, in ordine decrescente di importo",
+        "2. Mostrare tutti gli artisti con più di 5 milioni di ascolti totali.",
+        "3. Mostrare username, nome e cognome di tutti gli utenti che pagano l'abbonamento con Google Pay e ordinarli per cognome.",
+        "4. Mostrare il profitto totale per ogni tipo di abbonamento esistente.",
+        "5. Mostrare nome, cognome ed e-mail di tutti gli utenti che hanno creato una playlist ed ordinarli per cognome.",
+        "6. Mostrare il musicista con almeno 10 brani prodotti e il podcaster con almeno 10 episodi registrati più pagati di sempre."};
 
     const char *queries[6] = {
         "SELECT u.username, u.email, u.nome, u.cognome, d.tipo \
@@ -108,19 +107,19 @@ int main()
         ORDER BY u.cognome ASC;",
 
         "SELECT u1.abbonamento, SUM(introiti) \
-        FROM (SELECT u2.abbonamento, SUM(a.prezzoMensile) AS introiti \
+        FROM ((SELECT u2.abbonamento, SUM(a.prezzoMensile) AS introiti \
         FROM utenti AS u2 \
         JOIN abbonamenti AS a \
         ON u2.abbonamento = a.id \
         WHERE u2.frequenzaaddebito = 'M' \
-        GROUP BY u2.abbonamento \
+        GROUP BY u2.abbonamento) \
         UNION \
-        SELECT u3.abbonamento, SUM(a.prezzoAnnuale) AS introiti \
+        (SELECT u3.abbonamento, SUM(a.prezzoAnnuale) AS introiti \
         FROM utenti AS u3 \
         JOIN abbonamenti AS a \
         ON u3.abbonamento = a.id \
         WHERE u3.frequenzaaddebito = 'A' \
-        GROUP BY u3.abbonamento) \
+        GROUP BY u3.abbonamento)) \
         AS r, utenti AS u1 \
         GROUP BY u1.abbonamento;",
 
@@ -155,16 +154,91 @@ int main()
         ON p.iban = a.iban \
         GROUP BY pc.artista \
         ORDER BY SUM(p.importo) DESC \
-        LIMIT 1);"
-    };
+        LIMIT 1);"};
 
     for (int i = 0; i < 6; i++)
     {
-        printf("%s\n\n", stringhe[i]);
+        printf("%s\n\n", descr[i]);
         printResults(conn, queries[i]);
         printf("\n\n\n");
     }
-    PQfinish(conn);
 
+    int stop = 0;
+    while (!stop)
+    {
+
+        int n;
+        puts("\nScegli la query da eseguire (1-6) o digita 0 per uscire.\n");
+        for (int i = 0; i < 6; i++)
+        {
+            printf("%s\n", descr[i]);
+        }
+        puts("\n");
+        scanf("%d", &n);
+        if (n == 0)
+            stop = 1;
+        else if (n > 0 && n <= 6)
+        {
+            if (n == 3)
+            {
+                int ok = 0;
+                int tipo;
+                const char *tipiCompleti[3] = {"PayPal", "Google Pay", "Apple Pay"};
+                const char *queryModificate[3] = {
+                    "SELECT u.username, u.email, u.nome, u.cognome, d.tipo \
+                    FROM utenti AS u \
+                    JOIN metodidipagamento AS m \
+                    ON u.username = m.username \
+                    JOIN digitali AS d \
+                    ON m.email = d.email \
+                    WHERE d.tipo = 'P' \
+                    ORDER BY u.cognome ASC;",
+
+                    "SELECT u.username, u.email, u.nome, u.cognome, d.tipo \
+                    FROM utenti AS u \
+                    JOIN metodidipagamento AS m \
+                    ON u.username = m.username \
+                    JOIN digitali AS d \
+                    ON m.email = d.email \
+                    WHERE d.tipo = 'G' \
+                    ORDER BY u.cognome ASC;",
+
+                    "SELECT u.username, u.email, u.nome, u.cognome, d.tipo \
+                    FROM utenti AS u \
+                    JOIN metodidipagamento AS m \
+                    ON u.username = m.username \
+                    JOIN digitali AS d \
+                    ON m.email = d.email \
+                    WHERE d.tipo = 'A' \
+                    ORDER BY u.cognome ASC;"};
+
+                printf("\nInserisci un metodo di pagamento tra:\n1. PayPal\n2. Google Pay\n3. Apple Pay\n\n");
+                while (!ok)
+                {
+                    scanf("%d", &tipo);
+                    if (tipo > 0 && tipo <= 3)
+                    {
+                        ok = 1;
+                    }
+                    else
+                    {
+                        tipo = 0;
+                        puts("Inserire un metodo di pagamento valido.");
+                    }
+                }
+                printf("Mostrare username, nome e cognome di tutti gli utenti che pagano l'abbonamento con %s e ordinarli per cognome.\n\n", tipiCompleti[tipo - 1]);
+                printResults(conn, queryModificate[tipo - 1]);
+                printf("\n\n\n");
+            }
+            else
+            {
+                printf("%s\n\n", descr[n - 1]);
+                printResults(conn, queries[n - 1]);
+                printf("\n\n\n");
+            }
+        }
+    }
+
+    PQfinish(conn);
     return 0;
 }
