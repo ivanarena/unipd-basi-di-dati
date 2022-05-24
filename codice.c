@@ -4,8 +4,8 @@
 
 #define PG_HOST "127.0.0.1" // oppure "localhost" o "postgresql"
 #define PG_USER "postgres"  // il vostro nome utente
-#define PG_DB "soundexp"    // il nome del database
-#define PG_PASS "Abc280102" // la vostra password
+#define PG_DB "progetto"    // il nome del database
+#define PG_PASS "" // la vostra password
 #define PG_PORT 5432
 
 void checkResults(PGresult *res, const PGconn *conn)
@@ -30,16 +30,18 @@ void printResults(PGconn *conn, const char *query)
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        printf("%35s", PQfname(res, i));
+        if(i==0) {printf("%20s", PQfname(res, i));}
+        else{printf("%35s", PQfname(res, i));} 
     }
-    puts("\n===============================================================================================================================================================");
+    puts("\n========================================================================================================================================================================================================");
 
     // Stampo i valori selezionati
     for (int i = 0; i < tuple; ++i)
     {
         for (int j = 0; j < campi; ++j)
         {
-            printf("%35s", PQgetvalue(res, i, j));
+            if(j != 0) {printf("%35s", PQgetvalue(res, i, j));}
+            else{printf("%20s", PQgetvalue(res, i, j));}
         }
         printf("\n");
     }
