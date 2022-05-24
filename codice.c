@@ -30,17 +30,16 @@ void printResults(PGconn *conn, const char *query)
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        printf("%s\t\t\t", PQfname(res, i));
-        
+        printf("%35s", PQfname(res, i));        
     }
-    puts("\n==============================================================================================================");
+    puts("\n===============================================================================================================================================================");
 
     // Stampo i valori selezionati
     for (int i = 0; i < tuple; ++i)
     {
         for (int j = 0; j < campi; ++j)
         {
-            printf("%s\t\t\t", PQgetvalue(res, i, j));
+            printf("%35s", PQgetvalue(res, i, j));
         }
         printf("\n");
     }
