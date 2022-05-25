@@ -1,7 +1,8 @@
 -- drops
 DROP TABLE IF EXISTS pagamenti CASCADE;
-DROP TABLE IF EXISTS episodiPreferiti CASCADE;
-DROP TABLE IF EXISTS braniPreferiti CASCADE;
+DROP TABLE IF EXISTS preferenzaEpisodi CASCADE;
+DROP TABLE IF EXISTS preferenzaBrani CASCADE;
+DROP TABLE IF EXISTS appartenenzaPlaylist CASCADE;
 DROP TABLE IF EXISTS playlist CASCADE;
 DROP TABLE IF EXISTS episodi CASCADE;
 DROP TABLE IF EXISTS brani CASCADE;
@@ -76,6 +77,7 @@ CREATE TABLE metodiDiPagamento (
     numeroCarta VARCHAR(19),
     email VARCHAR(50),
     PRIMARY KEY (username),
+    FOREIGN KEY (username) REFERENCES utenti(username),
     FOREIGN KEY (numeroCarta) REFERENCES carte(numeroCarta) 
         ON DELETE SET NULL
         ON UPDATE CASCADE,
@@ -87,14 +89,14 @@ CREATE TABLE metodiDiPagamento (
 
 CREATE TABLE brani (
     titolo VARCHAR(50),
-    artista VARCHAR(50) NOT NULL,
+    artista VARCHAR(50),
     album VARCHAR(50) NOT NULL,
     traccia SMALLINT NOT NULL CHECK (traccia > 0),
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
     genere VARCHAR(12) NOT NULL,
     riproduzioni int NOT NULL,
-    PRIMARY KEY (titolo),
+    PRIMARY KEY (titolo, artista),
     FOREIGN KEY (artista) REFERENCES artisti(nome)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -102,14 +104,14 @@ CREATE TABLE brani (
 
 CREATE TABLE episodi (
     titolo VARCHAR(50),
-    podcaster VARCHAR(50) NOT NULL,
+    podcaster VARCHAR(50),
     podcast VARCHAR(50) NOT NULL,
     nepisodio SMALLINT NOT NULL,
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
     genere VARCHAR(15) NOT NULL,
     riproduzioni int NOT NULL CHECK (riproduzioni >= 0),
-    PRIMARY KEY (titolo),
+    PRIMARY KEY (titolo, podcaster),
     FOREIGN KEY (podcaster) REFERENCES artisti(nome)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -117,31 +119,32 @@ CREATE TABLE episodi (
 
 CREATE TABLE playlist (
     nome VARCHAR(50),
-    autore VARCHAR(50),
+    creatore VARCHAR(50),
     dataCreazione DATE NOT NULL,
-    titolo VARCHAR(50),
-    artista VARCHAR(50) NOT NULL,
-    PRIMARY KEY (nome, autore, titolo),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (artista) REFERENCES artisti(nome)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (autore) REFERENCES utenti(username)
+    PRIMARY KEY (nome, creatore),
+    FOREIGN KEY (creatore) REFERENCES utenti(username)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE braniPreferiti (
+CREATE TABLE appartenenzaPlaylist (
+    nome VARCHAR(50),
+    creatore VARCHAR(50),
+    brano VARCHAR(50),
+    artista VARCHAR(50) NOT NULL,
+    PRIMARY KEY (nome, creatore, brano, artista),
+    FOREIGN KEY (nome, creatore) REFERENCES playlist(nome, creatore),
+    FOREIGN KEY (brano, artista) REFERENCES brani(titolo, artista)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE preferenzaBrani (
     titolo VARCHAR(50),
     artista VARCHAR(50),
-    proprietario VARCHAR(50) NOT NULL,
+    proprietario VARCHAR(50),
     PRIMARY KEY (titolo, artista, proprietario),
-    FOREIGN KEY (titolo) REFERENCES brani(titolo)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (artista) REFERENCES artisti(nome)
+    FOREIGN KEY (titolo, artista) REFERENCES brani(titolo, artista)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (proprietario) REFERENCES utenti(username)
@@ -149,15 +152,12 @@ CREATE TABLE braniPreferiti (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE episodiPreferiti (
+CREATE TABLE preferenzaEpisodi (
     titolo VARCHAR(50),
     podcaster VARCHAR(50),
-    proprietario VARCHAR(50) NOT NULL,
+    proprietario VARCHAR(50),
     PRIMARY KEY (titolo, podcaster, proprietario),
-    FOREIGN KEY (titolo) REFERENCES episodi(titolo)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (podcaster) REFERENCES artisti(nome)
+    FOREIGN KEY (titolo, podcaster) REFERENCES episodi(titolo, podcaster)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (proprietario) REFERENCES utenti(username)
@@ -444,8 +444,8 @@ INSERT INTO digitali (email, password, tipo) VALUES ('epotelll@seattletimes.com'
 INSERT INTO digitali (email, password, tipo) VALUES ('mvanderweedenburgm@moonfruit.com', 'zkdVUHgEO', 'A');
 INSERT INTO digitali (email, password, tipo) VALUES ('ggrimmen@webeden.co.uk', 'JUjnfc1r', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('bskeatho@elegantthemes.com', 'LHkry6B3', 'P');
-INSERT INTO digitali (email, password, tipo) VALUES ('mgarlandp@trellian.com', 'esfGK1Pu', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('lstanbridgeq@xing.com', 'cXiTaY0C', 'P');
+INSERT INTO digitali (email, password, tipo) VALUES ('mgarlandp@trellian.com', 'esfGK1Pu', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('otregustr@canalblog.com', '9cMFoS', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('djaines@yale.edu', 'wUAESU', 'P');
 INSERT INTO digitali (email, password, tipo) VALUES ('ldruhant@umich.edu', 'WLYnG42GjIE', 'A');
@@ -623,205 +623,207 @@ INSERT INTO metodiDiPagamento (username, numeroCarta, email) VALUES ('atitcumb2q
 INSERT INTO metodiDiPagamento (username, numeroCarta, email) VALUES ('aplayle2r', '372301387204805', 'aplayle2r@hostgator.com');
 
 --brani
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Creep', 'Radiohead', 'In Rainbows', 1, '3:15', 2011, 'Rock', 898589);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('No Surprises', 'Radiohead', 'In Rainbows', 2, '1:45', 2011, 'Rock', 387167);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Karma Police', 'Radiohead', 'In Rainbows', 3, '3:35', 2011, 'Rock', 835253);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('High and Dry', 'Radiohead', 'In Rainbows', 4, '2:37', 2011, 'Rock', 600172);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Exit Music', 'Radiohead', 'In Rainbows', 5, '2:35', 2011, 'Rock', 198867);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Kid A', 'Radiohead', 'Hail To the Thief', 1, '2:25', 2013, 'Rock', 336606);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Treefingers', 'Radiohead', 'Hail To the Thief', 2, '4:35', 2013, 'Rock', 870732);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Optimistic', 'Radiohead', 'Hail To the Thief', 3, '2:55', 2013, 'Rock', 283090);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('In Limbo', 'Radiohead', 'Hail To the Thief', 4, '3:35', 2013, 'Rock', 862193);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Idioteque', 'Radiohead', 'Hail To the Thief', 5, '2:24', 2013, 'Rock', 652371);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Morning Bell', 'Radiohead', 'Hail To the Thief', 6, '2:38', 2013, 'Rock', 687186);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Untitled', 'Radiohead', 'Hail To the Thief', 7, '2:32', 2013, 'Rock', 442084);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Columbia', 'Oasis', 'Be Here Now', 1, '2:37', 2012, 'Jazz', 991513);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Acquiesce', 'Oasis', 'Be Here Now', 2, '3:33', 2012, 'Jazz', 782745);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Supersonic', 'Oasis', 'Be Here Now', 3, '2:45', 2012, 'Jazz', 901986);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Hello', 'Oasis', 'Be Here Now', 4, '3:21', 2012, 'Jazz', 876328);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Some Might Say', 'Oasis', 'Be Here Now', 5, '2:35', 2012, 'Jazz', 307843);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Roll with It', 'Oasis', 'Definitely Maybe', 1, '2:31', 2014, 'Rock', 244145);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Slide Away', 'Oasis', 'Definitely Maybe', 2, '4:34', 2014, 'Rock', 949800);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Morning Glory', 'Oasis', 'Definitely Maybe', 3, '2:35', 2014, 'Rock', 592936);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Round Are Way', 'Oasis', 'Definitely Maybe', 4, '3:15', 2014, 'Rock', 930087);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Whatever', 'Oasis', 'Definitely Maybe', 5, '5:11', 2014, 'Rock', 136397);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Basket Case', 'Green Day', 'Insomniac', 1, '3:35', 2011, 'Punk', 380845);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('American Idiot', 'Green Day', 'Insomniac', 2, '2:40', 2011, 'Punk', 154721);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Brat', 'Green Day', 'Insomniac', 3, '2:15', 2011, 'Punk', 518123);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Stuck with Me', 'Green Day', 'Insomniac', 4, '1:35', 2011, 'Punk', 729011);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('No Pride', 'Green Day', 'Insomniac', 5, '2:54', 2011, 'Punk', 120463);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Brain Stew', 'Green Day', 'Insomniac', 6, '2:25', 2011, 'Punk', 198005);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Panic Song', 'Green Day', 'Revolution Radio', 1, '2:22', 2010, 'Indie Rock', 612817);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Jaded', 'Green Day', 'Revolution Radio', 2, '2:11', 2010, 'Indie Rock', 179711);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Westbound Sign', 'Green Day', 'Revolution Radio', 3, '2:33', 2010, 'Indie Rock', 523078);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Happier Than Ever', 'Billie Eilish', 'Happier Than Ever', 1, '3:25', 2019, 'Pop', 540259);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Lovely', 'Billie Eilish', 'Happier Than Ever', 2, '2:45', 2019, 'Pop', 162732);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Bored', 'Billie Eilish', 'Happier Than Ever', 3, '4:11', 2019, 'Pop', 353733);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Bad Guy', 'Billie Eilish', 'Happier Than Ever', 4, '1:35', 2019, 'Pop', 292032);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Getting Older', 'Billie Eilish', 'Happier Than Ever', 5, '2:44', 2019, 'Pop', 230577);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('My Future', 'Billie Eilish', 'dont smile at me', 1, '2:35', 2020, 'Pop', 904022);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Lost Cause', 'Billie Eilish', 'dont smile at me', 2, '3:38', 2020, 'Pop', 867152);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('OverHeated', 'Billie Eilish', 'dont smile at me', 3, '2:31', 2020, 'Pop', 133605);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Everybody Dies', 'Billie Eilish', 'dont smile at me', 4, '3:35', 2020, 'Pop', 523448);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Oxytocin', 'Billie Eilish', 'dont smile at me', 5, '2:26', 2020, 'Pop', 901283);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Your Power', 'Billie Eilish', 'dont smile at me', 6, '5:21', 2020, 'Pop', 234223);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('NDA', 'Billie Eilish', 'dont smile at me', 7, '2:15', 2020, 'Pop', 80619);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Therefore I Am', 'Billie Eilish', 'dont smile at me', 8, '2:35', 2020, 'Pop', 774420);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Billie Jean', 'Michael Jackson', 'Scream', 1, '2:11', 2005, 'Pop', 683381);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Beat It', 'Michael Jackson', 'Scream', 2, '1:24', 2005, 'Pop', 86187);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Smooth Criminal', 'Michael Jackson', 'Scream', 3, '4:39', 2005, 'Pop', 932762);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Thriller', 'Michael Jackson', 'Scream', 4, '2:15', 2005, 'Pop', 274771);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('This Place Hotel', 'Michael Jackson', 'Scream', 5, '3:35', 2005, 'Pop', 516585);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Leave Me Alone', 'Michael Jackson', 'Scream', 6, '2:24', 2005, 'Pop', 908147);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Scream', 'Michael Jackson', 'Scream', 7, '3:35', 2005, 'Pop', 582151);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Dangerous', 'Michael Jackson', 'Scream', 8, '2:26', 2005, 'Pop', 637085);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Midnight City', 'M83', 'Hurry up, We re Dreaming', 1, '2:22', 2013, 'Ambient', 359251);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Wait', 'M83', 'Hurry up, We re Dreaming', 2, '3:45', 2013, 'Ambient', 344719);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Outro', 'M83', 'Hurry up, We re Dreaming', 3, '2:14', 2013, 'Ambient', 445381);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Oblivion', 'M83', 'Hurry up, We re Dreaming', 4, '3:35', 2013, 'Ambient', 989133);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Hell Riders', 'M83', 'Hurry up, We re Dreaming', 5, '2:15', 2013, 'Ambient', 462521);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Colonies', 'M83', 'Hurry up, We re Dreaming', 6, '3:33', 2013, 'Ambient', 465745);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Feelings', 'M83', 'Hurry up, We re Dreaming', 7, '2:12', 2013, 'Ambient', 55428);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Straight Outta Compton', 'N.W.A.', 'Straight Outta Compton', 1, '3:35', 1997, 'Rap', 312112);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Fuck Tha Police', 'N.W.A.', 'Straight Outta Compton', 2, '2:45', 1997, 'Rap', 171181);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Gangsta Gangsta', 'N.W.A.', 'Straight Outta Compton', 3, '3:37', 1997, 'Rap', 353986);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Prelude', 'N.W.A.', 'Straight Outta Compton', 4, '2:48', 1997, 'Rap', 700241);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Niggaz 4 Life', 'N.W.A.', 'Straight Outta Compton', 5, '3:15', 1997, 'Rap', 798614);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Protest', 'N.W.A.', 'Efil4zaggin', 1, '2:32', 1994, 'Rap', 377660);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Real Niggaz', 'N.W.A.', 'Efil4zaggin', 2, '3:34', 1994, 'Rap', 540226);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Automobile', 'N.W.A.', 'Efil4zaggin', 3, '2:15', 1994, 'Rap', 193710);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('One Less Bitch', 'N.W.A.', 'Efil4zaggin', 4, '4:36', 1994, 'Rap', 954844);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('0ffline', 'tha Supreme', '23 6451', 1, '2:15', 2021, 'Rap', 94427);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('come fa1', 'tha Supreme', '23 6451', 2, '3:35', 2021, 'Rap', 895399);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('2ollipop', 'tha Supreme', '23 6451', 3, '2:22', 2021, 'Rap', 287197);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('fuck 3x', 'tha Supreme', '23 6451', 4, '3:38', 2021, 'Rap', 935268);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('scuol4', 'tha Supreme', '23 6451', 5, '2:45', 2021, 'Rap', 632821);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('5olo', 'tha Supreme', '23 6451', 6, '4:36', 2021, 'Rap', 502366);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('6itch', 'tha Supreme', '23 6451', 7, '2:55', 2021, 'Rap', 363141);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('blun7 a swishland', 'tha Supreme', '23 6451', 8, '3:33', 2021, 'Rap', 221113);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('m8nstar', 'tha Supreme', '23 6451', 9, '2:35', 2021, 'Rap', 824460);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('oh 9od', 'tha Supreme', '23 6451', 10, '2:37', 2021, 'Rap', 949124);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Goosebumps', 'Travis Scott', 'JACKBOYS', 1, '2:24', 2012, 'Trap', 635587);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sicko Mode', 'Travis Scott', 'JACKBOYS', 2, '2:55', 2012, 'Trap', 54030);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Carousel', 'Travis Scott', 'JACKBOYS', 3, '2:17', 2012, 'Trap', 617906);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Stargazing', 'Travis Scott', 'ASTROWORLD', 1, '2:35', 2011, 'Trap', 988243);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Wake Up', 'Travis Scott', 'ASTROWORLD', 2, '3:31', 2011, 'Trap', 591772);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Nc-17', 'Travis Scott', 'ASTROWORLD', 3, '2:25', 2011, 'Trap', 141680);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Yosemite', 'Travis Scott', 'ASTROWORLD', 4, '4:36', 2011, 'Trap', 282862);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Skeletons', 'Travis Scott', 'Rodeo', 1, '2:35', 2014, 'Trap', 778088);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Coffee Bean', 'Travis Scott', 'Rodeo', 2, '3:15', 2014, 'Trap', 159583);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Astrothunder', 'Travis Scott', 'Rodeo', 3, '2:11', 2014, 'Trap', 247007);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Shape Of My Heart', 'Sting', 'The Bridge', 1, '2:35', 2011, 'Blues', 280808);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Redlight', 'Sting', 'The Bridge', 2, '3:22', 2011, 'Blues', 603722);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Fields Of Gold', 'Sting', 'The Bridge', 3, '2:44', 2011, 'Blues', 777603);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Loving You', 'Sting', 'The Bridge', 4, '2:35', 2011, 'Blues', 188835);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Captain Bateman', 'Sting', 'My Songs', 1, '3:35', 2017, 'Blues', 776113);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Bridge', 'Sting', 'My Songs', 2, '2:35', 2017, 'Blues', 815668);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Waters of Tyne', 'Sting', 'My Songs', 3, '2:35', 2017, 'Blues', 196512);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('All This Time', 'Sting', 'My Songs', 4, '3:35', 2017, 'Blues', 148864);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Mad About You', 'Sting', 'My Songs', 5, '2:35', 2017, 'Blues', 372306);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Star', 'Paky', 'Salvatore', 1, '2:35', 2011, 'Trap', 653156);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Vita sbagliata', 'Paky', 'Salvatore', 2, '2:35', 2011, 'Trap', 643901);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('No wallet', 'Paky', 'Salvatore', 3, '3:35', 2011, 'Trap', 874698);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Comandamento', 'Paky', 'Salvatore', 4, '2:35', 2011, 'Trap', 901215);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Blauer', 'Paky', 'Salvatore', 5, '2:35', 2011, 'Trap', 206139);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Vivi o muori', 'Paky', 'Salvatore', 6, '4:35', 2011, 'Trap', 986988);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Quando piove', 'Paky', 'Salvatore', 7, '2:35', 2011, 'Trap', 952903);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Auto tedesca', 'Paky', 'Salvatore', 8, '2:35', 2011, 'Trap', 277299);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Mi manchi', 'Paky', 'Salvatore', 9, '3:35', 2011, 'Trap', 514086);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Storie tristi', 'Paky', 'Salvatore', 10, '2:35', 2011, 'Trap', 298748);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('One', 'U2', 'Songs of Experience', 1, '2:35', 2011, 'Pop Rock', 518575);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Beautiful Day', 'U2', 'Songs of Experience', 2, '2:35', 2004, 'Pop Rock', 115349);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Zoo Station', 'U2', 'Songs of Experience', 3, '3:35', 2004, 'Pop Rock', 896240);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Fly', 'U2', 'Songs of Experience', 4, '2:35', 2004, 'Pop Rock', 719764);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('So Cruel', 'U2', 'Songs of Experience', 5, '4:35', 2004, 'Pop Rock', 390969);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Ultra Violent', 'U2', 'Songs of Experience', 6, '2:35', 2004, 'Pop Rock', 356162);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Acrobat', 'U2', 'Songs of Experience', 7, '2:35', 2004, 'Pop Rock', 537929);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Roxanne', 'The Police', 'Flexible Strategies', 1, '2:35', 1994, 'Rock', 549139);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Message In A Bottle', 'The Police', 'Flexible Strategies', 2, '3:35', 1994, 'Rock', 508437);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Dead End Job', 'The Police', 'Flexible Strategies', 3, '2:35', 1994, 'Rock', 852706);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('LandLord', 'The Police', 'Flexible Strategies', 4, '5:35', 1994, 'Rock', 912514);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Vision Of The Night', 'The Police', 'Flexible Strategies', 5, '2:35', 1994, 'Rock', 104766);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Friends', 'The Police', 'Synchronicity', 1, '2:35', 1996, 'Punk Rock', 769782);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('A Sermon', 'The Police', 'Synchronicity', 2, '4:35', 1996, 'Punk Rock', 633201);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Shambelle', 'The Police', 'Synchronicity', 3, '2:35', 1996, 'Punk Rock', 212808);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Low Life', 'The Police', 'Zenyatta Mondatta', 1, '2:35', 2001, 'Indie Rock', 961866);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Mother', 'The Police', 'Zenyatta Mondatta', 2, '3:35', 2001, 'Indie Rock', 499257);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('King Of Pain', 'The Police', 'Zenyatta Mondatta', 3, '4:35', 2001, 'Indie Rock', 631841);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Oh My God', 'The Police', 'Zenyatta Mondatta', 4, '2:35', 2001, 'Indie Rock', 333695);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Wish You Were Here', 'Pink Floyd', 'The Later Years', 1, '1:35', 2002, 'Rock', 190310);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Money', 'Pink Floyd', 'The Later Years', 2, '2:35', 2002, 'Rock', 304261);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Breathe', 'Pink Floyd', 'The Later Years', 3, '4:35', 2002, 'Rock', 775654);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('One Silip', 'Pink Floyd', 'The Later Years', 4, '3:35', 2002, 'Rock', 369456);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Terminal Frost', 'Pink Floyd', 'The Endless River', 1, '2:35', 2003, 'Rock', 986933);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('A New Machine', 'Pink Floyd', 'The Endless River', 2, '2:35', 2003, 'Rock', 177123);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sorrow', 'Pink Floyd', 'The Endless River', 3, '2:35', 2003, 'Rock', 431794);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Learning To Fly', 'Pink Floyd', 'The Endless River', 4, '2:35', 2003, 'Rock', 216210);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sings Of Life', 'Pink Floyd', 'Pulse', 1, '2:35', 2000, 'Indie Rock', 646881);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Yet Another Movie', 'Pink Floyd', 'Pulse', 2, '2:35', 2000, 'Indie Rock', 354621);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Dogs Of War', 'Pink Floyd', 'The Wall', 1, '2:35', 1999, 'Indie Rock', 796468);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Lost For Words', 'Pink Floyd', 'The Wall', 2, '2:35', 1999, 'Indie Rock', 936127);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Us And Them ', 'Pink Floyd', 'The Wall', 3, '2:35', 1999, 'Indie Rock', 537984);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Sultans Of Swing', 'Dire Straits', 'On The Night', 1, '2:35', 2022, 'Rock', 949411);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Walk Of Life', 'Dire Straits', 'On The Night', 2, '3:35', 2022, 'Rock', 266487);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Romeo And Juliet', 'Dire Straits', 'On The Night', 3, '2:35', 2022, 'Rock', 982179);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Money For Nothing', 'Dire Straits', 'On The Night', 4, '3:35', 2022, 'Rock', 819215);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Brothers In Arms', 'Dire Straits', 'Making Movies', 1, '2:35', 2008, 'Rock', 985808);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Calling Elvis', 'Dire Straits', 'Making Movies', 2, '3:35', 2008, 'Rock', 194933);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Heavy Fuel', 'Dire Straits', 'Making Movies', 3, '2:35', 2008, 'Rock', 961311);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Private Investigations', 'Dire Straits', 'Making Movies', 4, '2:35', 2008, 'Rock', 574257);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Fade To Black', 'Dire Straits', 'Making Movies', 5, '2:35', 2008, 'Rock', 699194);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Bug', 'Dire Straits', 'Making Movies', 6, '2:35', 2008, 'Rock', 173571);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Night Changes', 'One Direction', 'FOUR', 1, '2:35', 2010, 'Hip-Hop', 939202);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Story of My Life', 'One Direction', 'FOUR', 2, '3:35', 2010, 'Hip-Hop', 31968);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Drag Me Down', 'One Direction', 'FOUR', 3, '2:35', 2010, 'Hip-Hop', 651583);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Steal My Girl', 'One Direction', 'FOUR', 4, '2:35', 2010, 'Hip-Hop', 678174);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Perfect', 'One Direction', 'FOUR', 5, '3:35', 2010, 'Hip-Hop', 635604);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Infinity', 'One Direction', 'FOUR', 6, '2:35', 2010, 'Hip-Hop', 73154);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Hey Angel', 'One Direction', 'Midnight Memories', 1, '2:35', 2011, 'Hip-Hop', 398370);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('If I Could Fly', 'One Direction', 'Midnight Memories', 2, '3:35', 2011, 'Hip-Hop', 60925);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Long Way Down', 'One Direction', 'Midnight Memories', 3, '2:35', 2011, 'Hip-Hop', 975824);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('History', 'One Direction', 'Midnight Memories', 4, '2:35', 2011, 'Hip-Hop', 719543);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Never Enought', 'One Direction', 'Midnight Memories', 5, '3:35', 2011, 'Hip-Hop', 367639);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('A.M', 'One Direction', 'Midnight Memories', 6, '2:35', 2011, 'Hip-Hop', 587007);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Without Me', 'Eminem', 'Kamikaze', 1, '2:35', 2016, 'Rap', 556786);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Stan', 'Eminem', 'Kamikaze', 2, '3:35', 2016, 'Rap', 851935);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Alfred', 'Eminem', 'Kamikaze', 3, '2:35', 2016, 'Rap', 530050);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Tone Deaf', 'Eminem', 'Kamikaze', 4, '3:35', 2016, 'Rap', 488848);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Gnat', 'Eminem', 'Kamikaze', 5, '2:35', 2016, 'Rap', 217252);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Higher', 'Eminem', 'Revival', 1, '3:35', 2017, 'Rap', 754344);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Key', 'Eminem', 'Revival', 2, '2:35', 2017, 'Rap', 929715);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('She Loves Me', 'Eminem', 'Revival', 3, '3:35', 2017, 'Rap', 314333);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Killer', 'Eminem', 'Recovery', 1, '2:35', 2018, 'Rap', 820205);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Thus Far', 'Eminem', 'Recovery', 2, '3:35', 2018, 'Rap', 575939);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Premonition', 'Eminem', 'Recovery', 3, '2:35', 2018, 'Rap', 282138);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Riders on the Storm', 'The Doors', 'L.A. Woman', 1, '2:35', 2011, 'Rock', 850769);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Light My Fire', 'The Doors', 'L.A. Woman', 2, '3:35', 2011, 'Rock', 72325);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('People Are Strange', 'The Doors', 'L.A. Woman', 3, '2:35', 2011, 'Rock', 881731);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Roadhouse Blues', 'The Doors', 'L.A. Woman', 4, '2:35', 2011, 'Rock', 265786);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Verdillac', 'The Doors', 'L.A. Woman', 5, '4:35', 2011, 'Rock', 859315);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Love Her Madly', 'The Doors', 'L.A. Woman', 6, '2:35', 2011, 'Rock', 538459);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('L.A. Woman', 'The Doors', 'L.A. Woman', 7, '2:35', 2011, 'Rock', 215167);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Ship of Fools', 'The Doors', 'L.A. Woman', 8, '4:35', 2011, 'Rock', 580663);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Blue Sunday', 'The Doors', 'L.A. Woman', 9, '3:35', 2011, 'Rock', 48406);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Confield Chase', 'Hans Zimmer', 'Dune', 1, '12:35', 2022, 'Soundtrack', 543957);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Time', 'Hans Zimmer', 'Dune', 2, '8:35', 2022, 'Soundtrack', 63180);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Day One', 'Hans Zimmer', 'Dune', 3, '14:35', 2022, 'Soundtrack', 640876);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'Dune', 4, '9:35', 2022, 'Soundtrack', 789891);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Mountains', 'Hans Zimmer', 'No Time To Die', 1, '9:35', 2011, 'Soundtrack', 286709);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Of The Earth', 'Hans Zimmer', 'No Time To Die', 2, '10:35', 2011, 'Soundtrack', 102682);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Il Gladiatore', 'Hans Zimmer', 'No Time To Die', 3, '11:35', 2011, 'Soundtrack', 702790);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Chant', 'Hans Zimmer', 'No Time To Die', 4, '13:35', 2011, 'Soundtrack', 356510);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Tribal War', 'Hans Zimmer', 'No Time To Die', 5, '7:35', 2011, 'Soundtrack', 358625);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'The Maestro', 1, '12:35', 2013, 'Soundtrack', 876801);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Gabriel s Oboe', 'Ennio Morricone', 'The Maestro', 2, '22:35', 2013, 'Soundtrack', 489971);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Love Theme', 'Ennio Morricone', 'The Maestro', 3, '13:35', 2013, 'Soundtrack', 449615);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Cannibal', 'Ennio Morricone', 'The Maestro', 4, '11:35', 2013, 'Soundtrack', 797918);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Le facce', 'Ennio Morricone', 'The Maestro', 5, '14:35', 2013, 'Soundtrack', 223641);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('La prima volta', 'Ennio Morricone', 'The Maestro', 6, '8:35', 2013, 'Soundtrack', 130356);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Madre assente', 'Ennio Morricone', 'The Maestro', 7, '9:35', 2013, 'Soundtrack', 87639);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Una donna sola', 'Ennio Morricone', 'The Maestro', 8, '5:35', 2013, 'Soundtrack', 259777);
-INSERT INTO brani (titolo, artista, album, traccia, durata, AnnoUscita, genere, riproduzioni) VALUES ('Splash', 'Ennio Morricone', 'The Maestro', 9, '7:35', 2013, 'Soundtrack', 829843);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Creep', 'Radiohead', 'In Rainbows', 1, '3:15', 2011, 'Rock', 898589);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('No Surprises', 'Radiohead', 'In Rainbows', 2, '1:45', 2011, 'Rock', 387167);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Karma Police', 'Radiohead', 'In Rainbows', 3, '3:35', 2011, 'Rock', 835253);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('High and Dry', 'Radiohead', 'In Rainbows', 4, '2:37', 2011, 'Rock', 600172);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('High and Dry', 'The Police', 'Regatta De Blanc', 2, '6:37', 1978, 'Rock', 600172);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Exit Music', 'Radiohead', 'In Rainbows', 5, '2:35', 2011, 'Rock', 198867);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Kid A', 'Radiohead', 'Hail To the Thief', 1, '2:25', 2013, 'Rock', 336606);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Treefingers', 'Radiohead', 'Hail To the Thief', 2, '4:35', 2013, 'Rock', 870732);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Optimistic', 'Radiohead', 'Hail To the Thief', 3, '2:55', 2013, 'Rock', 283090);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('In Limbo', 'Radiohead', 'Hail To the Thief', 4, '3:35', 2013, 'Rock', 862193);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Idioteque', 'Radiohead', 'Hail To the Thief', 5, '2:24', 2013, 'Rock', 652371);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Morning Bell', 'Radiohead', 'Hail To the Thief', 6, '2:38', 2013, 'Rock', 687186);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Untitled', 'Radiohead', 'Hail To the Thief', 7, '2:32', 2013, 'Rock', 442084);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Columbia', 'Oasis', 'Be Here Now', 1, '2:37', 2012, 'Jazz', 991513);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Acquiesce', 'Oasis', 'Be Here Now', 2, '3:33', 2012, 'Jazz', 782745);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Supersonic', 'Oasis', 'Be Here Now', 3, '2:45', 2012, 'Jazz', 901986);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Hello', 'Oasis', 'Be Here Now', 4, '3:21', 2012, 'Jazz', 876328);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Some Might Say', 'Oasis', 'Be Here Now', 5, '2:35', 2012, 'Jazz', 307843);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Roll with It', 'Oasis', 'Definitely Maybe', 1, '2:31', 2014, 'Rock', 244145);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Slide Away', 'Oasis', 'Definitely Maybe', 2, '4:34', 2014, 'Rock', 949800);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Morning Glory', 'Oasis', 'Definitely Maybe', 3, '2:35', 2014, 'Rock', 592936);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Round Are Way', 'Oasis', 'Definitely Maybe', 4, '3:15', 2014, 'Rock', 930087);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Whatever', 'Oasis', 'Definitely Maybe', 5, '5:11', 2014, 'Rock', 136397);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Basket Case', 'Green Day', 'Insomniac', 1, '3:35', 2011, 'Punk', 380845);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('American Idiot', 'Green Day', 'Insomniac', 2, '2:40', 2011, 'Punk', 154721);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Brat', 'Green Day', 'Insomniac', 3, '2:15', 2011, 'Punk', 518123);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Stuck with Me', 'Green Day', 'Insomniac', 4, '1:35', 2011, 'Punk', 729011);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('No Pride', 'Green Day', 'Insomniac', 5, '2:54', 2011, 'Punk', 120463);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Brain Stew', 'Green Day', 'Insomniac', 6, '2:25', 2011, 'Punk', 198005);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Panic Song', 'Green Day', 'Revolution Radio', 1, '2:22', 2010, 'Indie Rock', 612817);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Jaded', 'Green Day', 'Revolution Radio', 2, '2:11', 2010, 'Indie Rock', 179711);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Westbound Sign', 'Green Day', 'Revolution Radio', 3, '2:33', 2010, 'Indie Rock', 523078);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Happier Than Ever', 'Billie Eilish', 'Happier Than Ever', 1, '3:25', 2019, 'Pop', 540259);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Lovely', 'Billie Eilish', 'Happier Than Ever', 2, '2:45', 2019, 'Pop', 162732);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Bored', 'Billie Eilish', 'Happier Than Ever', 3, '4:11', 2019, 'Pop', 353733);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Bad Guy', 'Billie Eilish', 'Happier Than Ever', 4, '1:35', 2019, 'Pop', 292032);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Getting Older', 'Billie Eilish', 'Happier Than Ever', 5, '2:44', 2019, 'Pop', 230577);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('My Future', 'Billie Eilish', 'dont smile at me', 1, '2:35', 2020, 'Pop', 904022);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Lost Cause', 'Billie Eilish', 'dont smile at me', 2, '3:38', 2020, 'Pop', 867152);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('OverHeated', 'Billie Eilish', 'dont smile at me', 3, '2:31', 2020, 'Pop', 133605);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Everybody Dies', 'Billie Eilish', 'dont smile at me', 4, '3:35', 2020, 'Pop', 523448);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Oxytocin', 'Billie Eilish', 'dont smile at me', 5, '2:26', 2020, 'Pop', 901283);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Your Power', 'Billie Eilish', 'dont smile at me', 6, '5:21', 2020, 'Pop', 234223);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('NDA', 'Billie Eilish', 'dont smile at me', 7, '2:15', 2020, 'Pop', 80619);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Therefore I Am', 'Billie Eilish', 'dont smile at me', 8, '2:35', 2020, 'Pop', 774420);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Billie Jean', 'Michael Jackson', 'Scream', 1, '2:11', 2005, 'Pop', 683381);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Beat It', 'Michael Jackson', 'Scream', 2, '1:24', 2005, 'Pop', 86187);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Smooth Criminal', 'Michael Jackson', 'Scream', 3, '4:39', 2005, 'Pop', 932762);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Thriller', 'Michael Jackson', 'Scream', 4, '2:15', 2005, 'Pop', 274771);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('This Place Hotel', 'Michael Jackson', 'Scream', 5, '3:35', 2005, 'Pop', 516585);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Leave Me Alone', 'Michael Jackson', 'Scream', 6, '2:24', 2005, 'Pop', 908147);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Scream', 'Michael Jackson', 'Scream', 7, '3:35', 2005, 'Pop', 582151);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Dangerous', 'Michael Jackson', 'Scream', 8, '2:26', 2005, 'Pop', 637085);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Midnight City', 'M83', 'Hurry up, We re Dreaming', 1, '2:22', 2013, 'Ambient', 359251);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Wait', 'M83', 'Hurry up, We re Dreaming', 2, '3:45', 2013, 'Ambient', 344719);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Outro', 'M83', 'Hurry up, We re Dreaming', 3, '2:14', 2013, 'Ambient', 445381);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Oblivion', 'M83', 'Hurry up, We re Dreaming', 4, '3:35', 2013, 'Ambient', 989133);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Hell Riders', 'M83', 'Hurry up, We re Dreaming', 5, '2:15', 2013, 'Ambient', 462521);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Colonies', 'M83', 'Hurry up, We re Dreaming', 6, '3:33', 2013, 'Ambient', 465745);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Feelings', 'M83', 'Hurry up, We re Dreaming', 7, '2:12', 2013, 'Ambient', 55428);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Straight Outta Compton', 'N.W.A.', 'Straight Outta Compton', 1, '3:35', 1997, 'Rap', 312112);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Fuck Tha Police', 'N.W.A.', 'Straight Outta Compton', 2, '2:45', 1997, 'Rap', 171181);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Gangsta Gangsta', 'N.W.A.', 'Straight Outta Compton', 3, '3:37', 1997, 'Rap', 353986);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Prelude', 'N.W.A.', 'Straight Outta Compton', 4, '2:48', 1997, 'Rap', 700241);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Niggaz 4 Life', 'N.W.A.', 'Straight Outta Compton', 5, '3:15', 1997, 'Rap', 798614);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Protest', 'N.W.A.', 'Efil4zaggin', 1, '2:32', 1994, 'Rap', 377660);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Real Niggaz', 'N.W.A.', 'Efil4zaggin', 2, '3:34', 1994, 'Rap', 540226);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Automobile', 'N.W.A.', 'Efil4zaggin', 3, '2:15', 1994, 'Rap', 193710);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('One Less Bitch', 'N.W.A.', 'Efil4zaggin', 4, '4:36', 1994, 'Rap', 954844);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('0ffline', 'tha Supreme', '23 6451', 1, '2:15', 2021, 'Rap', 94427);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('come fa1', 'tha Supreme', '23 6451', 2, '3:35', 2021, 'Rap', 895399);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('2ollipop', 'tha Supreme', '23 6451', 3, '2:22', 2021, 'Rap', 287197);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('fuck 3x', 'tha Supreme', '23 6451', 4, '3:38', 2021, 'Rap', 935268);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('scuol4', 'tha Supreme', '23 6451', 5, '2:45', 2021, 'Rap', 632821);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('5olo', 'tha Supreme', '23 6451', 6, '4:36', 2021, 'Rap', 502366);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('6itch', 'tha Supreme', '23 6451', 7, '2:55', 2021, 'Rap', 363141);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('blun7 a swishland', 'tha Supreme', '23 6451', 8, '3:33', 2021, 'Rap', 221113);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('m8nstar', 'tha Supreme', '23 6451', 9, '2:35', 2021, 'Rap', 824460);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('oh 9od', 'tha Supreme', '23 6451', 10, '2:37', 2021, 'Rap', 949124);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Goosebumps', 'Travis Scott', 'JACKBOYS', 1, '2:24', 2012, 'Trap', 635587);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Sicko Mode', 'Travis Scott', 'JACKBOYS', 2, '2:55', 2012, 'Trap', 54030);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Carousel', 'Travis Scott', 'JACKBOYS', 3, '2:17', 2012, 'Trap', 617906);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Stargazing', 'Travis Scott', 'ASTROWORLD', 1, '2:35', 2011, 'Trap', 988243);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Wake Up', 'Travis Scott', 'ASTROWORLD', 2, '3:31', 2011, 'Trap', 591772);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Nc-17', 'Travis Scott', 'ASTROWORLD', 3, '2:25', 2011, 'Trap', 141680);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Yosemite', 'Travis Scott', 'ASTROWORLD', 4, '4:36', 2011, 'Trap', 282862);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Skeletons', 'Travis Scott', 'Rodeo', 1, '2:35', 2014, 'Trap', 778088);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Coffee Bean', 'Travis Scott', 'Rodeo', 2, '3:15', 2014, 'Trap', 159583);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Astrothunder', 'Travis Scott', 'Rodeo', 3, '2:11', 2014, 'Trap', 247007);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Shape Of My Heart', 'Sting', 'The Bridge', 1, '2:35', 2011, 'Blues', 280808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Redlight', 'Sting', 'The Bridge', 2, '3:22', 2011, 'Blues', 603722);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Fields Of Gold', 'Sting', 'The Bridge', 3, '2:44', 2011, 'Blues', 777603);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Loving You', 'Sting', 'The Bridge', 4, '2:35', 2011, 'Blues', 188835);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Captain Bateman', 'Sting', 'My Songs', 1, '3:35', 2017, 'Blues', 776113);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('The Bridge', 'Sting', 'My Songs', 2, '2:35', 2017, 'Blues', 815668);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Waters of Tyne', 'Sting', 'My Songs', 3, '2:35', 2017, 'Blues', 196512);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('All This Time', 'Sting', 'My Songs', 4, '3:35', 2017, 'Blues', 148864);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Mad About You', 'Sting', 'My Songs', 5, '2:35', 2017, 'Blues', 372306);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Star', 'Paky', 'Salvatore', 1, '2:35', 2011, 'Trap', 653156);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Vita sbagliata', 'Paky', 'Salvatore', 2, '2:35', 2011, 'Trap', 643901);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('No wallet', 'Paky', 'Salvatore', 3, '3:35', 2011, 'Trap', 874698);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Comandamento', 'Paky', 'Salvatore', 4, '2:35', 2011, 'Trap', 901215);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Blauer', 'Paky', 'Salvatore', 5, '2:35', 2011, 'Trap', 206139);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Vivi o muori', 'Paky', 'Salvatore', 6, '4:35', 2011, 'Trap', 986988);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Quando piove', 'Paky', 'Salvatore', 7, '2:35', 2011, 'Trap', 952903);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Auto tedesca', 'Paky', 'Salvatore', 8, '2:35', 2011, 'Trap', 277299);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Mi manchi', 'Paky', 'Salvatore', 9, '3:35', 2011, 'Trap', 514086);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Storie tristi', 'Paky', 'Salvatore', 10, '2:35', 2011, 'Trap', 298748);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('One', 'U2', 'Songs of Experience', 1, '2:35', 2011, 'Pop Rock', 518575);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Beautiful Day', 'U2', 'Songs of Experience', 2, '2:35', 2004, 'Pop Rock', 115349);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Zoo Station', 'U2', 'Songs of Experience', 3, '3:35', 2004, 'Pop Rock', 896240);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('The Fly', 'U2', 'Songs of Experience', 4, '2:35', 2004, 'Pop Rock', 719764);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('So Cruel', 'U2', 'Songs of Experience', 5, '4:35', 2004, 'Pop Rock', 390969);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Ultra Violent', 'U2', 'Songs of Experience', 6, '2:35', 2004, 'Pop Rock', 356162);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Acrobat', 'U2', 'Songs of Experience', 7, '2:35', 2004, 'Pop Rock', 537929);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Roxanne', 'The Police', 'Flexible Strategies', 1, '2:35', 1994, 'Rock', 549139);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Message In A Bottle', 'The Police', 'Flexible Strategies', 2, '3:35', 1994, 'Rock', 508437);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Dead End Job', 'The Police', 'Flexible Strategies', 3, '2:35', 1994, 'Rock', 852706);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('LandLord', 'The Police', 'Flexible Strategies', 4, '5:35', 1994, 'Rock', 912514);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Vision Of The Night', 'The Police', 'Flexible Strategies', 5, '2:35', 1994, 'Rock', 104766);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Friends', 'The Police', 'Synchronicity', 1, '2:35', 1996, 'Punk Rock', 769782);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('A Sermon', 'The Police', 'Synchronicity', 2, '4:35', 1996, 'Punk Rock', 633201);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Shambelle', 'The Police', 'Synchronicity', 3, '2:35', 1996, 'Punk Rock', 212808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Low Life', 'The Police', 'Zenyatta Mondatta', 1, '2:35', 2001, 'Indie Rock', 961866);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Mother', 'The Police', 'Zenyatta Mondatta', 2, '3:35', 2001, 'Indie Rock', 499257);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('King Of Pain', 'The Police', 'Zenyatta Mondatta', 3, '4:35', 2001, 'Indie Rock', 631841);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Oh My God', 'The Police', 'Zenyatta Mondatta', 4, '2:35', 2001, 'Indie Rock', 333695);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Wish You Were Here', 'Pink Floyd', 'The Later Years', 1, '1:35', 2002, 'Rock', 190310);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Money', 'Pink Floyd', 'The Later Years', 2, '2:35', 2002, 'Rock', 304261);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Breathe', 'Pink Floyd', 'The Later Years', 3, '4:35', 2002, 'Rock', 775654);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('One Silip', 'Pink Floyd', 'The Later Years', 4, '3:35', 2002, 'Rock', 369456);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Terminal Frost', 'Pink Floyd', 'The Endless River', 1, '2:35', 2003, 'Rock', 986933);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('A New Machine', 'Pink Floyd', 'The Endless River', 2, '2:35', 2003, 'Rock', 177123);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Sorrow', 'Pink Floyd', 'The Endless River', 3, '2:35', 2003, 'Rock', 431794);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Learning To Fly', 'Pink Floyd', 'The Endless River', 4, '2:35', 2003, 'Rock', 216210);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Sings Of Life', 'Pink Floyd', 'Pulse', 1, '2:35', 2000, 'Indie Rock', 646881);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Yet Another Movie', 'Pink Floyd', 'Pulse', 2, '2:35', 2000, 'Indie Rock', 354621);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('The Dogs Of War', 'Pink Floyd', 'The Wall', 1, '2:35', 1999, 'Indie Rock', 796468);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Lost For Words', 'Pink Floyd', 'The Wall', 2, '2:35', 1999, 'Indie Rock', 936127);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Us And Them ', 'Pink Floyd', 'The Wall', 3, '2:35', 1999, 'Indie Rock', 537984);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Sultans Of Swing', 'Dire Straits', 'On The Night', 1, '2:35', 2022, 'Rock', 949411);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Walk Of Life', 'Dire Straits', 'On The Night', 2, '3:35', 2022, 'Rock', 266487);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Romeo And Juliet', 'Dire Straits', 'On The Night', 3, '2:35', 2022, 'Rock', 982179);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Money For Nothing', 'Dire Straits', 'On The Night', 4, '3:35', 2022, 'Rock', 819215);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Brothers In Arms', 'Dire Straits', 'Making Movies', 1, '2:35', 2008, 'Rock', 985808);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Calling Elvis', 'Dire Straits', 'Making Movies', 2, '3:35', 2008, 'Rock', 194933);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Heavy Fuel', 'Dire Straits', 'Making Movies', 3, '2:35', 2008, 'Rock', 961311);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Private Investigations', 'Dire Straits', 'Making Movies', 4, '2:35', 2008, 'Rock', 574257);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Fade To Black', 'Dire Straits', 'Making Movies', 5, '2:35', 2008, 'Rock', 699194);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('The Bug', 'Dire Straits', 'Making Movies', 6, '2:35', 2008, 'Rock', 173571);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Night Changes', 'One Direction', 'FOUR', 1, '2:35', 2010, 'Hip-Hop', 939202);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Story of My Life', 'One Direction', 'FOUR', 2, '3:35', 2010, 'Hip-Hop', 31968);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Drag Me Down', 'One Direction', 'FOUR', 3, '2:35', 2010, 'Hip-Hop', 651583);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Steal My Girl', 'One Direction', 'FOUR', 4, '2:35', 2010, 'Hip-Hop', 678174);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Perfect', 'One Direction', 'FOUR', 5, '3:35', 2010, 'Hip-Hop', 635604);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Perfect', 'Dire Straits', 'Brothers In Arms', 4, '6:35', 1970, 'Rock', 625604);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Infinity', 'One Direction', 'FOUR', 6, '2:35', 2010, 'Hip-Hop', 73154);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Hey Angel', 'One Direction', 'Midnight Memories', 1, '2:35', 2011, 'Hip-Hop', 398370);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('If I Could Fly', 'One Direction', 'Midnight Memories', 2, '3:35', 2011, 'Hip-Hop', 60925);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Long Way Down', 'One Direction', 'Midnight Memories', 3, '2:35', 2011, 'Hip-Hop', 975824);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('History', 'One Direction', 'Midnight Memories', 4, '2:35', 2011, 'Hip-Hop', 719543);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Never Enought', 'One Direction', 'Midnight Memories', 5, '3:35', 2011, 'Hip-Hop', 367639);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('A.M', 'One Direction', 'Midnight Memories', 6, '2:35', 2011, 'Hip-Hop', 587007);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Without Me', 'Eminem', 'Kamikaze', 1, '2:35', 2016, 'Rap', 556786);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Stan', 'Eminem', 'Kamikaze', 2, '3:35', 2016, 'Rap', 851935);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Alfred', 'Eminem', 'Kamikaze', 3, '2:35', 2016, 'Rap', 530050);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Tone Deaf', 'Eminem', 'Kamikaze', 4, '3:35', 2016, 'Rap', 488848);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Gnat', 'Eminem', 'Kamikaze', 5, '2:35', 2016, 'Rap', 217252);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Higher', 'Eminem', 'Revival', 1, '3:35', 2017, 'Rap', 754344);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Key', 'Eminem', 'Revival', 2, '2:35', 2017, 'Rap', 929715);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('She Loves Me', 'Eminem', 'Revival', 3, '3:35', 2017, 'Rap', 314333);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Killer', 'Eminem', 'Recovery', 1, '2:35', 2018, 'Rap', 820205);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Thus Far', 'Eminem', 'Recovery', 2, '3:35', 2018, 'Rap', 575939);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Premonition', 'Eminem', 'Recovery', 3, '2:35', 2018, 'Rap', 282138);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Riders on the Storm', 'The Doors', 'L.A. Woman', 1, '2:35', 2011, 'Rock', 850769);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Light My Fire', 'The Doors', 'L.A. Woman', 2, '3:35', 2011, 'Rock', 72325);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('People Are Strange', 'The Doors', 'L.A. Woman', 3, '2:35', 2011, 'Rock', 881731);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Roadhouse Blues', 'The Doors', 'L.A. Woman', 4, '2:35', 2011, 'Rock', 265786);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Verdillac', 'The Doors', 'L.A. Woman', 5, '4:35', 2011, 'Rock', 859315);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Love Her Madly', 'The Doors', 'L.A. Woman', 6, '2:35', 2011, 'Rock', 538459);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('L.A. Woman', 'The Doors', 'L.A. Woman', 7, '2:35', 2011, 'Rock', 215167);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Ship of Fools', 'The Doors', 'L.A. Woman', 8, '4:35', 2011, 'Rock', 580663);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Blue Sunday', 'The Doors', 'L.A. Woman', 9, '3:35', 2011, 'Rock', 48406);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Confield Chase', 'Hans Zimmer', 'Dune', 1, '12:35', 2022, 'Soundtrack', 543957);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Time', 'Hans Zimmer', 'Dune', 2, '8:35', 2022, 'Soundtrack', 63180);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Day One', 'Hans Zimmer', 'Dune', 3, '14:35', 2022, 'Soundtrack', 640876);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'Dune', 4, '9:35', 2022, 'Soundtrack', 789891);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Mountains', 'Hans Zimmer', 'No Time To Die', 1, '9:35', 2011, 'Soundtrack', 286709);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Of The Earth', 'Hans Zimmer', 'No Time To Die', 2, '10:35', 2011, 'Soundtrack', 102682);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Il Gladiatore', 'Hans Zimmer', 'No Time To Die', 3, '11:35', 2011, 'Soundtrack', 702790);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Chant', 'Hans Zimmer', 'No Time To Die', 4, '13:35', 2011, 'Soundtrack', 356510);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Tribal War', 'Hans Zimmer', 'No Time To Die', 5, '7:35', 2011, 'Soundtrack', 358625);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'The Maestro', 1, '12:35', 2013, 'Soundtrack', 876801);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Gabriel s Oboe', 'Ennio Morricone', 'The Maestro', 2, '22:35', 2013, 'Soundtrack', 489971);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Love Theme', 'Ennio Morricone', 'The Maestro', 3, '13:35', 2013, 'Soundtrack', 449615);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Cannibal', 'Ennio Morricone', 'The Maestro', 4, '11:35', 2013, 'Soundtrack', 797918);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Le facce', 'Ennio Morricone', 'The Maestro', 5, '14:35', 2013, 'Soundtrack', 223641);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('La prima volta', 'Ennio Morricone', 'The Maestro', 6, '8:35', 2013, 'Soundtrack', 130356);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Madre assente', 'Ennio Morricone', 'The Maestro', 7, '9:35', 2013, 'Soundtrack', 87639);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Una donna sola', 'Ennio Morricone', 'The Maestro', 8, '5:35', 2013, 'Soundtrack', 259777);
+INSERT INTO brani (titolo, artista, album, traccia, durata, annoUscita, genere, riproduzioni) VALUES ('Splash', 'Ennio Morricone', 'The Maestro', 9, '7:35', 2013, 'Soundtrack', 829843);
 
 -- episodi
 INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('La guerra dei cent''anni', 'Alessandro Barbero', 'Barbero Racconta: Il Medioevo', 12, '58:89', 2017, 'Storia', 59656);
@@ -875,161 +877,168 @@ INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, 
 INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 10', 'Oroscopo', 'Oroscopodcast', 10, '15:42', 2022, 'Lifestyle', 56543);
 INSERT INTO episodi (titolo, podcaster, podcast, nepisodio, durata, annoUscita, genere, riproduzioni) VALUES ('Settimana 11', 'Oroscopo', 'Oroscopodcast', 11, '15:57', 2022, 'Lifestyle', 73122);
 
---playlist
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Light My Fire', 'The Doors');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Without Me', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Light My Fire', 'The Doors');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'One', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'American Idiot', 'Green Day');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Sultans Of Swing', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Optimistic', 'Radiohead');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Roll with It', 'Oasis');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'One', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Straight Outta Compton', 'N.W.A.');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Sultans Of Swing', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Fields Of Gold', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Idioteque', 'Radiohead');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Perfect', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Sultans Of Swing', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Premonition', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Hey Angel', 'One Direction');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Beautiful Day', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Perfect', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Goosebumps', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', '5olo', 'tha Supreme');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Bad Guy', 'Billie Eilish');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Ultra Violent', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Private Investigations', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Mi manchi', 'Paky');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Leave Me Alone', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Goosebumps', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Fields Of Gold', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'fuck 3x', 'tha Supreme');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Beat It', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Everybody Dies', 'Billie Eilish');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Private Investigations', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'S.T.A.Y.', 'Hans Zimmer');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Straight Outta Compton', 'N.W.A.');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Roll with It', 'Oasis');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Smooth Criminal', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Beat It', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Mad About You', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'High and Dry', 'The Police');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Thriller', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'All This Time', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'This Place Hotel', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Optimistic', 'Radiohead');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Light My Fire', 'The Doors');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Astrothunder', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'No wallet', 'Paky');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Brat', 'Green Day');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Premonition', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'One', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'm8nstar', 'tha Supreme');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Beat It', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Feelings', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Captain Bateman', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Colonies', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Perfect', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Mi manchi', 'Paky');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Story of My Life', 'One Direction');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Beat It', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Carousel', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Untitled', 'Radiohead');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Killer', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Carousel', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Roll with It', 'Oasis');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Treefingers', 'Radiohead');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Killer', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Goosebumps', 'Travis Scott');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Ship of Fools', 'The Doors');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'This Place Hotel', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Scream', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Vivi o muori', 'Paky');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Outro', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Lovely', 'Billie Eilish');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'All This Time', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'The Fly', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Story of My Life', 'One Direction');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'NDA', 'Billie Eilish');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'History', 'One Direction');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'This Place Hotel', 'Michael Jackson');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'blun7 a swishland', 'tha Supreme');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Ultra Violent', 'U2');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'All This Time', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Colonies', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Thus Far', 'Eminem');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'Feelings', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'Lost Cause', 'Billie Eilish');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Hello', 'Oasis');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Roxanne', 'The Police');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Feelings', 'M83');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Redlight', 'Sting');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Private Investigations', 'Dire Straits');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('AmiciInVacanza', 'lglawsop1', '2019-03-14', 'No Pride', 'Green Day');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Ship of Fools', 'The Doors');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Money', 'Pink Floyd');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'fuck 3x', 'tha Supreme');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('RapIsLife', 'mbratch3', '2020-06-14', 'S.T.A.Y.', 'Hans Zimmer');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Chilling', 'mantognoni4', '2020-10-14', 'Brat', 'Green Day');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'High and Dry', 'The Police');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'Roll with It', 'Oasis');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Sopa De Macaco', 'bbaldam2', '2021-01-24', 'Breathe', 'Pink Floyd');
-INSERT INTO playlist (nome, autore, dataCreazione, titolo, artista) VALUES ('Bass & Love', 'battfield0', '2021-10-23', 'NDA', 'Billie Eilish');
+-- playlist
+INSERT INTO playlist (nome, creatore, dataCreazione) VALUES ('Sopa De Macaco', 'bbaldam2', '2022-10-07');
+INSERT INTO playlist (nome, creatore, dataCreazione) VALUES ('Chilling', 'mantognoni4', '2020-11-04');
+INSERT INTO playlist (nome, creatore, dataCreazione) VALUES ('Bass & Love', 'battfield0', '2022-02-19');
+INSERT INTO playlist (nome, creatore, dataCreazione) VALUES ('AmiciInVacanza', 'lglawsop1', '2021-05-23');
+INSERT INTO playlist (nome, creatore, dataCreazione) VALUES ('RapIsLife', 'mbratch3', '2022-02-13');
 
--- braniPreferiti
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'rdoget2j');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Blauer', 'Paky', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Columbia', 'Oasis', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'rdoget2j');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Happier Than Ever', 'Billie Eilish', 'rdoget2j');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'fminmagh2i');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'fminmagh2i');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'rdoget2j');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Outro', 'M83', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'rdoget2j');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Riders on the Storm', 'The Doors', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'lflanagan2h');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'fminmagh2i');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'fminmagh2i');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Time', 'Hans Zimmer', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Ultra Violent', 'U2', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Vivi o muori', 'Paky', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'fminmagh2i');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'hprowse2f');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('Zoo Station', 'U2', 'dalcido2g');
-INSERT INTO braniPreferiti (titolo, artista, proprietario) VALUES ('scuol4', 'tha Supreme', 'rdoget2j');
+-- appartenenzaPlaylist
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Light My Fire', 'The Doors');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Without Me', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Light My Fire', 'The Doors');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'One', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'American Idiot', 'Green Day');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Sultans Of Swing', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Optimistic', 'Radiohead');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Roll with It', 'Oasis');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'One', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Straight Outta Compton', 'N.W.A.');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Sultans Of Swing', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Fields Of Gold', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Idioteque', 'Radiohead');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Perfect', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Sultans Of Swing', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Premonition', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Hey Angel', 'One Direction');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Beautiful Day', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Perfect', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Goosebumps', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', '5olo', 'tha Supreme');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Bad Guy', 'Billie Eilish');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Ultra Violent', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Private Investigations', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Mi manchi', 'Paky');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Leave Me Alone', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Goosebumps', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Fields Of Gold', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'fuck 3x', 'tha Supreme');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Beat It', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Everybody Dies', 'Billie Eilish');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Private Investigations', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'S.T.A.Y.', 'Hans Zimmer');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Straight Outta Compton', 'N.W.A.');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Roll with It', 'Oasis');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Smooth Criminal', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Beat It', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Mad About You', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'High and Dry', 'The Police');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Thriller', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'All This Time', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'This Place Hotel', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Optimistic', 'Radiohead');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Light My Fire', 'The Doors');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Astrothunder', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'No wallet', 'Paky');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Brat', 'Green Day');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Premonition', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'One', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'm8nstar', 'tha Supreme');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Beat It', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Feelings', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Captain Bateman', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Colonies', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Perfect', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Mi manchi', 'Paky');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Story of My Life', 'One Direction');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Beat It', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Carousel', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Untitled', 'Radiohead');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Killer', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Carousel', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Roll with It', 'Oasis');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Treefingers', 'Radiohead');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Killer', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Goosebumps', 'Travis Scott');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Ship of Fools', 'The Doors');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'This Place Hotel', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Scream', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Vivi o muori', 'Paky');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Outro', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Lovely', 'Billie Eilish');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'All This Time', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'The Fly', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Story of My Life', 'One Direction');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'NDA', 'Billie Eilish');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'History', 'One Direction');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'This Place Hotel', 'Michael Jackson');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'blun7 a swishland', 'tha Supreme');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Ultra Violent', 'U2');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'All This Time', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Colonies', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Thus Far', 'Eminem');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'Feelings', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'Lost Cause', 'Billie Eilish');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Hello', 'Oasis');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Roxanne', 'The Police');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Feelings', 'M83');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Redlight', 'Sting');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Private Investigations', 'Dire Straits');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('AmiciInVacanza', 'lglawsop1', 'No Pride', 'Green Day');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Ship of Fools', 'The Doors');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Money', 'Pink Floyd');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'fuck 3x', 'tha Supreme');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('RapIsLife', 'mbratch3', 'S.T.A.Y.', 'Hans Zimmer');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Chilling', 'mantognoni4', 'Brat', 'Green Day');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'High and Dry', 'The Police');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'Roll with It', 'Oasis');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Sopa De Macaco', 'bbaldam2', 'Breathe', 'Pink Floyd');
+INSERT INTO appartenenzaPlaylist (nome, creatore, brano, artista) VALUES ('Bass & Love', 'battfield0', 'NDA', 'Billie Eilish');
 
--- episodiPreferiti
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Carlo Magno', 'Alessandro Barbero', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'dalcido2g');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'hprowse2f');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Muschio x Capo Plaza', 'Muschio Selvaggio', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Muschio x Christian De Sica', 'Muschio Selvaggio', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Settimana 1', 'Oroscopo', 'rdoget2j');
-INSERT INTO episodiPreferiti (titolo, podcaster, proprietario) VALUES ('Settimana 3', 'Oroscopo', 'lflanagan2h');
+-- preferenzaBrani
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Basket Case', 'Green Day', 'rdoget2j');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Billie Jean', 'Michael Jackson', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Blauer', 'Paky', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Columbia', 'Oasis', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Confield Chase', 'Hans Zimmer', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Creep', 'Radiohead', 'rdoget2j');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Happier Than Ever', 'Billie Eilish', 'rdoget2j');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'fminmagh2i');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Loving You', 'Sting', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'fminmagh2i');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Night Changes', 'One Direction', 'rdoget2j');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Outro', 'M83', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Prelude', 'N.W.A.', 'rdoget2j');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Riders on the Storm', 'The Doors', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Roxanne', 'The Police', 'lflanagan2h');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('S.T.A.Y.', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Sicko Mode', 'Travis Scott', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Steal My Girl', 'One Direction', 'fminmagh2i');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'fminmagh2i');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Sultans Of Swing', 'Dire Straits', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('The Ecstasy Of Gold', 'Ennio Morricone', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Time', 'Hans Zimmer', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Ultra Violent', 'U2', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Vivi o muori', 'Paky', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'fminmagh2i');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Without Me', 'Eminem', 'hprowse2f');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('Zoo Station', 'U2', 'dalcido2g');
+INSERT INTO preferenzaBrani (titolo, artista, proprietario) VALUES ('scuol4', 'tha Supreme', 'rdoget2j');
+
+-- preferenzaEpisodi
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Carlo Magno', 'Alessandro Barbero', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'dalcido2g');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Il Medioevo in Italia', 'Alessandro Barbero', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'hprowse2f');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('JRE with Barack Obama', 'Joe Rogan', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Muschio x Capo Plaza', 'Muschio Selvaggio', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Muschio x Christian De Sica', 'Muschio Selvaggio', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Settimana 1', 'Oroscopo', 'rdoget2j');
+INSERT INTO preferenzaEpisodi (titolo, podcaster, proprietario) VALUES ('Settimana 3', 'Oroscopo', 'lflanagan2h');
 
 -- pagamenti
 INSERT INTO pagamenti (idTransazione, iban, importo, beneficiario, dataEsecuzione) VALUES (26131, 'FR63 7167 7478 48MA 8DWH XZ7G 807', '195280.72', 'Unicredit SpA', '2021-01-01');

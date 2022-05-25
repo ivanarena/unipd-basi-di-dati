@@ -72,7 +72,7 @@ int main()
         "2. Mostrare tutti gli artisti con più di 5 milioni di ascolti totali.",
         "3. Mostrare username, nome e cognome di tutti gli utenti che pagano l'abbonamento con Google Pay e ordinarli per cognome.",
         "4. Mostrare il profitto totale per ogni tipo di abbonamento esistente.",
-        "5. Mostrare nome, cognome ed e-mail di tutti gli utenti che hanno creato una playlist ed ordinarli per cognome.",
+        "5. Mostrare username, nome, cognome ed e-mail di tutti gli utenti che hanno creato una playlist ed ordinarli per cognome.",
         "6. Mostrare il musicista con almeno 10 brani prodotti e il podcaster con almeno 10 episodi registrati più pagati di sempre."};
 
     const char *queries[6] = {
@@ -125,10 +125,10 @@ int main()
         AS r, utenti AS u1 \
         GROUP BY u1.abbonamento;",
 
-        "SELECT DISTINCT u.nome, u.cognome, u.email, p.nome \
+        "SELECT DISTINCT u.username, u.nome, u.cognome, u.email, p.nome \
         FROM utenti AS u \
         JOIN playlist AS p \
-        ON u.username = p.autore \
+        ON u.username = p.creatore \
         ORDER BY u.cognome ASC;",
 
         "(SELECT m.artista, SUM(p.importo) \
