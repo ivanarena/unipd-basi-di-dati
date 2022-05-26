@@ -26,12 +26,12 @@ void printResults(PGconn *conn, const char *query)
 
     int tuple = PQntuples(res);
     int campi = PQnfields(res);
-
+    puts("========================================================================================================================================================================================================");
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        if(i==0) {printf("%20s", PQfname(res, i));}
-        else{printf("%35s", PQfname(res, i));} 
+        if(i==0) {printf("| %20s |", PQfname(res, i));}
+        else{printf("%35s |", PQfname(res, i));} 
     }
     puts("\n========================================================================================================================================================================================================");
 
@@ -40,8 +40,8 @@ void printResults(PGconn *conn, const char *query)
     {
         for (int j = 0; j < campi; ++j)
         {
-            if(j != 0) {printf("%35s", PQgetvalue(res, i, j));}
-            else{printf("%20s", PQgetvalue(res, i, j));}
+            if(j != 0) {printf("%35s |", PQgetvalue(res, i, j));}
+            else{printf("| %20s |", PQgetvalue(res, i, j));}
         }
         printf("\n");
     }
@@ -162,6 +162,7 @@ int main()
     {
         printf("%s\n\n", descr[i]);
         printResults(conn, queries[i]);
+        puts("========================================================================================================================================================================================================");
         printf("\n\n\n");
     }
 
