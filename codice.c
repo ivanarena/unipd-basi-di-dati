@@ -4,8 +4,8 @@
 
 #define PG_HOST "127.0.0.1" // oppure "localhost" o "postgresql"
 #define PG_USER "postgres"  // il vostro nome utente
-#define PG_DB "soundexp"    // il nome del database
-#define PG_PASS "Abc280102" // la vostra password
+#define PG_DB "progetto"    // il nome del database
+#define PG_PASS "" // la vostra password
 #define PG_PORT 5432
 
 void checkResults(PGresult *res, const PGconn *conn)
@@ -26,20 +26,22 @@ void printResults(PGconn *conn, const char *query)
 
     int tuple = PQntuples(res);
     int campi = PQnfields(res);
-
+    puts("========================================================================================================================================================================================================");
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        printf("%35s", PQfname(res, i));
+        if(i==0) {printf("| %20s |", PQfname(res, i));}
+        else{printf("%35s |", PQfname(res, i));} 
     }
-    puts("\n===============================================================================================================================================================");
+    puts("\n========================================================================================================================================================================================================");
 
     // Stampo i valori selezionati
     for (int i = 0; i < tuple; ++i)
     {
         for (int j = 0; j < campi; ++j)
         {
-            printf("%35s", PQgetvalue(res, i, j));
+            if(j != 0) {printf("%35s |", PQgetvalue(res, i, j));}
+            else{printf("| %20s |", PQgetvalue(res, i, j));}
         }
         printf("\n");
     }
@@ -70,7 +72,7 @@ int main()
         "2. Mostrare tutti gli artisti con più di 5 milioni di ascolti totali.",
         "3. Mostrare username, nome e cognome di tutti gli utenti che pagano l'abbonamento con Google Pay e ordinarli per cognome.",
         "4. Mostrare il profitto totale per ogni tipo di abbonamento esistente.",
-        "5. Mostrare nome, cognome ed e-mail di tutti gli utenti che hanno creato una playlist ed ordinarli per cognome.",
+        "5. Mostrare username, nome, cognome ed e-mail di tutti gli utenti che hanno creato una playlist ed ordinarli per cognome.",
         "6. Mostrare il musicista con almeno 10 brani prodotti e il podcaster con almeno 10 episodi registrati più pagati di sempre."};
 
     const char *queries[6] = {
@@ -123,10 +125,10 @@ int main()
         AS r, utenti AS u1 \
         GROUP BY u1.abbonamento;",
 
-        "SELECT DISTINCT u.nome, u.cognome, u.email, p.nome \
+        "SELECT DISTINCT u.username, u.nome, u.cognome, u.email, p.nome \
         FROM utenti AS u \
         JOIN playlist AS p \
-        ON u.username = p.autore \
+        ON u.username = p.creatore \
         ORDER BY u.cognome ASC;",
 
         "(SELECT m.artista, SUM(p.importo) \
@@ -160,6 +162,7 @@ int main()
     {
         printf("%s\n\n", descr[i]);
         printResults(conn, queries[i]);
+        puts("========================================================================================================================================================================================================");
         printf("\n\n\n");
     }
 

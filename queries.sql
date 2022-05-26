@@ -51,10 +51,10 @@ FROM (
 GROUP BY u1.abbonamento;
 
 --5 Mostrare Nome, Cognome e email degli utenti che hanno creato una playlist
-SELECT DISTINCT u.nome, u.cognome, u.email, p.nome
+SELECT DISTINCT u.username, u.nome, u.cognome, u.email, p.nome
 FROM utenti AS u
 JOIN playlist AS p
-	ON u.username = p.autore
+	ON u.username = p.creatore
 ORDER BY u.cognome ASC;
 
 --6 Mostrare il musicista con almeno 10 brani prodotti e il podcaster almeno 10 episodi registrati più pagati di sempre
@@ -84,4 +84,4 @@ GROUP BY pc.artista
 ORDER BY SUM(p.importo) DESC
 LIMIT 1);
 
-
+-- artisti con il maggior numero di brani per ogni playlist (cambiare perche cosi non e' signifricativa)
