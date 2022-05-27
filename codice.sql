@@ -93,7 +93,7 @@ CREATE TABLE brani (
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
     genere VARCHAR(12) NOT NULL,
-    riproduzioni int NOT NULL,
+    riproduzioni int NOT NULL CHECK (riproduzioni >= 0),
     PRIMARY KEY (titolo, artista),
     FOREIGN KEY (artista) REFERENCES artisti(nome)
         ON DELETE CASCADE
@@ -104,7 +104,7 @@ CREATE TABLE episodi (
     titolo VARCHAR(50),
     podcaster VARCHAR(50),
     podcast VARCHAR(50) NOT NULL,
-    nepisodio SMALLINT NOT NULL,
+    nepisodio SMALLINT NOT NULL CHECK (nepisodio > 0),
     durata VARCHAR(8) NOT NULL,
     annoUscita SMALLINT NOT NULL,
     genere VARCHAR(15) NOT NULL,
