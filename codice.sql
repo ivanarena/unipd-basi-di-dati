@@ -40,7 +40,7 @@ CREATE TABLE utenti (
 
 CREATE TABLE artisti (
     nome VARCHAR(50) NOT NULL,
-    iban VARCHAR(34) NOT NULL,
+    iban VARCHAR(34),
     email VARCHAR(50) NOT NULL,
     password VARCHAR(16) NOT NULL,
     tipo CHAR(1) NOT NULL,
