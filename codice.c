@@ -5,7 +5,7 @@
 #define PG_HOST "127.0.0.1" // oppure "localhost" o "postgresql"
 #define PG_USER "postgres"  // il vostro nome utente
 #define PG_DB "progetto"    // il nome del database
-#define PG_PASS "" // la vostra password
+#define PG_PASS ""          // la vostra password
 #define PG_PORT 5432
 
 void checkResults(PGresult *res, const PGconn *conn)
@@ -30,8 +30,14 @@ void printResults(PGconn *conn, const char *query)
     // Stampo intestazioni
     for (int i = 0; i < campi; ++i)
     {
-        if(i==0) {printf("| %20s |", PQfname(res, i));}
-        else{printf("%35s |", PQfname(res, i));} 
+        if (i == 0)
+        {
+            printf("| %20s |", PQfname(res, i));
+        }
+        else
+        {
+            printf("%35s |", PQfname(res, i));
+        }
     }
     puts("\n========================================================================================================================================================================================================");
 
@@ -40,8 +46,14 @@ void printResults(PGconn *conn, const char *query)
     {
         for (int j = 0; j < campi; ++j)
         {
-            if(j != 0) {printf("%35s |", PQgetvalue(res, i, j));}
-            else{printf("| %20s |", PQgetvalue(res, i, j));}
+            if (j != 0)
+            {
+                printf("%35s |", PQgetvalue(res, i, j));
+            }
+            else
+            {
+                printf("| %20s |", PQgetvalue(res, i, j));
+            }
         }
         printf("\n");
     }
@@ -76,14 +88,12 @@ int main()
         "6. Mostrare il musicista con almeno 10 brani prodotti e il podcaster con almeno 10 episodi registrati più pagati di sempre."};
 
     const char *queries[6] = {
-        "SELECT u.username, u.email, u.nome, u.cognome, d.tipo \
-        FROM utenti AS u \
-        JOIN metodidipagamento AS m \
-        ON u.username = m.username \
-        JOIN digitali AS d \
-        ON m.email = d.email \
-        WHERE d.tipo = 'G' \
-        ORDER BY u.cognome ASC;",
+        "SELECT a.nome, p.importo, p.dataesecuzione AS data \
+        FROM artisti AS a \
+        JOIN pagamenti AS p \
+	    ON a.iban = p.iban \
+        WHERE p.dataesecuzione = (SELECT MAX(p.dataesecuzione) FROM pagamenti AS p) \
+        ORDER BY p.importo DESC;",
 
         "(SELECT a.nome as artista, SUM(b.riproduzioni) AS ascolti \
         FROM artisti AS a \
