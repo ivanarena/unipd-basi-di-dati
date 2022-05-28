@@ -4,8 +4,8 @@
 
 #define PG_HOST "127.0.0.1" // oppure "localhost" o "postgresql"
 #define PG_USER "postgres"  // il vostro nome utente
-#define PG_DB "progetto"    // il nome del database
-#define PG_PASS ""          // la vostra password
+#define PG_DB "soundexp"    // il nome del database
+#define PG_PASS "Abc280102" // la vostra password
 #define PG_PORT 5432
 
 void checkResults(PGresult *res, const PGconn *conn)
